@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "file:///home/nico/I-Ds/IETF/../test/src/../data/xhtml-math11-f.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="GENERATOR" content="LyX 2.0.2" />
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<title>Anonymous ECDH Ciphersuites with Modern Ciphers and Cipher Modes for Transport Layer Security (TLS)</title>
+
+<!-- Text Class Preamble -->
+<style type="text/css">
+div.toc {
+margin: 2em 0em;
+border-style: solid;
+border-width: 2px 0px;
+padding: 1em 0em;
+}
+div.tochead { font-size: x-large; font-weight: bold; }
+div.lyxtoc-0 {
+margin: 2em 0em 0em 0em;
+font-size: xx-large;
+font-weight: bold;
+}
+div.lyxtoc-1 {
+margin: 1em 0em 0em 0em;
+font-size: x-large;
+font-weight: bold;
+}
+div.lyxtoc-2 {
+margin: 0em 0em 0em 1em;
+font-size: large;
+font-weight: normal;
+}
+div.lyxtoc-3 { margin: 0em 0em 0em 0.5em; font-size: medium; }
+div.lyxtoc-4 { margin: 0em 0em 0em 0.5em; }
+div.lyxtoc-5 { margin: 0em 0em 0em 0.5em; }
+div.lyxtoc-6 { margin: 0em 0em 0em 0.5em; }
+a.tocentry {
+text-decoration: none;
+color: black;
+}
+a.tocentry:visited { color: black; }
+a.tocarrow {
+font-weight: bold;
+text-decoration: none;
+color: #909090;
+}
+a.tocarrow:visited { color: #C0C0C0; }
+</style>
+
+<!-- Preamble Snippets -->
+
+<!-- Layout-provided Styles -->
+<style type='text/css'>
+h1.title {
+font-size: x-large;
+margin-bottom: 1ex;
+text-align: center;
+
+}
+div.standard {
+text-align: left;
+
+}
+div.plain_layout {
+text-align: left;
+
+}
+div.author {
+font-size: large;
+margin-top: 1.3ex;
+margin-bottom: 0.7ex;
+text-align: center;
+
+}
+div.abstract {
+font-size: small;
+margin-top: 0.7ex;
+margin-bottom: 0.7ex;
+margin-left: 3ex;
+margin-right: 3ex;
+text-align: left;
+
+}
+div.abstract_label {
+font-weight: bold;
+font-size: large;
+text-align: center;
+
+}
+
+div.abstract {
+margin: 4ex;
+}
+div.abstract_item {
+font-size: small;
+padding-top: 1ex;
+}
+div.abstract_label {
+font-weight: bold;
+}
+h2.section {
+font-weight: bold;
+font-size: x-large;
+margin-top: 1.3ex;
+margin-bottom: 0.7ex;
+text-align: left;
+
+}
+ul.itemize {
+margin-top: 0.7ex;
+margin-bottom: 0.7ex;
+margin-left: 3ex;
+text-align: left;
+
+}
+dl.description dt { font-weight: bold; }
+div.flex_docname {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_ipr {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_intendedstatus {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_titleabbrev {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_ietfarea {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_xml_rfckeyword {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_pi_toc {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_pi_symrefs {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_pi_tocindent {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_pi {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_authororg {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_authororgabbrev {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_authoremailaddr {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_entityxref {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_bibxml {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_embeddedbibxml {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+</style>
+</head>
+<body>
+<h1 class="title"><a id='magicparlabel-1' />
+Anonymous ECDH Ciphersuites with Modern Ciphers and Cipher Modes for Transport Layer Security (TLS)</h1>
+<div class="standard"><a id='magicparlabel-2' />
+<div class="flex_docname"><div class="plain_layout"><a id='magicparlabel-6' />
+draft-williams-tls-anon-ecdh-modern-cipher-00</div>
+</div><div class="flex_ipr"><div class="plain_layout"><a id='magicparlabel-10' />
+trust200902</div>
+</div><div class="flex_intendedstatus"><div class="plain_layout"><a id='magicparlabel-14' />
+info</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-15' />
+<div class="flex_titleabbrev"><div class="plain_layout"><a id='magicparlabel-19' />
+TLS Anon ECDH</div>
+</div><div class="flex_ietfarea"><div class="plain_layout"><a id='magicparlabel-23' />
+Security Area</div>
+</div><div class="flex_xml_rfckeyword"><div class="plain_layout"><a id='magicparlabel-27' />
+Internet-Draft</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-28' />
+<div class="flex_pi_toc"><div class="plain_layout"><a id='magicparlabel-32' />
+yes</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-33' />
+<div class="flex_pi_symrefs"><div class="plain_layout"><a id='magicparlabel-37' />
+yes</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-38' />
+<div class="flex_pi_tocindent"><div class="plain_layout"><a id='magicparlabel-42' />
+no</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-43' />
+<div class="flex_pi"><div class="plain_layout"><a id='magicparlabel-47' />
+comments="yes"</div>
+</div><div class="flex_pi"><div class="plain_layout"><a id='magicparlabel-51' />
+inline="yes"</div>
+</div></div>
+
+<div class="author"><div class="author_item"><a id='magicparlabel-52' />
+Nicolas Williams<div class="flex_authororg"><div class="plain_layout"><a id='magicparlabel-56' />
+Cryptonector, LLC</div>
+</div><div class="flex_authororgabbrev"><div class="plain_layout"><a id='magicparlabel-60' />
+Cryptonector</div>
+</div><div class="flex_authoremailaddr"><div class="plain_layout"><a id='magicparlabel-64' />
+nico@cryptonector.com</div>
+</div></div>
+</div>
+
+<div class="abstract"><div class="abstract_label">Abstract</div>
+<div class="abstract_item"><a id='magicparlabel-65' />
+This document requests the registration and allocation of codepoints for new Transport Layer Security (TLS) ciphersuites with modern ciphers and cipher modes.</div>
+</div>
+<div class="standard"><a id='magicparlabel-66' />
+</div>
+<div class='toc'><div class='tochead part_'>Table of Contents</div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-67' class='tocentry'>1 Introduction and Motivation</a> <a href='#magicparlabel-67' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-116' class='tocentry'>2 Security Considerations</a> <a href='#magicparlabel-116' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-118' class='tocentry'>3 IANA Considerations</a> <a href='#magicparlabel-118' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-128' class='tocentry'>4 Normative References</a> <a href='#magicparlabel-128' class='tocarrow'>&gt;</a></div>
+</div>
+
+<h2 class="section"><span class="section_label">1</span> <a id='magicparlabel-67' />
+Introduction and Motivation</h2>
+<div class="standard"><a id='magicparlabel-68' />
+The Transport Layer Security (TLS) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-72' />
+RFC5246</div>
+</div> protocol supports a mode where key exchange is done without authenticating either the client nor the server to each other. This is done with ciphersuites using &ldquo;anonymous&rdquo; key agreement algorithms.</div>
+
+<div class="standard"><a id='magicparlabel-73' />
+TLS ciphersuites are distinct sets of key agreement, server authentication, data encryption and integrity protection ciphers (and cipher modes), and pseudo-random functions (PRF). Each set that one might desire to use must be registered in the IANA TLS ciphersuite registry.</div>
+
+<div class="standard"><a id='magicparlabel-74' />
+In recent years new, more modern ciphersuites have been added, but none with support for Elliptic Curve Diffie-Hellman (ECDH) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-78' />
+RFC4492</div>
+</div> key agreement algorithms. This is problematic because ECDH is more efficient (both, in terms of compute and network bandwidth resources), and is generally thought to be more secure than the alternative. Thus implementations that want anonymous connections must trade-off security and performance in key agreement for security and performance in data encryption and integrity protection.</div>
+
+<div class="standard"><a id='magicparlabel-79' />
+Note that there are good reasons to use anonymous ciphersuites, such as:</div>
+
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-80' />
+to protect against passive attackers even when there's no way to authenticate the peer;</li>
+<li class="itemize_item"><a id='magicparlabel-81' />
+to protect the identity of the server and/or the identity of the server as requested by the client in the server name indication (SNI) TLS extension &ndash; here the client initiates a renegotiation with the protection of the outer, unauthenticated connection.</li>
+</ul>
+<div class="standard"><a id='magicparlabel-82' />
+This is not an exhaustive list.</div>
+
+<div class="standard"><a id='magicparlabel-83' />
+This document requests the allocation -and registration- of ciphersuite codepoints for at least some of the missing ciphersuites, specifically, the sets of ciphersuites resulting from the cartesian product of:</div>
+
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-84' />
+ECDH for key agreement</li>
+<li class="itemize_item"><a id='magicparlabel-85' />
+Advanced Encryption Standard (AES) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-89' />
+AES</div>
+</div> for data encryption</li>
+<li class="itemize_item"><a id='magicparlabel-90' />
+Two block cipher modes for authenticated encryption with additional data (AEAD):
+
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-91' />
+Counter with CBC-MAC Mode (CCM) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-95' />
+RFC3610</div>
+</div> <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-99' />
+CCM</div>
+</div></li>
+<li class="itemize_item"><a id='magicparlabel-100' />
+Galois Counter Mode <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-104' />
+GCM</div>
+</div></li>
+</ul>
+</li><li class="itemize_item"><a id='magicparlabel-105' />
+Two hash functions for the TLS PRF:
+
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-106' />
+SHA256 <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-110' />
+RFC4634</div>
+</div></li>
+<li class="itemize_item"><a id='magicparlabel-111' />
+SHA384 <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-115' />
+RFC4634</div>
+</div></li>
+</ul>
+</li></ul>
+<h2 class="section"><span class="section_label">2</span> <a id='magicparlabel-116' />
+Security Considerations</h2>
+<div class="standard"><a id='magicparlabel-117' />
+There are no new security considerations here beyond those that are described in each of the documents normatively referenced here.</div>
+<h2 class="section"><span class="section_label">3</span> <a id='magicparlabel-118' />
+IANA Considerations</h2>
+<div class="standard"><a id='magicparlabel-119' />
+Pursuant to the TLS ciphersuite registry's allocation policy (Standards Action or Specification Required <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-123' />
+RFC2434</div>
+</div>), upon IESG Standards Action publishing this document on the Proposed Standards track, or acceptance by the RFC-Editor of this document for publication on the Informational track, the IANA should assign ciphersuite codepoints to the following ciphersuites, and add them to the TLS ciphersuite registry:</div>
+
+<dl class='description'><dt class="description_label">TLS_ECDH_anon_WITH_AES_128_GCM_SHA256</dt>
+<dd class="description_item"><a id='magicparlabel-124' />
+ This is ECDH key agreement with AES-128 in GCM mode and SHA256 as the hash function for the TLS PRF.</dd>
+<dt class="description_label">TLS_ECDH_anon_WITH_AES_128_CCM_SHA256</dt>
+<dd class="description_item"><a id='magicparlabel-125' />
+ This is ECDH key agreement with AES-128 in CCM mode and SHA256 as the hash function for the TLS PRF.</dd>
+<dt class="description_label">TLS_ECDH_anon_WITH_AES_128_GCM_SHA384</dt>
+<dd class="description_item"><a id='magicparlabel-126' />
+ This is ECDH key agreement with AES-128 in GCM mode and SHA384 as the hash function for the TLS PRF.</dd>
+<dt class="description_label">TLS_ECDH_anon_WITH_AES_128_CCM_SHA384</dt>
+<dd class="description_item"><a id='magicparlabel-127' />
+ This is ECDH key agreement with AES-128 in CCM mode and SHA384 as the hash function for the TLS PRF.</dd>
+</dl>
+<h2 class="section"><span class="section_label">4</span> <a id='magicparlabel-128' />
+<a id="sec_References" />
+Normative References</h2>
+<div class="standard"><a id='magicparlabel-129' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-133' />
+<a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">rfc5246</a></div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-134' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-138' />
+<a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2434.xml">rfc2434</a></div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-139' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-143' />
+<a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4492.xml">rfc4492</a></div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-144' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-148' />
+<a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3610.xml">rfc3610</a></div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-149' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-153' />
+<a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4634.xml">rfc4634</a></div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-154' />
+<div class="flex_embeddedbibxml"><div class="plain_layout"><a id='magicparlabel-158' />
+&lt;reference anchor="AES"&gt; &lt;front&gt; &lt;title&gt;Specification for the Advanced Encryption Standard (AES)&lt;/title&gt; &lt;author&gt; &lt;organization&gt;National Institute of Standards and Technology&lt;/organization&gt; &lt;/author&gt; &lt;date month="November" year="2001"&gt;&lt;/date&gt; &lt;/front&gt; &lt;seriesInfo name="FIPS" value="197"&gt;&lt;/seriesInfo&gt; &lt;/reference&gt;</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-159' />
+<div class="flex_embeddedbibxml"><div class="plain_layout"><a id='magicparlabel-163' />
+&lt;reference anchor="GCM" target="http://csrc.nist.gov/publications/nistpubs/800-38D/SP-800-38D.pdf"&gt; &lt;front&gt; &lt;title&gt;Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) for Confidentiality and Authentication&lt;/title&gt; &lt;author initials="M." surname="Dworkin" fullname="Morris Dworkin"&gt; &lt;organization&gt;National Institute of Standards and Technology&lt;/organization&gt; &lt;/author&gt; &lt;date month="November" year="2007"/&gt; &lt;/front&gt; &lt;seriesInfo name="Special Publication" value="800-38D"/&gt; &lt;/reference&gt; </div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-164' />
+<div class="flex_embeddedbibxml"><div class="plain_layout"><a id='magicparlabel-168' />
+&lt;reference anchor="CCM"&gt; &lt;front&gt; &lt;title&gt;Recommendation for Block Cipher Modes of Operation: The CCM Mode for Authentication and Confidentiality &lt;/title&gt; &lt;author&gt; &lt;organization&gt;National Institute of Standards and Technology&lt;/organization&gt; &lt;/author&gt; &lt;date month="May" year="2004"&gt;&lt;/date&gt; </div>
+
+<div class="plain_layout"><a id='magicparlabel-169' />
+&lt;/front&gt; &lt;seriesInfo name="SP" value="800-38C"&gt;&lt;/seriesInfo&gt; &lt;/reference&gt;</div>
+</div></div>
+</body>
+</html>

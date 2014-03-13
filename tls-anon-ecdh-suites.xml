@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc tocindent="no"?>
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc tocindent="no"?>
+<?rfc comments="yes"?>
+<?rfc inline="yes"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!ENTITY rfc5246 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
+<!ENTITY rfc2434 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2434.xml">
+<!ENTITY rfc4492 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4492.xml">
+<!ENTITY rfc3610 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3610.xml">
+<!ENTITY rfc4634 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4634.xml">
+]>
+<rfc docName="draft-williams-tls-anon-ecdh-modern-cipher-00" ipr="trust200902" category="info">
+  <front>
+    <title abbrev="TLS Anon ECDH">Anonymous ECDH Ciphersuites with Modern Ciphers and Cipher Modes for Transport Layer Security (TLS)</title>
+    <author initials="N." surname="Williams" fullname="Nicolas Williams">
+      <organization abbrev="Cryptonector">Cryptonector, LLC</organization>
+      <address>
+        <email>nico@cryptonector.com</email>
+      </address>
+    </author>
+    <date month="March" year="2014"/>
+    <area>
+Security Area
+</area>
+    <keyword>Internet-Draft</keyword>
+    <abstract>
+      <t>
+This document requests the registration and allocation of codepoints for new Transport Layer Security (TLS) ciphersuites with modern ciphers and cipher modes.</t>
+    </abstract>
+  </front>
+  <middle>
+    <section title="Introduction and Motivation" anchor="d1e155">
+      <t>
+The Transport Layer Security (TLS) <xref target="RFC5246"/> protocol supports a mode where key exchange is done without authenticating either the client nor the server to each other. This is done with ciphersuites using “anonymous” key agreement algorithms.</t>
+      <t>
+TLS ciphersuites are distinct sets of key agreement, server authentication, data encryption and integrity protection ciphers (and cipher modes), and pseudo-random functions (PRF). Each set that one might desire to use must be registered in the IANA TLS ciphersuite registry.</t>
+      <t>
+In recent years new, more modern ciphersuites have been added, but none with support for Elliptic Curve Diffie-Hellman (ECDH) <xref target="RFC4492"/> key agreement algorithms. This is problematic because ECDH is more efficient (both, in terms of compute and network bandwidth resources), and is generally thought to be more secure than the alternative. Thus implementations that want anonymous connections must trade-off security and performance in key agreement for security and performance in data encryption and integrity protection.</t>
+      <t>
+Note that there are good reasons to use anonymous ciphersuites, such as:</t>
+      <t>
+        <list style="symbols">
+          <t>
+to protect against passive attackers even when there's no way to authenticate the peer;</t>
+          <t>
+to protect the identity of the server and/or the identity of the server as requested by the client in the server name indication (SNI) TLS extension -- here the client initiates a renegotiation with the protection of the outer, unauthenticated connection.</t>
+        </list>
+      </t>
+      <t>
+This is not an exhaustive list.</t>
+      <t>
+This document requests the allocation -and registration- of ciphersuite codepoints for at least some of the missing ciphersuites, specifically, the sets of ciphersuites resulting from the cartesian product of:</t>
+      <t>
+        <list style="symbols">
+          <t>
+ECDH for key agreement</t>
+          <t>
+Advanced Encryption Standard (AES) <xref target="AES"/> for data encryption</t>
+          <t>
+Two block cipher modes for authenticated encryption with additional data (AEAD):
+
+<list style="symbols"><t>
+Counter with CBC-MAC Mode (CCM) <xref target="RFC3610"/> <xref target="CCM"/>
+</t><t>
+Galois Counter Mode <xref target="GCM"/>
+</t></list>
+</t>
+          <t>
+Two hash functions for the TLS PRF:
+
+<list style="symbols"><t>
+SHA256 <xref target="RFC4634"/>
+</t><t>
+SHA384 <xref target="RFC4634"/>
+</t></list>
+</t>
+        </list>
+      </t>
+    </section>
+    <section title="Security Considerations" anchor="d1e259">
+      <t>
+There are no new security considerations here beyond those that are described in each of the documents normatively referenced here.</t>
+    </section>
+    <section title="IANA Considerations" anchor="d1e269">
+      <t>
+Pursuant to the TLS ciphersuite registry's allocation policy (Standards Action or Specification Required <xref target="RFC2434"/>), upon IESG Standards Action publishing this document on the Proposed Standards track, or acceptance by the RFC-Editor of this document for publication on the Informational track, the IANA should assign ciphersuite codepoints to the following ciphersuites, and add them to the TLS ciphersuite registry:</t>
+      <t>
+        <list style="hanging">
+          <t hangText="TLS_ECDH_anon_WITH_AES_128_GCM_SHA256">
+ This is ECDH key agreement with AES-128 in GCM mode and SHA256 as the hash function for the TLS PRF.</t>
+          <t hangText="TLS_ECDH_anon_WITH_AES_128_CCM_SHA256">
+ This is ECDH key agreement with AES-128 in CCM mode and SHA256 as the hash function for the TLS PRF.</t>
+          <t hangText="TLS_ECDH_anon_WITH_AES_128_GCM_SHA384">
+ This is ECDH key agreement with AES-128 in GCM mode and SHA384 as the hash function for the TLS PRF.</t>
+          <t hangText="TLS_ECDH_anon_WITH_AES_128_CCM_SHA384">
+ This is ECDH key agreement with AES-128 in CCM mode and SHA384 as the hash function for the TLS PRF.</t>
+        </list>
+      </t>
+    </section>
+  </middle>
+  <back>
+    <references title="Normative References">&rfc5246;
+&rfc2434;
+&rfc4492;
+&rfc3610;
+&rfc4634;
+
+<reference anchor="AES"><front><title>Specification for the Advanced Encryption Standard (AES)</title><author><organization>National Institute of Standards and Technology</organization></author><date month="November" year="2001">
+</date></front><seriesInfo name="FIPS" value="197">
+</seriesInfo></reference>
+<reference anchor="GCM" target="http://csrc.nist.gov/publications/nistpubs/800-38D/SP-800-38D.pdf"><front><title>Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) for Confidentiality and Authentication</title><author initials="M." surname="Dworkin" fullname="Morris Dworkin"><organization>National Institute of Standards and Technology</organization></author><date month="November" year="2007"/></front><seriesInfo name="Special Publication" value="800-38D"/></reference> 
+<reference anchor="CCM"><front><title>Recommendation for Block Cipher Modes of Operation: The CCM Mode for Authentication and Confidentiality </title><author><organization>National Institute of Standards and Technology</organization></author><date month="May" year="2004">
+</date></front><seriesInfo name="SP" value="800-38C">
+</seriesInfo></reference>
+</references>
+  </back>
+</rfc>

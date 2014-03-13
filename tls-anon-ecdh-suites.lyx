@@ -1,0 +1,855 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass docbook
+\use_default_options true
+\maintain_unincluded_children false
+\begin_local_layout
+Format 31
+
+InsetLayout Flex:PI_Strict
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_Strict
+End
+
+InsetLayout Flex:PI
+    LyXType Custom
+    HTMLTag div
+    LabelString PI
+End
+
+InsetLayout Flex:PI_SymRefs
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_SymRefs
+End
+
+InsetLayout Flex:PI_SortRefs
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_SortRefs
+End
+
+InsetLayout Flex:PI_TOC
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOC
+End
+
+InsetLayout Flex:PI_TOCIndent
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOCIndent
+End
+
+InsetLayout Flex:PI_TOCDepth
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOCDepth
+End
+
+InsetLayout Flex:PI_TOCNarrow
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOCNarrow
+End
+
+InsetLayout Flex:PI_TOCCompact
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOCCompact
+End
+
+InsetLayout Flex:PI_TOCAppendix
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOCAppendix
+End
+
+InsetLayout Flex:DocName
+    LyXType Custom
+    HTMLTag div
+    LabelString DocName
+End
+
+InsetLayout Flex:IntendedStatus
+    LyXType Custom
+    HTMLTag div
+    LabelString IntendedStatus
+End
+
+InsetLayout Flex:Updates
+    LyXType Custom
+    HTMLTag div
+    LabelString Updates
+End
+
+InsetLayout Flex:Obsoletes
+    LyXType Custom
+    HTMLTag div
+    LabelString Obsoletes
+End
+
+InsetLayout Flex:SeriesNo
+    LyXType Custom
+    HTMLTag div
+    LabelString SeriesNo
+End
+
+InsetLayout Flex:RFCNumber
+    LyXType Custom
+    HTMLTag div
+    LabelString RFCNumber
+End
+
+InsetLayout Flex:IPR
+    LyXType Custom
+    HTMLTag div
+    LabelString IPR
+End
+
+InsetLayout Flex:IETFArea
+    LyXType Custom
+    HTMLTag div
+    LabelString IETFArea
+End
+
+InsetLayout Flex:IETFWorkingGroup
+    LyXType Custom
+    HTMLTag div
+    LabelString IETFWorkingGroup
+End
+
+InsetLayout Flex:XML2RFCKeyword
+    LyXType Custom
+    HTMLTag div
+    LabelString XML2RFCKeyword
+End
+
+InsetLayout Flex:TitleAbbrev
+    LyXType Custom
+    HTMLTag div
+    LabelString TitleAbbrev
+End
+
+InsetLayout Flex:AuthorRole
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthRole
+End
+
+InsetLayout Flex:AuthorInitials
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthInitials
+End
+
+InsetLayout Flex:AuthorSurname
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthSurname
+End
+
+InsetLayout Flex:AuthorOrg
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthOrg
+End
+
+InsetLayout Flex:AuthorOrgAbbrev
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthOrgAbbrev
+End
+
+InsetLayout Flex:AuthorEmailAddr
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthEmailAddr
+End
+
+InsetLayout Flex:AuthorAddrStreet
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthAddrStreet
+End
+
+InsetLayout Flex:AuthorAddrCity
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthAddrCity
+End
+
+InsetLayout Flex:AuthorAddrRegion
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthAddrRegion
+End
+
+InsetLayout Flex:AuthorAddrCode
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthAddrCode
+End
+
+InsetLayout Flex:AuthorAddrCountry
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthAddrCountry
+End
+
+InsetLayout Flex:EntityXRef
+    LyXType Custom
+    HTMLTag div
+    LabelString EntityXRef
+End
+
+InsetLayout Flex:BibXML
+    LyXType Custom
+    HTMLTag div
+    LabelString BibXML
+End
+
+InsetLayout Flex:EmbeddedBibXML
+    LyXType Custom
+    HTMLTag div
+    LabelString EmbeddedBibXML
+End
+\end_local_layout
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman cmr
+\font_sans cmss
+\font_typewriter cmtt
+\font_default_family ttdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Anonymous ECDH Ciphersuites with Modern Ciphers and Cipher Modes for Transport
+ Layer Security (TLS)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex DocName
+status open
+
+\begin_layout Plain Layout
+draft-williams-tls-anon-ecdh-modern-cipher-00
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex IPR
+status open
+
+\begin_layout Plain Layout
+trust200902
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex IntendedStatus
+status open
+
+\begin_layout Plain Layout
+info
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex TitleAbbrev
+status open
+
+\begin_layout Plain Layout
+TLS Anon ECDH
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex IETFArea
+status open
+
+\begin_layout Plain Layout
+Security Area
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex XML2RFCKeyword
+status open
+
+\begin_layout Plain Layout
+Internet-Draft
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex PI TOC
+status open
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex PI SymRefs
+status open
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex PI TOCIndent
+status open
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex PI
+status open
+
+\begin_layout Plain Layout
+comments="yes"
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex PI
+status open
+
+\begin_layout Plain Layout
+inline="yes"
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+Nicolas Williams
+\begin_inset Flex AuthorOrg
+status open
+
+\begin_layout Plain Layout
+Cryptonector, LLC
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex AuthorOrgAbbrev
+status open
+
+\begin_layout Plain Layout
+Cryptonector
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex AuthorEmailAddr
+status open
+
+\begin_layout Plain Layout
+nico@cryptonector.com
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+This document requests the registration and allocation of codepoints for
+ new Transport Layer Security (TLS) ciphersuites with modern ciphers and
+ cipher modes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction and Motivation
+\end_layout
+
+\begin_layout Standard
+The Transport Layer Security (TLS) 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC5246
+\end_layout
+
+\end_inset
+
+ protocol supports a mode where key exchange is done without authenticating
+ either the client nor the server to each other.
+ This is done with ciphersuites using 
+\begin_inset Quotes eld
+\end_inset
+
+anonymous
+\begin_inset Quotes erd
+\end_inset
+
+ key agreement algorithms.
+\end_layout
+
+\begin_layout Standard
+TLS ciphersuites are distinct sets of key agreement, server authentication,
+ data encryption and integrity protection ciphers (and cipher modes), and
+ pseudo-random functions (PRF).
+ Each set that one might desire to use must be registered in the IANA TLS
+ ciphersuite registry.
+\end_layout
+
+\begin_layout Standard
+In recent years new, more modern ciphersuites have been added, but none
+ with support for Elliptic Curve Diffie-Hellman (ECDH) 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC4492
+\end_layout
+
+\end_inset
+
+ key agreement algorithms.
+ This is problematic because ECDH is more efficient (both, in terms of compute
+ and network bandwidth resources), and is generally thought to be more secure
+ than the alternative.
+ Thus implementations that want anonymous connections must trade-off security
+ and performance in key agreement for security and performance in data encryptio
+n and integrity protection.
+\end_layout
+
+\begin_layout Standard
+Note that there are good reasons to use anonymous ciphersuites, such as:
+\end_layout
+
+\begin_layout Itemize
+to protect against passive attackers even when there's no way to authenticate
+ the peer;
+\end_layout
+
+\begin_layout Itemize
+to protect the identity of the server and/or the identity of the server
+ as requested by the client in the server name indication (SNI) TLS extension
+ -- here the client initiates a renegotiation with the protection of the
+ outer, unauthenticated connection.
+\end_layout
+
+\begin_layout Standard
+This is not an exhaustive list.
+\end_layout
+
+\begin_layout Standard
+This document requests the allocation -and registration- of ciphersuite
+ codepoints for at least some of the missing ciphersuites, specifically,
+ the sets of ciphersuites resulting from the cartesian product of:
+\end_layout
+
+\begin_layout Itemize
+ECDH for key agreement
+\end_layout
+
+\begin_layout Itemize
+Advanced Encryption Standard (AES) 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+AES
+\end_layout
+
+\end_inset
+
+ for data encryption
+\end_layout
+
+\begin_layout Itemize
+Two block cipher modes for authenticated encryption with additional data
+ (AEAD):
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Counter with CBC-MAC Mode (CCM) 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC3610
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+CCM
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Galois Counter Mode 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+GCM
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Two hash functions for the TLS PRF:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+SHA256 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC4634
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+SHA384 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC4634
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Security Considerations
+\end_layout
+
+\begin_layout Standard
+There are no new security considerations here beyond those that are described
+ in each of the documents normatively referenced here.
+\end_layout
+
+\begin_layout Section
+IANA Considerations
+\end_layout
+
+\begin_layout Standard
+Pursuant to the TLS ciphersuite registry's allocation policy (Standards
+ Action or Specification Required 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC2434
+\end_layout
+
+\end_inset
+
+), upon IESG Standards Action publishing this document on the Proposed Standards
+ track, or acceptance by the RFC-Editor of this document for publication
+ on the Informational track, the IANA should assign ciphersuite codepoints
+ to the following ciphersuites, and add them to the TLS ciphersuite registry:
+\end_layout
+
+\begin_layout Description
+TLS_ECDH_anon_WITH_AES_128_GCM_SHA256 This is ECDH key agreement with AES-128
+ in GCM mode and SHA256 as the hash function for the TLS PRF.
+\end_layout
+
+\begin_layout Description
+TLS_ECDH_anon_WITH_AES_128_CCM_SHA256 This is ECDH key agreement with AES-128
+ in CCM mode and SHA256 as the hash function for the TLS PRF.
+\end_layout
+
+\begin_layout Description
+TLS_ECDH_anon_WITH_AES_128_GCM_SHA384 This is ECDH key agreement with AES-128
+ in GCM mode and SHA384 as the hash function for the TLS PRF.
+\end_layout
+
+\begin_layout Description
+TLS_ECDH_anon_WITH_AES_128_CCM_SHA384 This is ECDH key agreement with AES-128
+ in CCM mode and SHA384 as the hash function for the TLS PRF.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:References"
+
+\end_inset
+
+Normative References
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc5246"
+target "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc2434"
+target "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2434.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc4492"
+target "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4492.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc3610"
+target "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3610.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc4634"
+target "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4634.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex EmbeddedBibXML
+status collapsed
+
+\begin_layout Plain Layout
+<reference anchor="AES"> <front> <title>Specification for the Advanced Encryptio
+n Standard (AES)</title> <author> <organization>National Institute of Standards
+ and Technology</organization> </author> <date month="November" year="2001"></da
+te> </front> <seriesInfo name="FIPS" value="197"></seriesInfo> </reference>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex EmbeddedBibXML
+status collapsed
+
+\begin_layout Plain Layout
+<reference anchor="GCM" target="http://csrc.nist.gov/publications/nistpubs/800-38D
+/SP-800-38D.pdf"> <front> <title>Recommendation for Block Cipher Modes of
+ Operation: Galois/Counter Mode (GCM) for Confidentiality and Authentication</ti
+tle> <author initials="M." surname="Dworkin" fullname="Morris Dworkin"> <organiza
+tion>National Institute of Standards and Technology</organization> </author>
+ <date month="November" year="2007"/> </front> <seriesInfo name="Special
+ Publication" value="800-38D"/> </reference> 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex EmbeddedBibXML
+status collapsed
+
+\begin_layout Plain Layout
+<reference anchor="CCM"> <front> <title>Recommendation for Block Cipher
+ Modes of Operation: The CCM Mode for Authentication and Confidentiality
+ </title> <author> <organization>National Institute of Standards and Technology<
+/organization> </author> <date month="May" year="2004"></date> 
+\end_layout
+
+\begin_layout Plain Layout
+</front> <seriesInfo name="SP" value="800-38C"></seriesInfo> </reference>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
