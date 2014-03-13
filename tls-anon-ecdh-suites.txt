@@ -3,13 +3,13 @@
 
 Network Working Group                                        N. Williams
 Internet-Draft                                              Cryptonector
-Intended status: Informational                            March 12, 2014
-Expires: September 13, 2014
+Intended status: Informational                            March 13, 2014
+Expires: September 14, 2014
 
 
   Anonymous ECDH Ciphersuites with Modern Ciphers and Cipher Modes for
                      Transport Layer Security (TLS)
-             draft-williams-tls-anon-ecdh-modern-cipher-00
+             draft-williams-tls-anon-ecdh-modern-cipher-01
 
 Abstract
 
@@ -32,7 +32,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 13, 2014.
+   This Internet-Draft will expire on September 14, 2014.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Williams               Expires September 13, 2014               [Page 1]
+Williams               Expires September 14, 2014               [Page 1]
 
 Internet-Draft                TLS Anon ECDH                   March 2014
 
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-Williams               Expires September 13, 2014               [Page 2]
+Williams               Expires September 14, 2014               [Page 2]
 
 Internet-Draft                TLS Anon ECDH                   March 2014
 
@@ -153,21 +153,28 @@ Internet-Draft                TLS Anon ECDH                   March 2014
    specifically, the sets of ciphersuites resulting from the cartesian
    product of:
 
-   o  ECDH for key agreement
+   o  ECDH for key agreement, with ephemeral keys
 
-   o  Advanced Encryption Standard (AES) [AES] for data encryption
+   o  no server authentication
 
-   o  Two block cipher modes for authenticated encryption with
-      additional data (AEAD):
-
-
+   o  Advanced Encryption Standard (AES) [AES] for data encryption with
+      the following key sizes:
 
 
 
-Williams               Expires September 13, 2014               [Page 3]
+
+
+Williams               Expires September 14, 2014               [Page 3]
 
 Internet-Draft                TLS Anon ECDH                   March 2014
 
+
+      *  128-bit keys
+
+      *  256-bit keys
+
+   o  Two block cipher modes for authenticated encryption with
+      additional data (AEAD):
 
       *  Counter with CBC-MAC Mode (CCM) [RFC3610] [CCM]
 
@@ -179,6 +186,17 @@ Internet-Draft                TLS Anon ECDH                   March 2014
 
       *  SHA384 [RFC4634]
 
+   filtered such that block cipher key lengths are matched to PRF hash
+   functions as follows:
+
+   o  128-bit key-length ciphers should use SHA256 for the PRF
+
+   o  256-bit key-length ciphers should use SHA384 for the PRF
+
+   That's four new ciphersuites, see Section 3.
+
+   [[anchor1: Should such ciphersuites for Camellia and other
+   alternative block ciphers also be registered by this document?]]
 
 
 
@@ -202,25 +220,7 @@ Internet-Draft                TLS Anon ECDH                   March 2014
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Williams               Expires September 13, 2014               [Page 4]
+Williams               Expires September 14, 2014               [Page 4]
 
 Internet-Draft                TLS Anon ECDH                   March 2014
 
@@ -276,7 +276,7 @@ Internet-Draft                TLS Anon ECDH                   March 2014
 
 
 
-Williams               Expires September 13, 2014               [Page 5]
+Williams               Expires September 14, 2014               [Page 5]
 
 Internet-Draft                TLS Anon ECDH                   March 2014
 
@@ -291,23 +291,21 @@ Internet-Draft                TLS Anon ECDH                   March 2014
    ciphersuite codepoints to the following ciphersuites, and add them to
    the TLS ciphersuite registry:
 
-   TLS_ECDH_anon_WITH_AES_128_GCM_SHA256  This is ECDH key agreement
-      with AES-128 in GCM mode and SHA256 as the hash function for the
-      TLS PRF.
+   TLS_ECDH_anon_WITH_AES_128_GCM_SHA256  This is anonymous key
+      agreement with ephemeral ECDH keys, with AES-128 in GCM mode, and
+      SHA256 as the hash function for the TLS PRF.
 
-   TLS_ECDH_anon_WITH_AES_128_CCM_SHA256  This is ECDH key agreement
-      with AES-128 in CCM mode and SHA256 as the hash function for the
-      TLS PRF.
+   TLS_ECDH_anon_WITH_AES_128_CCM_SHA256  This is anonymous key
+      agreement with ephemeral ECDH keys, with AES-128 in CCM mode, and
+      SHA256 as the hash function for the TLS PRF.
 
-   TLS_ECDH_anon_WITH_AES_128_GCM_SHA384  This is ECDH key agreement
-      with AES-128 in GCM mode and SHA384 as the hash function for the
-      TLS PRF.
+   TLS_ECDH_anon_WITH_AES_256_GCM_SHA384  This is anonymous key
+      agreement with ephemeral ECDH keys, with AES-256 in GCM mode, and
+      SHA384 as the hash function for the TLS PRF.
 
-   TLS_ECDH_anon_WITH_AES_128_CCM_SHA384  This is ECDH key agreement
-      with AES-128 in CCM mode and SHA384 as the hash function for the
-      TLS PRF.
-
-
+   TLS_ECDH_anon_WITH_AES_256_CCM_SHA384  This is anonymous key
+      agreement with ephemeral ECDH keys, with AES-256 in CCM mode, and
+      SHA384 as the hash function for the TLS PRF.
 
 
 
@@ -332,7 +330,9 @@ Internet-Draft                TLS Anon ECDH                   March 2014
 
 
 
-Williams               Expires September 13, 2014               [Page 6]
+
+
+Williams               Expires September 14, 2014               [Page 6]
 
 Internet-Draft                TLS Anon ECDH                   March 2014
 
@@ -388,7 +388,7 @@ Internet-Draft                TLS Anon ECDH                   March 2014
 
 
 
-Williams               Expires September 13, 2014               [Page 7]
+Williams               Expires September 14, 2014               [Page 7]
 
 Internet-Draft                TLS Anon ECDH                   March 2014
 
@@ -444,5 +444,5 @@ Author's Address
 
 
 
-Williams               Expires September 13, 2014               [Page 8]
+Williams               Expires September 14, 2014               [Page 8]
 

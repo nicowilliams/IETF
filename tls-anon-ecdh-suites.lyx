@@ -283,7 +283,7 @@ Anonymous ECDH Ciphersuites with Modern Ciphers and Cipher Modes for Transport
 status open
 
 \begin_layout Plain Layout
-draft-williams-tls-anon-ecdh-modern-cipher-00
+draft-williams-tls-anon-ecdh-modern-cipher-01
 \end_layout
 
 \end_inset
@@ -539,7 +539,11 @@ This document requests the allocation -and registration- of ciphersuite
 \end_layout
 
 \begin_layout Itemize
-ECDH for key agreement
+ECDH for key agreement, with ephemeral keys
+\end_layout
+
+\begin_layout Itemize
+no server authentication
 \end_layout
 
 \begin_layout Itemize
@@ -553,9 +557,19 @@ AES
 
 \end_inset
 
- for data encryption
+ for data encryption with the following key sizes:
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+128-bit keys
+\end_layout
+
+\begin_layout Itemize
+256-bit keys
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 Two block cipher modes for authenticated encryption with additional data
  (AEAD):
@@ -635,6 +649,35 @@ RFC4634
 \end_layout
 
 \end_deeper
+\begin_layout Standard
+filtered such that block cipher key lengths are matched to PRF hash functions
+ as follows:
+\end_layout
+
+\begin_layout Itemize
+128-bit key-length ciphers should use SHA256 for the PRF
+\end_layout
+
+\begin_layout Itemize
+256-bit key-length ciphers should use SHA384 for the PRF
+\end_layout
+
+\begin_layout Standard
+That's four new ciphersuites, see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:IANA-Considerations"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout RevisionRemark
+Should such ciphersuites for Camellia and other alternative block ciphers
+ also be registered by this document?
+\end_layout
+
 \begin_layout Section
 Security Considerations
 \end_layout
@@ -645,6 +688,12 @@ There are no new security considerations here beyond those that are described
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:IANA-Considerations"
+
+\end_inset
+
 IANA Considerations
 \end_layout
 
@@ -667,23 +716,27 @@ RFC2434
 \end_layout
 
 \begin_layout Description
-TLS_ECDH_anon_WITH_AES_128_GCM_SHA256 This is ECDH key agreement with AES-128
- in GCM mode and SHA256 as the hash function for the TLS PRF.
+TLS_ECDH_anon_WITH_AES_128_GCM_SHA256 This is anonymous key agreement with
+ ephemeral ECDH keys, with AES-128 in GCM mode, and SHA256 as the hash function
+ for the TLS PRF.
 \end_layout
 
 \begin_layout Description
-TLS_ECDH_anon_WITH_AES_128_CCM_SHA256 This is ECDH key agreement with AES-128
- in CCM mode and SHA256 as the hash function for the TLS PRF.
+TLS_ECDH_anon_WITH_AES_128_CCM_SHA256 This is anonymous key agreement with
+ ephemeral ECDH keys, with AES-128 in CCM mode, and SHA256 as the hash function
+ for the TLS PRF.
 \end_layout
 
 \begin_layout Description
-TLS_ECDH_anon_WITH_AES_128_GCM_SHA384 This is ECDH key agreement with AES-128
- in GCM mode and SHA384 as the hash function for the TLS PRF.
+TLS_ECDH_anon_WITH_AES_256_GCM_SHA384 This is anonymous key agreement with
+ ephemeral ECDH keys, with AES-256 in GCM mode, and SHA384 as the hash function
+ for the TLS PRF.
 \end_layout
 
 \begin_layout Description
-TLS_ECDH_anon_WITH_AES_128_CCM_SHA384 This is ECDH key agreement with AES-128
- in CCM mode and SHA384 as the hash function for the TLS PRF.
+TLS_ECDH_anon_WITH_AES_256_CCM_SHA384 This is anonymous key agreement with
+ ephemeral ECDH keys, with AES-256 in CCM mode, and SHA384 as the hash function
+ for the TLS PRF.
 \end_layout
 
 \begin_layout Section

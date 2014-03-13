@@ -14,7 +14,7 @@
 <!ENTITY rfc3610 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3610.xml">
 <!ENTITY rfc4634 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4634.xml">
 ]>
-<rfc docName="draft-williams-tls-anon-ecdh-modern-cipher-00" ipr="trust200902" category="info">
+<rfc docName="draft-williams-tls-anon-ecdh-modern-cipher-01" ipr="trust200902" category="info">
   <front>
     <title abbrev="TLS Anon ECDH">Anonymous ECDH Ciphersuites with Modern Ciphers and Cipher Modes for Transport Layer Security (TLS)</title>
     <author initials="N." surname="Williams" fullname="Nicolas Williams">
@@ -58,9 +58,16 @@ This document requests the allocation -and registration- of ciphersuite codepoin
       <t>
         <list style="symbols">
           <t>
-ECDH for key agreement</t>
+ECDH for key agreement, with ephemeral keys</t>
           <t>
-Advanced Encryption Standard (AES) <xref target="AES"/> for data encryption</t>
+no server authentication</t>
+          <t>
+Advanced Encryption Standard (AES) <xref target="AES"/> for data encryption with the following key sizes:
+
+<list style="symbols"><t>
+128-bit keys</t><t>
+256-bit keys</t></list>
+</t>
           <t>
 Two block cipher modes for authenticated encryption with additional data (AEAD):
 
@@ -81,24 +88,40 @@ SHA384 <xref target="RFC4634"/>
 </t>
         </list>
       </t>
+      <t>
+filtered such that block cipher key lengths are matched to PRF hash functions as follows:</t>
+      <t>
+        <list style="symbols">
+          <t>
+128-bit key-length ciphers should use SHA256 for the PRF</t>
+          <t>
+256-bit key-length ciphers should use SHA384 for the PRF</t>
+        </list>
+      </t>
+      <t>
+That's four new ciphersuites, see  <xref target="sec_IANA_Considerations"/>.</t>
+      <t>
+        <cref>
+Should such ciphersuites for Camellia and other alternative block ciphers also be registered by this document?</cref>
+      </t>
     </section>
-    <section title="Security Considerations" anchor="d1e259">
+    <section title="Security Considerations" anchor="d1e290">
       <t>
 There are no new security considerations here beyond those that are described in each of the documents normatively referenced here.</t>
     </section>
-    <section title="IANA Considerations" anchor="d1e269">
+    <section title="IANA Considerations" anchor="sec_IANA_Considerations">
       <t>
 Pursuant to the TLS ciphersuite registry's allocation policy (Standards Action or Specification Required <xref target="RFC2434"/>), upon IESG Standards Action publishing this document on the Proposed Standards track, or acceptance by the RFC-Editor of this document for publication on the Informational track, the IANA should assign ciphersuite codepoints to the following ciphersuites, and add them to the TLS ciphersuite registry:</t>
       <t>
         <list style="hanging">
           <t hangText="TLS_ECDH_anon_WITH_AES_128_GCM_SHA256">
- This is ECDH key agreement with AES-128 in GCM mode and SHA256 as the hash function for the TLS PRF.</t>
+ This is anonymous key agreement with ephemeral ECDH keys, with AES-128 in GCM mode, and SHA256 as the hash function for the TLS PRF.</t>
           <t hangText="TLS_ECDH_anon_WITH_AES_128_CCM_SHA256">
- This is ECDH key agreement with AES-128 in CCM mode and SHA256 as the hash function for the TLS PRF.</t>
-          <t hangText="TLS_ECDH_anon_WITH_AES_128_GCM_SHA384">
- This is ECDH key agreement with AES-128 in GCM mode and SHA384 as the hash function for the TLS PRF.</t>
-          <t hangText="TLS_ECDH_anon_WITH_AES_128_CCM_SHA384">
- This is ECDH key agreement with AES-128 in CCM mode and SHA384 as the hash function for the TLS PRF.</t>
+ This is anonymous key agreement with ephemeral ECDH keys, with AES-128 in CCM mode, and SHA256 as the hash function for the TLS PRF.</t>
+          <t hangText="TLS_ECDH_anon_WITH_AES_256_GCM_SHA384">
+ This is anonymous key agreement with ephemeral ECDH keys, with AES-256 in GCM mode, and SHA384 as the hash function for the TLS PRF.</t>
+          <t hangText="TLS_ECDH_anon_WITH_AES_256_CCM_SHA384">
+ This is anonymous key agreement with ephemeral ECDH keys, with AES-256 in CCM mode, and SHA384 as the hash function for the TLS PRF.</t>
         </list>
       </t>
     </section>

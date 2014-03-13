@@ -113,6 +113,10 @@ margin-left: 3ex;
 text-align: left;
 
 }
+div.revisionremark {
+text-align: left;
+
+}
 dl.description dt { font-weight: bold; }
 div.flex_docname {
 font-family: serif;
@@ -233,7 +237,7 @@ font-size: medium;
 Anonymous ECDH Ciphersuites with Modern Ciphers and Cipher Modes for Transport Layer Security (TLS)</h1>
 <div class="standard"><a id='magicparlabel-2' />
 <div class="flex_docname"><div class="plain_layout"><a id='magicparlabel-6' />
-draft-williams-tls-anon-ecdh-modern-cipher-00</div>
+draft-williams-tls-anon-ecdh-modern-cipher-01</div>
 </div><div class="flex_ipr"><div class="plain_layout"><a id='magicparlabel-10' />
 trust200902</div>
 </div><div class="flex_intendedstatus"><div class="plain_layout"><a id='magicparlabel-14' />
@@ -291,11 +295,11 @@ This document requests the registration and allocation of codepoints for new Tra
 
 <div class='lyxtoc-1'><a href='#magicparlabel-67' class='tocentry'>1 Introduction and Motivation</a> <a href='#magicparlabel-67' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-116' class='tocentry'>2 Security Considerations</a> <a href='#magicparlabel-116' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-124' class='tocentry'>2 Security Considerations</a> <a href='#magicparlabel-124' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-118' class='tocentry'>3 IANA Considerations</a> <a href='#magicparlabel-118' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-126' class='tocentry'>3 IANA Considerations</a> <a href='#magicparlabel-126' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-128' class='tocentry'>4 Normative References</a> <a href='#magicparlabel-128' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-136' class='tocentry'>4 Normative References</a> <a href='#magicparlabel-136' class='tocarrow'>&gt;</a></div>
 </div>
 
 <h2 class="section"><span class="section_label">1</span> <a id='magicparlabel-67' />
@@ -328,105 +332,127 @@ This is not an exhaustive list.</div>
 This document requests the allocation -and registration- of ciphersuite codepoints for at least some of the missing ciphersuites, specifically, the sets of ciphersuites resulting from the cartesian product of:</div>
 
 <ul class="itemize"><li class="itemize_item"><a id='magicparlabel-84' />
-ECDH for key agreement</li>
+ECDH for key agreement, with ephemeral keys</li>
 <li class="itemize_item"><a id='magicparlabel-85' />
-Advanced Encryption Standard (AES) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-89' />
+no server authentication</li>
+<li class="itemize_item"><a id='magicparlabel-86' />
+Advanced Encryption Standard (AES) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-90' />
 AES</div>
-</div> for data encryption</li>
-<li class="itemize_item"><a id='magicparlabel-90' />
-Two block cipher modes for authenticated encryption with additional data (AEAD):
+</div> for data encryption with the following key sizes:
 
 <ul class="itemize"><li class="itemize_item"><a id='magicparlabel-91' />
-Counter with CBC-MAC Mode (CCM) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-95' />
+128-bit keys</li>
+<li class="itemize_item"><a id='magicparlabel-92' />
+256-bit keys</li>
+</ul>
+</li><li class="itemize_item"><a id='magicparlabel-93' />
+Two block cipher modes for authenticated encryption with additional data (AEAD):
+
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-94' />
+Counter with CBC-MAC Mode (CCM) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-98' />
 RFC3610</div>
-</div> <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-99' />
+</div> <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-102' />
 CCM</div>
 </div></li>
-<li class="itemize_item"><a id='magicparlabel-100' />
-Galois Counter Mode <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-104' />
+<li class="itemize_item"><a id='magicparlabel-103' />
+Galois Counter Mode <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-107' />
 GCM</div>
 </div></li>
 </ul>
-</li><li class="itemize_item"><a id='magicparlabel-105' />
+</li><li class="itemize_item"><a id='magicparlabel-108' />
 Two hash functions for the TLS PRF:
 
-<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-106' />
-SHA256 <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-110' />
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-109' />
+SHA256 <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-113' />
 RFC4634</div>
 </div></li>
-<li class="itemize_item"><a id='magicparlabel-111' />
-SHA384 <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-115' />
+<li class="itemize_item"><a id='magicparlabel-114' />
+SHA384 <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-118' />
 RFC4634</div>
 </div></li>
 </ul>
 </li></ul>
-<h2 class="section"><span class="section_label">2</span> <a id='magicparlabel-116' />
-Security Considerations</h2>
-<div class="standard"><a id='magicparlabel-117' />
-There are no new security considerations here beyond those that are described in each of the documents normatively referenced here.</div>
-<h2 class="section"><span class="section_label">3</span> <a id='magicparlabel-118' />
-IANA Considerations</h2>
 <div class="standard"><a id='magicparlabel-119' />
-Pursuant to the TLS ciphersuite registry's allocation policy (Standards Action or Specification Required <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-123' />
+filtered such that block cipher key lengths are matched to PRF hash functions as follows:</div>
+
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-120' />
+128-bit key-length ciphers should use SHA256 for the PRF</li>
+<li class="itemize_item"><a id='magicparlabel-121' />
+256-bit key-length ciphers should use SHA384 for the PRF</li>
+</ul>
+<div class="standard"><a id='magicparlabel-122' />
+That's four new ciphersuites, see <a href="#sec_IANA_Considerations">3</a>.</div>
+
+<div class="revisionremark"><a id='magicparlabel-123' />
+Should such ciphersuites for Camellia and other alternative block ciphers also be registered by this document?</div>
+<h2 class="section"><span class="section_label">2</span> <a id='magicparlabel-124' />
+Security Considerations</h2>
+<div class="standard"><a id='magicparlabel-125' />
+There are no new security considerations here beyond those that are described in each of the documents normatively referenced here.</div>
+<h2 class="section"><span class="section_label">3</span> <a id='magicparlabel-126' />
+<a id="sec_IANA_Considerations" />
+IANA Considerations</h2>
+<div class="standard"><a id='magicparlabel-127' />
+Pursuant to the TLS ciphersuite registry's allocation policy (Standards Action or Specification Required <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-131' />
 RFC2434</div>
 </div>), upon IESG Standards Action publishing this document on the Proposed Standards track, or acceptance by the RFC-Editor of this document for publication on the Informational track, the IANA should assign ciphersuite codepoints to the following ciphersuites, and add them to the TLS ciphersuite registry:</div>
 
 <dl class='description'><dt class="description_label">TLS_ECDH_anon_WITH_AES_128_GCM_SHA256</dt>
-<dd class="description_item"><a id='magicparlabel-124' />
- This is ECDH key agreement with AES-128 in GCM mode and SHA256 as the hash function for the TLS PRF.</dd>
+<dd class="description_item"><a id='magicparlabel-132' />
+ This is anonymous key agreement with ephemeral ECDH keys, with AES-128 in GCM mode, and SHA256 as the hash function for the TLS PRF.</dd>
 <dt class="description_label">TLS_ECDH_anon_WITH_AES_128_CCM_SHA256</dt>
-<dd class="description_item"><a id='magicparlabel-125' />
- This is ECDH key agreement with AES-128 in CCM mode and SHA256 as the hash function for the TLS PRF.</dd>
-<dt class="description_label">TLS_ECDH_anon_WITH_AES_128_GCM_SHA384</dt>
-<dd class="description_item"><a id='magicparlabel-126' />
- This is ECDH key agreement with AES-128 in GCM mode and SHA384 as the hash function for the TLS PRF.</dd>
-<dt class="description_label">TLS_ECDH_anon_WITH_AES_128_CCM_SHA384</dt>
-<dd class="description_item"><a id='magicparlabel-127' />
- This is ECDH key agreement with AES-128 in CCM mode and SHA384 as the hash function for the TLS PRF.</dd>
+<dd class="description_item"><a id='magicparlabel-133' />
+ This is anonymous key agreement with ephemeral ECDH keys, with AES-128 in CCM mode, and SHA256 as the hash function for the TLS PRF.</dd>
+<dt class="description_label">TLS_ECDH_anon_WITH_AES_256_GCM_SHA384</dt>
+<dd class="description_item"><a id='magicparlabel-134' />
+ This is anonymous key agreement with ephemeral ECDH keys, with AES-256 in GCM mode, and SHA384 as the hash function for the TLS PRF.</dd>
+<dt class="description_label">TLS_ECDH_anon_WITH_AES_256_CCM_SHA384</dt>
+<dd class="description_item"><a id='magicparlabel-135' />
+ This is anonymous key agreement with ephemeral ECDH keys, with AES-256 in CCM mode, and SHA384 as the hash function for the TLS PRF.</dd>
 </dl>
-<h2 class="section"><span class="section_label">4</span> <a id='magicparlabel-128' />
+<h2 class="section"><span class="section_label">4</span> <a id='magicparlabel-136' />
 <a id="sec_References" />
 Normative References</h2>
-<div class="standard"><a id='magicparlabel-129' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-133' />
+<div class="standard"><a id='magicparlabel-137' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-141' />
 <a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">rfc5246</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-134' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-138' />
+<div class="standard"><a id='magicparlabel-142' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-146' />
 <a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2434.xml">rfc2434</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-139' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-143' />
+<div class="standard"><a id='magicparlabel-147' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-151' />
 <a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4492.xml">rfc4492</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-144' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-148' />
+<div class="standard"><a id='magicparlabel-152' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-156' />
 <a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3610.xml">rfc3610</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-149' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-153' />
+<div class="standard"><a id='magicparlabel-157' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-161' />
 <a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4634.xml">rfc4634</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-154' />
-<div class="flex_embeddedbibxml"><div class="plain_layout"><a id='magicparlabel-158' />
+<div class="standard"><a id='magicparlabel-162' />
+<div class="flex_embeddedbibxml"><div class="plain_layout"><a id='magicparlabel-166' />
 &lt;reference anchor="AES"&gt; &lt;front&gt; &lt;title&gt;Specification for the Advanced Encryption Standard (AES)&lt;/title&gt; &lt;author&gt; &lt;organization&gt;National Institute of Standards and Technology&lt;/organization&gt; &lt;/author&gt; &lt;date month="November" year="2001"&gt;&lt;/date&gt; &lt;/front&gt; &lt;seriesInfo name="FIPS" value="197"&gt;&lt;/seriesInfo&gt; &lt;/reference&gt;</div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-159' />
-<div class="flex_embeddedbibxml"><div class="plain_layout"><a id='magicparlabel-163' />
+<div class="standard"><a id='magicparlabel-167' />
+<div class="flex_embeddedbibxml"><div class="plain_layout"><a id='magicparlabel-171' />
 &lt;reference anchor="GCM" target="http://csrc.nist.gov/publications/nistpubs/800-38D/SP-800-38D.pdf"&gt; &lt;front&gt; &lt;title&gt;Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) for Confidentiality and Authentication&lt;/title&gt; &lt;author initials="M." surname="Dworkin" fullname="Morris Dworkin"&gt; &lt;organization&gt;National Institute of Standards and Technology&lt;/organization&gt; &lt;/author&gt; &lt;date month="November" year="2007"/&gt; &lt;/front&gt; &lt;seriesInfo name="Special Publication" value="800-38D"/&gt; &lt;/reference&gt; </div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-164' />
-<div class="flex_embeddedbibxml"><div class="plain_layout"><a id='magicparlabel-168' />
+<div class="standard"><a id='magicparlabel-172' />
+<div class="flex_embeddedbibxml"><div class="plain_layout"><a id='magicparlabel-176' />
 &lt;reference anchor="CCM"&gt; &lt;front&gt; &lt;title&gt;Recommendation for Block Cipher Modes of Operation: The CCM Mode for Authentication and Confidentiality &lt;/title&gt; &lt;author&gt; &lt;organization&gt;National Institute of Standards and Technology&lt;/organization&gt; &lt;/author&gt; &lt;date month="May" year="2004"&gt;&lt;/date&gt; </div>
 
-<div class="plain_layout"><a id='magicparlabel-169' />
+<div class="plain_layout"><a id='magicparlabel-177' />
 &lt;/front&gt; &lt;seriesInfo name="SP" value="800-38C"&gt;&lt;/seriesInfo&gt; &lt;/reference&gt;</div>
 </div></div>
 </body>
