@@ -495,7 +495,9 @@ Online
 \begin_layout Standard
 Ideally such datasets could be parsed and processed one element at a time.
  Even if each element must be parsed in a not-online manner due to local
- choice of parser, the result will usually be sufficiently online.
+ choice of parser, the result will usually be sufficiently online: limited
+ by the size of the biggest element in the sequence rather than by the size
+ of the sequence.
 \end_layout
 
 \begin_layout Standard
@@ -535,8 +537,74 @@ JSON Text Sequence Format
 \end_layout
 
 \begin_layout Standard
-A JSON text sequence is a sequence of JSON texts, each followed by a newline
- (U+000A).
+The ABNF 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC5234
+\end_layout
+
+\end_inset
+
+ for the JSON text sequence format is as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+  JSON-sequence = *(JSON-text 1*(text-separator))
+\end_layout
+
+\begin_layout Plain Layout
+
+  text-separator = %x20 / %x09 / %x0A / %x0D / %2C
+\end_layout
+
+\begin_layout Plain Layout
+
+  JSON-text = <given by RFC7159>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+JSON text sequence ABNF
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A JSON text sequence is a sequence of JSON texts, each followed by JSON
+ whitespace (see the 'ws' rule in the JSON ABNF) separator.
 \end_layout
 
 \begin_layout Standard
@@ -544,12 +612,9 @@ Requirements:
 \end_layout
 
 \begin_layout Itemize
-Encoders of JSON text sequences MUST NOT emit newlines within any one JSON
- text and MUST follow every JSON text in the sequence with a newline (U+000A).
- (Note that strings may, of course, have newlines in them, but they must
- always be escaped as 
-\backslash
-n, per-RFC7159.)
+Encoders MUST emit one or more JSON whitespace separator characters after
+ each JSON text in a sequence.
+ Two contiguous separators do not denote an empty JSON text between them.
 \end_layout
 
 \begin_layout Itemize
@@ -564,7 +629,7 @@ Recommendations:
 \end_layout
 
 \begin_layout Itemize
-Parsers SHOULD NOT emit parsed JSON texts which are not arrays, objects
+Parsers SHOULD NOT emit outputs which do not correspond to arrays, objects
  or strings until the separator is read.
  For example, an input of 'truefalse' is not a valid sequence of two JSON
  values, true and false! Neither is 'true0' a valid sequence of true and
@@ -579,92 +644,23 @@ Options:
 \end_layout
 
 \begin_layout Itemize
-Encoders MAY follow JSON texts with a carriage return (U+000D) and a newline
- (U+000A).
-\end_layout
-
-\begin_layout Itemize
-Parsers MAY allow the use of any ASCII whitespace for better interoperability
- with running code.
-\end_layout
-
-\begin_layout Itemize
 Parsers MAY parse sequences where the separator is missing between any two
  consecutive texts provided that no ambiguity results (namely: when the
  first of the two texts is an array, an object, or a string).
 \end_layout
 
-\begin_layout Subsection
-Parsing JSON Text Sequences
-\end_layout
-
-\begin_layout Standard
-There are several methods for parsing JSON text sequences using off-the-shelf
- JSON text parsers.
- First we characterize JSON text parsers:
-\end_layout
-
-\begin_layout Enumerate
-Dumb.
- These parsers consume a complete JSON text only.
-\end_layout
-
-\begin_layout Enumerate
-Incremental.
- These parsers consume JSON texts progressively as more input bytes are
- made available.
-\end_layout
-
-\begin_layout Enumerate
-Online.
- These are incremental parsers which emit outputs before a complete JSON
- text is read.
- Typically these emit (path, leaf value) tuples or similar.
-\end_layout
-
-\begin_layout Enumerate
-Restartable.
- These are incremental or online parsers which do not throw away the bytes
- trailing a complete JSON text, instead making them available for parsing
- the next JSON text.
-\end_layout
-
-\begin_layout Standard
-JSON text sequence parsing strategies:
-\end_layout
-
 \begin_layout Itemize
-The simplest is to read a line, parse it as a JSON text, repeat.
-\end_layout
+Encoders MAY have an option for encoding JSON texts 
+\begin_inset Quotes eld
+\end_inset
 
-\begin_layout Itemize
-Next simplest is to use an incremental JSON parser, reading available bytes
- of input from the JSON text sequence and feeding them to the parser until
- a parsed value is produced.
- The parser will need to make it possible to start parsing the next text
- after the end of the preceding one.
-\end_layout
+compactly
+\begin_inset Quotes erd
+\end_inset
 
-\begin_deeper
-\begin_layout Itemize
-Using a restartable parser makes parsing most efficient, otherwise the sequence
- parser might have to feed the incremental parser one byte at a time, increasing
- overhead.
- Additionally, using a restartable JSON text parser relieves the sequence
- parser of the responsibility for checking for separators.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Finally, the parser could use an online JSON parser.
-\end_layout
-
-\begin_layout Standard
-The first one assumes only the lowest common denominator functionality in
- JSON parsers.
- This is the reason that newlines must not appear in JSON texts: to make
- the boundary between texts distinguishable without having to be able to
- perform incremental or online parsing of the individual JSON texts.
+, without using newlines in the encoding.
+ This maximizes interoperability with JSON text sequence parsers that utilize
+ non-incremental, non-online JSON text parsers.
 \end_layout
 
 \begin_layout Section
@@ -783,6 +779,26 @@ status collapsed
 LatexCommand href
 name "rfc2119"
 target "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc5234"
+target "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5234.xml"
 
 \end_inset
 

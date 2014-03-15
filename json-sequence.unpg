@@ -53,7 +53,6 @@ Table of Contents
    1.    Introduction and Motivation
    1.1.  Conventions used in this document
    2.    JSON Text Sequence Format
-   2.1.  Parsing JSON Text Sequences
    3.    Security Considerations
    4.    IANA Considerations
    5.    Normative References
@@ -77,7 +76,8 @@ Table of Contents
    Ideally such datasets could be parsed and processed one element at a
    time.  Even if each element must be parsed in a not-online manner due
    to local choice of parser, the result will usually be sufficiently
-   online.
+   online: limited by the size of the biggest element in the sequence
+   rather than by the size of the sequence.
 
    This document describes the concept and format of "JSON text
    sequences", which are specifically not JSON texts themselves.
@@ -91,16 +91,22 @@ Table of Contents
 
 2.  JSON Text Sequence Format
 
-   A JSON text sequence is a sequence of JSON texts, each followed by a
-   newline (U+000A).
+   The ABNF [RFC5234] for the JSON text sequence format is as follows:
+
+     JSON-sequence = *(JSON-text 1*(text-separator))
+     text-separator = %x20 / %x09 / %x0A / %x0D / %2C
+     JSON-text = <given by RFC7159>
+
+                     Figure 1: JSON text sequence ABNF
+
+   A JSON text sequence is a sequence of JSON texts, each followed by
+   JSON whitespace (see the 'ws' rule in the JSON ABNF) separator.
 
    Requirements:
 
-   o  Encoders of JSON text sequences MUST NOT emit newlines within any
-      one JSON text and MUST follow every JSON text in the sequence with
-      a newline (U+000A).  (Note that strings may, of course, have
-      newlines in them, but they must always be escaped as \n, per-
-      RFC7159.)
+   o  Encoders MUST emit one or more JSON whitespace separator
+      characters after each JSON text in a sequence.  Two contiguous
+      separators do not denote an empty JSON text between them.
 
    o  Parsers MUST be able to parser a JSON text sequence consisting of
       JSON texts which do not contain newlines (except, of course,
@@ -110,7 +116,7 @@ Table of Contents
 
    Recommendations:
 
-   o  Parsers SHOULD NOT emit parsed JSON texts which are not arrays,
+   o  Parsers SHOULD NOT emit outputs which do not correspond to arrays,
       objects or strings until the separator is read.  For example, an
       input of 'truefalse' is not a valid sequence of two JSON values,
       true and false!  Neither is 'true0' a valid sequence of true and
@@ -120,60 +126,15 @@ Table of Contents
 
    Options:
 
-   o  Encoders MAY follow JSON texts with a carriage return (U+000D) and
-      a newline (U+000A).
-
-   o  Parsers MAY allow the use of any ASCII whitespace for better
-      interoperability with running code.
-
    o  Parsers MAY parse sequences where the separator is missing between
       any two consecutive texts provided that no ambiguity results
       (namely: when the first of the two texts is an array, an object,
       or a string).
 
-2.1.  Parsing JSON Text Sequences
-
-   There are several methods for parsing JSON text sequences using off-
-   the-shelf JSON text parsers.  First we characterize JSON text
-   parsers:
-
-   1.  Dumb.  These parsers consume a complete JSON text only.
-
-   2.  Incremental.  These parsers consume JSON texts progressively as
-       more input bytes are made available.
-
-   3.  Online.  These are incremental parsers which emit outputs before
-       a complete JSON text is read.  Typically these emit (path, leaf
-       value) tuples or similar.
-
-   4.  Restartable.  These are incremental or online parsers which do
-       not throw away the bytes trailing a complete JSON text, instead
-       making them available for parsing the next JSON text.
-
-   JSON text sequence parsing strategies:
-
-   o  The simplest is to read a line, parse it as a JSON text, repeat.
-
-   o  Next simplest is to use an incremental JSON parser, reading
-      available bytes of input from the JSON text sequence and feeding
-      them to the parser until a parsed value is produced.  The parser
-      will need to make it possible to start parsing the next text after
-      the end of the preceding one.
-
-      *  Using a restartable parser makes parsing most efficient,
-         otherwise the sequence parser might have to feed the
-         incremental parser one byte at a time, increasing overhead.
-         Additionally, using a restartable JSON text parser relieves the
-         sequence parser of the responsibility for checking for
-         separators.
-
-   o  Finally, the parser could use an online JSON parser.
-
-   The first one assumes only the lowest common denominator
-   functionality in JSON parsers.  This is the reason that newlines must
-   not appear in JSON texts: to make the boundary between texts
-   distinguishable without having to be able to perform incremental or
-   online parsing of the individual JSON texts.
+   o  Encoders MAY have an option for encoding JSON texts "compactly",
+      without using newlines in the encoding.  This maximizes
+      interoperability with JSON text sequence parsers that utilize non-
+      incremental, non-online JSON text parsers.
 
 
 3.  Security Considerations
@@ -221,6 +182,9 @@ Table of Contents
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+   [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
+              Specifications: ABNF", STD 68, RFC 5234, January 2008.
 
    [RFC7159]  Bray, T., "The JavaScript Object Notation (JSON) Data
               Interchange Format", RFC 7159, March 2014.
