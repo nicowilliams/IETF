@@ -163,6 +163,13 @@ font-style: normal;
 font-variant: normal;
 font-size: medium;
 }
+div.flex_ietfworkinggroup {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
 div.flex_pi_toc {
 font-family: serif;
 font-weight: normal;
@@ -246,7 +253,7 @@ font-size: medium;
 JavaScript Object Notation (JSON) Text Sequences</h1>
 <div class="standard"><a id='magicparlabel-2' />
 <div class="flex_docname"><div class="plain_layout"><a id='magicparlabel-6' />
-draft-williams-json-text-sequence-00</div>
+draft-ietf-json-text-sequence-01</div>
 </div><div class="flex_ipr"><div class="plain_layout"><a id='magicparlabel-10' />
 trust200902</div>
 </div><div class="flex_intendedstatus"><div class="plain_layout"><a id='magicparlabel-14' />
@@ -263,131 +270,122 @@ Internet-Draft</div>
 </div></div>
 
 <div class="standard"><a id='magicparlabel-28' />
-<div class="flex_pi_toc"><div class="plain_layout"><a id='magicparlabel-32' />
-yes</div>
+<div class="flex_ietfworkinggroup"><div class="plain_layout"><a id='magicparlabel-32' />
+json</div>
 </div></div>
 
 <div class="standard"><a id='magicparlabel-33' />
-<div class="flex_pi_symrefs"><div class="plain_layout"><a id='magicparlabel-37' />
+<div class="flex_pi_toc"><div class="plain_layout"><a id='magicparlabel-37' />
 yes</div>
 </div></div>
 
 <div class="standard"><a id='magicparlabel-38' />
-<div class="flex_pi_tocindent"><div class="plain_layout"><a id='magicparlabel-42' />
-no</div>
+<div class="flex_pi_symrefs"><div class="plain_layout"><a id='magicparlabel-42' />
+yes</div>
 </div></div>
 
 <div class="standard"><a id='magicparlabel-43' />
-<div class="flex_pi"><div class="plain_layout"><a id='magicparlabel-47' />
+<div class="flex_pi_tocindent"><div class="plain_layout"><a id='magicparlabel-47' />
+no</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-48' />
+<div class="flex_pi"><div class="plain_layout"><a id='magicparlabel-52' />
 comments="yes"</div>
-</div><div class="flex_pi"><div class="plain_layout"><a id='magicparlabel-51' />
+</div><div class="flex_pi"><div class="plain_layout"><a id='magicparlabel-56' />
 inline="yes"</div>
 </div></div>
 
-<div class="author"><div class="author_item"><a id='magicparlabel-52' />
-Nicolas Williams<div class="flex_authororg"><div class="plain_layout"><a id='magicparlabel-56' />
+<div class="author"><div class="author_item"><a id='magicparlabel-57' />
+Nicolas Williams<div class="flex_authororg"><div class="plain_layout"><a id='magicparlabel-61' />
 Cryptonector, LLC</div>
-</div><div class="flex_authororgabbrev"><div class="plain_layout"><a id='magicparlabel-60' />
+</div><div class="flex_authororgabbrev"><div class="plain_layout"><a id='magicparlabel-65' />
 Cryptonector</div>
-</div><div class="flex_authoremailaddr"><div class="plain_layout"><a id='magicparlabel-64' />
+</div><div class="flex_authoremailaddr"><div class="plain_layout"><a id='magicparlabel-69' />
 nico@cryptonector.com</div>
 </div></div>
 </div>
 
 <div class="abstract"><div class="abstract_label">Abstract</div>
-<div class="abstract_item"><a id='magicparlabel-65' />
+<div class="abstract_item"><a id='magicparlabel-70' />
 This document describes the JSON text sequence format and associated media type.</div>
 </div>
-<div class="standard"><a id='magicparlabel-66' />
+<div class="standard"><a id='magicparlabel-71' />
 </div>
 <div class='toc'><div class='tochead part_'>Table of Contents</div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-67' class='tocentry'>1 Introduction and Motivation</a> <a href='#magicparlabel-67' class='tocarrow'>&gt;</a>
+<div class='lyxtoc-1'><a href='#magicparlabel-72' class='tocentry'>1 Introduction and Motivation</a> <a href='#magicparlabel-72' class='tocarrow'>&gt;</a>
 
-<div class='lyxtoc-2'><a href='#magicparlabel-76' class='tocentry'>1.1 Conventions used in this document</a> <a href='#magicparlabel-76' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-2'><a href='#magicparlabel-81' class='tocentry'>1.1 Conventions used in this document</a> <a href='#magicparlabel-81' class='tocarrow'>&gt;</a></div>
 </div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-82' class='tocentry'>2 JSON Text Sequence Format</a> <a href='#magicparlabel-82' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-87' class='tocentry'>2 JSON Text Sequence Format</a> <a href='#magicparlabel-87' class='tocarrow'>&gt;</a></div>
 
 <div class='lyxtoc-1'><a href='#magicparlabel-114' class='tocentry'>3 Security Considerations</a> <a href='#magicparlabel-114' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-122' class='tocentry'>4 IANA Considerations</a> <a href='#magicparlabel-122' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-123' class='tocentry'>4 IANA Considerations</a> <a href='#magicparlabel-123' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-133' class='tocentry'>5 Normative References</a> <a href='#magicparlabel-133' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-134' class='tocentry'>5 Normative References</a> <a href='#magicparlabel-134' class='tocarrow'>&gt;</a></div>
 </div>
 
-<h2 class="section"><span class="section_label">1</span> <a id='magicparlabel-67' />
+<h2 class="section"><span class="section_label">1</span> <a id='magicparlabel-72' />
 Introduction and Motivation</h2>
-<div class="standard"><a id='magicparlabel-68' />
-The JavaScript Object Notation (JSON) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-72' />
+<div class="standard"><a id='magicparlabel-73' />
+The JavaScript Object Notation (JSON) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-77' />
 RFC7159</div>
 </div> is a very handy serialization format. However, when serializing a large sequence of values as an array, or a possibly indeterminate-length or never-ending sequence of values, JSON becomes difficult to work with.</div>
 
-<div class="standard"><a id='magicparlabel-73' />
-Consider a sequence of one million values, each possibly 1 kilobyte when encoded, which would be roughly one gigabyte. If processing such a dataset requires first parsing it entirely, then the result is very inefficient and the processing will be limited by virtual memory. &ldquo;Online&rdquo; parsers help, but they are neither widely available or widely used, nor are they easy to use.</div>
+<div class="standard"><a id='magicparlabel-78' />
+Consider a sequence of one million values, each possibly 1 kilobyte when encoded, which would be roughly one gigabyte. If processing such a dataset requires first parsing it entirely, then the result is very inefficient and the processing will be limited by virtual memory. &ldquo;Online&rdquo; (a.k.a., &ldquo;streaming&rdquo;) parsers help, but they are neither widely available or widely used, nor are they easy to use.</div>
 
-<div class="standard"><a id='magicparlabel-74' />
+<div class="standard"><a id='magicparlabel-79' />
 Ideally such datasets could be parsed and processed one element at a time. Even if each element must be parsed in a not-online manner due to local choice of parser, the result will usually be sufficiently online: limited by the size of the biggest element in the sequence rather than by the size of the sequence.</div>
 
-<div class="standard"><a id='magicparlabel-75' />
-This document describes the concept and format of &ldquo;JSON text sequences&rdquo;, which are specifically not JSON texts themselves.</div>
-<h3 class="subsection"><span class="subsection_label">1.1</span> <a id='magicparlabel-76' />
+<div class="standard"><a id='magicparlabel-80' />
+This document describes the concept and format of &ldquo;JSON text sequences&rdquo;, which are specifically not JSON texts themselves but are composed of JSON texts.</div>
+<h3 class="subsection"><span class="subsection_label">1.1</span> <a id='magicparlabel-81' />
 Conventions used in this document</h3>
-<div class="standard"><a id='magicparlabel-77' />
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-81' />
+<div class="standard"><a id='magicparlabel-82' />
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-86' />
 RFC2119</div>
 </div>.</div>
-<h2 class="section"><span class="section_label">2</span> <a id='magicparlabel-82' />
+<h2 class="section"><span class="section_label">2</span> <a id='magicparlabel-87' />
+<a id="sec_JSON_Text_Sequence" />
 JSON Text Sequence Format</h2>
-<div class="standard"><a id='magicparlabel-83' />
-The ABNF <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-87' />
+<div class="standard"><a id='magicparlabel-88' />
+The ABNF <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-92' />
 RFC5234</div>
 </div> for the JSON text sequence format is as follows:</div>
 
-<div class="standard"><a id='magicparlabel-88' />
+<div class="standard"><a id='magicparlabel-93' />
 </div>
-<div class='float float-figure'><div class="plain_layout"><a id='magicparlabel-92' />
+<div class='float float-figure'><div class="plain_layout"><a id='magicparlabel-97' />
 </div>
-<div class='float float-listings'><pre>  JSON-sequence = *(JSON-text 1*(text-separator))
-  text-separator = %x20 / %x09 / %x0A / %x0D / %2C
+<div class='float float-listings'><pre>  JSON-sequence = *whitespace *(JSON-text 1*whitespace)
+  whitespace = %x20 / %x09 / %x0A / %x0D
   JSON-text = &lt;given by RFC7159&gt;</pre></div>
 
 
-<div class="plain_layout"><a id='magicparlabel-99' />
-<div class='float-caption float-caption-figure'>Figure 1:<div class="plain_layout"><a id='magicparlabel-103' />
+<div class="plain_layout"><a id='magicparlabel-104' />
+<div class='float-caption float-caption-figure'>Figure 1:<div class="plain_layout"><a id='magicparlabel-108' />
 JSON text sequence ABNF</div>
 </div></div>
-
-<div class="plain_layout"><a id='magicparlabel-104' />
-</div>
 </div>
 
 
-<div class="standard"><a id='magicparlabel-105' />
-A JSON text sequence is a sequence of JSON texts, each followed by JSON whitespace (see the 'ws' rule in the JSON ABNF) separator.</div>
+<div class="standard"><a id='magicparlabel-109' />
+A JSON text sequence is a sequence of zero or more JSON texts, each followed by JSON whitespace separator.</div>
 
-<div class="standard"><a id='magicparlabel-106' />
+<div class="standard"><a id='magicparlabel-110' />
 Requirements:</div>
 
-<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-107' />
-Encoders MUST emit one or more JSON whitespace separator characters after each JSON text in a sequence. Two contiguous separators do not denote an empty JSON text between them.</li>
-<li class="itemize_item"><a id='magicparlabel-108' />
-Parsers MUST be able to parser a JSON text sequence consisting of JSON texts which do not contain newlines (except, of course, escaped within strings), and which are separated by either newlines, or carriage return and newline character pairs (U+000D U+000A).</li>
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-111' />
+JSON text sequence encoders MUST emit one or more JSON whitespace separator characters immediately after any JSON text.</li>
+<li class="itemize_item"><a id='magicparlabel-112' />
+JSON text sequence parsers MUST NOT interpret any sequence of two or more contiguous whitespace as a sequence of empty JSON texts. Two contiguous separators do not denote an empty JSON text between them as there is no such thing as an empty JSON text.</li>
 </ul>
-<div class="standard"><a id='magicparlabel-109' />
-Recommendations:</div>
-
-<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-110' />
-Parsers SHOULD NOT emit outputs which do not correspond to arrays, objects or strings until the separator is read. For example, an input of 'truefalse' is not a valid sequence of two JSON values, true and false! Neither is 'true0' a valid sequence of true and zero. Some parsers might in fact accept such sequences, which creates an ambiguity that is resolved by requiring (see above) that encoders never omit the separator.</li>
-</ul>
-<div class="standard"><a id='magicparlabel-111' />
-Options:</div>
-
-<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-112' />
-Parsers MAY parse sequences where the separator is missing between any two consecutive texts provided that no ambiguity results (namely: when the first of the two texts is an array, an object, or a string).</li>
-<li class="itemize_item"><a id='magicparlabel-113' />
-Encoders MAY have an option for encoding JSON texts &ldquo;compactly&rdquo;, without using newlines in the encoding. This maximizes interoperability with JSON text sequence parsers that utilize non-incremental, non-online JSON text parsers.</li>
-</ul>
+<div class="standard"><a id='magicparlabel-113' />
+An input of 'truefalse' is not a valid sequence of two JSON values, true and false! Neither is 'true0' a valid sequence of true and zero. Some existing JSON parsers that might be used to construct sequence parsers might in fact accept such sequences, resulting in erroneous parsing of sequences of two or more numbers. E.g., a sequence of two numbers, 4 and 2, encoded without the required whitespace between them would parse incorrectly as the number 42. This ambiguity is resolved by requiring that encoders never omit the separator.</div>
 <h2 class="section"><span class="section_label">3</span> <a id='magicparlabel-114' />
 <a id="sec_Security_Considerations" />
 Security Considerations</h2>
@@ -397,57 +395,60 @@ RFC7159</div>
 </div> apply.</div>
 
 <div class="standard"><a id='magicparlabel-120' />
-JSON text sequence parsers based on non-incremental, non-online JSON text parsers will not be able to efficiently parser JSON texts in which newlines appear; attempting to parse such sequences with non-incremental, non-online JSON text parsers creates a compute resource exhaustion vulnerability.</div>
+There is no end of sequence indicator. This means that &ldquo;end of file&rdquo;, &ldquo;end of transmission&rdquo;, and so on, can be indistinguishable form a logical end of sequence. Applications where this matters should denote end of sequence by convention (e.g., Content-Length in HTTP).</div>
 
 <div class="standard"><a id='magicparlabel-121' />
-Parsers which accidentally parse invalid sequences like 'truefalse' (as the same as 'true\nfalse') create a mildly dangerous ambiguity. Encoders must never produce such sequences; parsers should not accept them.</div>
-<h2 class="section"><span class="section_label">4</span> <a id='magicparlabel-122' />
+JSON text sequence parsers based on non-incremental, non-online JSON text parsers will not be able to efficiently parser JSON texts in which newlines appear; attempting to parse such sequences with non-incremental, non-online JSON text parsers creates a compute resource exhaustion vulnerability.</div>
+
+<div class="standard"><a id='magicparlabel-122' />
+The first requirement given in <a href="#sec_JSON_Text_Sequence">2</a> (otherwise-ambiguous JSON texts must be separated by whitespace) is critical and must be adhered to. It is best to always emit a whitespace separator after every JSON text emitted.</div>
+<h2 class="section"><span class="section_label">4</span> <a id='magicparlabel-123' />
 <a id="sec_IANA_Considerations" />
 IANA Considerations</h2>
-<div class="standard"><a id='magicparlabel-123' />
+<div class="standard"><a id='magicparlabel-124' />
 The MIME media type for JSON text sequences is application/json-seq.</div>
 
-<div class="standard"><a id='magicparlabel-124' />
+<div class="standard"><a id='magicparlabel-125' />
 Type name: application</div>
 
-<div class="standard"><a id='magicparlabel-125' />
+<div class="standard"><a id='magicparlabel-126' />
 Subtype name: json-seq</div>
 
-<div class="standard"><a id='magicparlabel-126' />
+<div class="standard"><a id='magicparlabel-127' />
 Required parameters: n/a</div>
 
-<div class="standard"><a id='magicparlabel-127' />
+<div class="standard"><a id='magicparlabel-128' />
 Optional parameters: n/a</div>
 
-<div class="standard"><a id='magicparlabel-128' />
+<div class="standard"><a id='magicparlabel-129' />
 Encoding considerations: binary</div>
 
-<div class="standard"><a id='magicparlabel-129' />
+<div class="standard"><a id='magicparlabel-130' />
 Security considerations: See &lt;this document, once published&gt;, <a href="#sec_Security_Considerations">3</a>.</div>
 
-<div class="standard"><a id='magicparlabel-130' />
+<div class="standard"><a id='magicparlabel-131' />
 Interoperability considerations: Described herein.</div>
 
-<div class="standard"><a id='magicparlabel-131' />
+<div class="standard"><a id='magicparlabel-132' />
 Published specification: &lt;this document, once published&gt;.</div>
 
-<div class="standard"><a id='magicparlabel-132' />
+<div class="standard"><a id='magicparlabel-133' />
 Applications that use this media type: JSON text sequences have been used in applications written with the jq programming language.</div>
-<h2 class="section"><span class="section_label">5</span> <a id='magicparlabel-133' />
+<h2 class="section"><span class="section_label">5</span> <a id='magicparlabel-134' />
 <a id="sec_References" />
 Normative References</h2>
-<div class="standard"><a id='magicparlabel-134' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-138' />
+<div class="standard"><a id='magicparlabel-135' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-139' />
 <a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">rfc2119</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-139' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-143' />
+<div class="standard"><a id='magicparlabel-140' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-144' />
 <a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5234.xml">rfc5234</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-144' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-148' />
+<div class="standard"><a id='magicparlabel-145' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-149' />
 <a href="http://xml.resource.org/public/rfc/bibxml/reference.RFC.7159.xml">rfc7159</a></div>
 </div></div>
 </body>

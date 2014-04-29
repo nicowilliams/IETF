@@ -1,14 +1,14 @@
 
 
 
-Network Working Group                                        N. Williams
+json                                                         N. Williams
 Internet-Draft                                              Cryptonector
-Intended status: Standards Track                          March 14, 2014
-Expires: September 15, 2014
+Intended status: Standards Track                          April 28, 2014
+Expires: October 30, 2014
 
 
             JavaScript Object Notation (JSON) Text Sequences
-                  draft-williams-json-text-sequence-00
+                    draft-ietf-json-text-sequence-01
 
 Abstract
 
@@ -30,7 +30,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 15, 2014.
+   This Internet-Draft will expire on October 30, 2014.
 
 Copyright Notice
 
@@ -52,9 +52,9 @@ Copyright Notice
 
 
 
-Williams               Expires September 15, 2014               [Page 1]
+Williams                Expires October 30, 2014                [Page 1]
 
-Internet-Draft             JSON Text Sequences                March 2014
+Internet-Draft             JSON Text Sequences                April 2014
 
 
 Table of Contents
@@ -108,9 +108,9 @@ Table of Contents
 
 
 
-Williams               Expires September 15, 2014               [Page 2]
+Williams                Expires October 30, 2014                [Page 2]
 
-Internet-Draft             JSON Text Sequences                March 2014
+Internet-Draft             JSON Text Sequences                April 2014
 
 
 1.  Introduction and Motivation
@@ -124,8 +124,8 @@ Internet-Draft             JSON Text Sequences                March 2014
    when encoded, which would be roughly one gigabyte.  If processing
    such a dataset requires first parsing it entirely, then the result is
    very inefficient and the processing will be limited by virtual
-   memory.  "Online" parsers help, but they are neither widely available
-   or widely used, nor are they easy to use.
+   memory.  "Online" (a.k.a., "streaming") parsers help, but they are
+   neither widely available or widely used, nor are they easy to use.
 
    Ideally such datasets could be parsed and processed one element at a
    time.  Even if each element must be parsed in a not-online manner due
@@ -134,7 +134,8 @@ Internet-Draft             JSON Text Sequences                March 2014
    rather than by the size of the sequence.
 
    This document describes the concept and format of "JSON text
-   sequences", which are specifically not JSON texts themselves.
+   sequences", which are specifically not JSON texts themselves but are
+   composed of JSON texts.
 
 1.1.  Conventions used in this document
 
@@ -163,71 +164,76 @@ Internet-Draft             JSON Text Sequences                March 2014
 
 
 
-
-Williams               Expires September 15, 2014               [Page 3]
+Williams                Expires October 30, 2014                [Page 3]
 
-Internet-Draft             JSON Text Sequences                March 2014
+Internet-Draft             JSON Text Sequences                April 2014
 
 
 2.  JSON Text Sequence Format
 
    The ABNF [RFC5234] for the JSON text sequence format is as follows:
 
-     JSON-sequence = *(JSON-text 1*(text-separator))
-     text-separator = %x20 / %x09 / %x0A / %x0D / %2C
+     JSON-sequence = *whitespace *(JSON-text 1*whitespace)
+     whitespace = %x20 / %x09 / %x0A / %x0D
      JSON-text = <given by RFC7159>
 
                      Figure 1: JSON text sequence ABNF
 
-   A JSON text sequence is a sequence of JSON texts, each followed by
-   JSON whitespace (see the 'ws' rule in the JSON ABNF) separator.
+   A JSON text sequence is a sequence of zero or more JSON texts, each
+   followed by JSON whitespace separator.
 
    Requirements:
 
-   o  Encoders MUST emit one or more JSON whitespace separator
-      characters after each JSON text in a sequence.  Two contiguous
-      separators do not denote an empty JSON text between them.
+   o  JSON text sequence encoders MUST emit one or more JSON whitespace
+      separator characters immediately after any JSON text.
 
-   o  Parsers MUST be able to parser a JSON text sequence consisting of
-      JSON texts which do not contain newlines (except, of course,
-      escaped within strings), and which are separated by either
-      newlines, or carriage return and newline character pairs (U+000D
-      U+000A).
+   o  JSON text sequence parsers MUST NOT interpret any sequence of two
+      or more contiguous whitespace as a sequence of empty JSON texts.
+      Two contiguous separators do not denote an empty JSON text between
+      them as there is no such thing as an empty JSON text.
 
-   Recommendations:
-
-   o  Parsers SHOULD NOT emit outputs which do not correspond to arrays,
-      objects or strings until the separator is read.  For example, an
-      input of 'truefalse' is not a valid sequence of two JSON values,
-      true and false!  Neither is 'true0' a valid sequence of true and
-      zero.  Some parsers might in fact accept such sequences, which
-      creates an ambiguity that is resolved by requiring (see above)
-      that encoders never omit the separator.
-
-   Options:
-
-   o  Parsers MAY parse sequences where the separator is missing between
-      any two consecutive texts provided that no ambiguity results
-      (namely: when the first of the two texts is an array, an object,
-      or a string).
-
-   o  Encoders MAY have an option for encoding JSON texts "compactly",
-      without using newlines in the encoding.  This maximizes
-      interoperability with JSON text sequence parsers that utilize non-
-      incremental, non-online JSON text parsers.
+   An input of 'truefalse' is not a valid sequence of two JSON values,
+   true and false!  Neither is 'true0' a valid sequence of true and
+   zero.  Some existing JSON parsers that might be used to construct
+   sequence parsers might in fact accept such sequences, resulting in
+   erroneous parsing of sequences of two or more numbers.  E.g., a
+   sequence of two numbers, 4 and 2, encoded without the required
+   whitespace between them would parse incorrectly as the number 42.
+   This ambiguity is resolved by requiring that encoders never omit the
+   separator.
 
 
 
 
 
-Williams               Expires September 15, 2014               [Page 4]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Williams                Expires October 30, 2014                [Page 4]
 
-Internet-Draft             JSON Text Sequences                March 2014
+Internet-Draft             JSON Text Sequences                April 2014
 
 
 3.  Security Considerations
 
    All the security considerations of JSON [RFC7159] apply.
+
+   There is no end of sequence indicator.  This means that "end of
+   file", "end of transmission", and so on, can be indistinguishable
+   form a logical end of sequence.  Applications where this matters
+   should denote end of sequence by convention (e.g., Content-Length in
+   HTTP).
 
    JSON text sequence parsers based on non-incremental, non-online JSON
    text parsers will not be able to efficiently parser JSON texts in
@@ -235,10 +241,10 @@ Internet-Draft             JSON Text Sequences                March 2014
    incremental, non-online JSON text parsers creates a compute resource
    exhaustion vulnerability.
 
-   Parsers which accidentally parse invalid sequences like 'truefalse'
-   (as the same as 'true\nfalse') create a mildly dangerous ambiguity.
-   Encoders must never produce such sequences; parsers should not accept
-   them.
+   The first requirement given in Section 2 (otherwise-ambiguous JSON
+   texts must be separated by whitespace) is critical and must be
+   adhered to.  It is best to always emit a whitespace separator after
+   every JSON text emitted.
 
 
 
@@ -270,15 +276,9 @@ Internet-Draft             JSON Text Sequences                March 2014
 
 
 
-
-
-
-
-
-
-Williams               Expires September 15, 2014               [Page 5]
+Williams                Expires October 30, 2014                [Page 5]
 
-Internet-Draft             JSON Text Sequences                March 2014
+Internet-Draft             JSON Text Sequences                April 2014
 
 
 4.  IANA Considerations
@@ -332,9 +332,9 @@ Internet-Draft             JSON Text Sequences                March 2014
 
 
 
-Williams               Expires September 15, 2014               [Page 6]
+Williams                Expires October 30, 2014                [Page 6]
 
-Internet-Draft             JSON Text Sequences                March 2014
+Internet-Draft             JSON Text Sequences                April 2014
 
 
 5.  Normative References
@@ -388,9 +388,9 @@ Internet-Draft             JSON Text Sequences                March 2014
 
 
 
-Williams               Expires September 15, 2014               [Page 7]
+Williams                Expires October 30, 2014                [Page 7]
 
-Internet-Draft             JSON Text Sequences                March 2014
+Internet-Draft             JSON Text Sequences                April 2014
 
 
 Author's Address
@@ -444,5 +444,5 @@ Author's Address
 
 
 
-Williams               Expires September 15, 2014               [Page 8]
+Williams                Expires October 30, 2014                [Page 8]
 
