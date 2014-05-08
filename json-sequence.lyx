@@ -659,6 +659,101 @@ An input of 'truefalse' is not a valid sequence of two JSON values, true
 \end_layout
 
 \begin_layout Section
+Use for Logfiles, or How to Resynchronize Following Truncated entries
+\end_layout
+
+\begin_layout Standard
+The JSON Text Sequence format is perfect for use with logfiles, as those
+ are generally (and atomically) appended to on an ongoing basis.
+ I.e., logfiles are of indeterminate length, at least right up until they
+ closed.
+\end_layout
+
+\begin_layout Standard
+A problem comes up with this use case: it is difficult to guarantee that
+ append writes will complete.
+ Therefore it's possible (if unlikely) to end up with truncated log entries
+ -which may fail to parse as JSON texts- followed by other entries.
+ The mechanics of such failures are not explained here (consider power failures
+ though).
+\end_layout
+
+\begin_layout Standard
+Fortunately, as long as all texts in the logfile sequence are followed by
+ a newline, it is possible to detect a subsequent entry written after an
+ entry that fails to parse.
+ Figure 2 shows an ABNF rule for detecting the boundary between a non-truncated
+ [and some truncated] JSON text and the next JSON text in a sequence.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ boundary = endchar *whitespace NL *whitespace startchar
+\end_layout
+
+\begin_layout Plain Layout
+
+ endchar = ( "}" / "]" / %x22 / "e" / "l" / DIGIT )
+\end_layout
+
+\begin_layout Plain Layout
+
+ startchar =  ( "{" / "[" / %x22 / "t" / "f" / "n" / "-" / DIGIT )
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+ABNF for resynchronization
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To resynchronize after failing to parse a JSON text, simply search for a
+ boundary as described in figure 2.
+ A boundary found this way might be the boundary between the truncated entry
+ and the subsequent entry, or it might be a subsequent boundary.
+\end_layout
+
+\begin_layout Standard
+Applications SHOULD scan backwards (up to the start of the incomplete text)
+ from such a boundary looking for a newline followed by a valid JSON text,
+ otherwise valid entries following truncated entries can be missed by this
+ rule.
+\end_layout
+
+\begin_layout Standard
+Note that in order to enable resynchronization all JSON texts appended to
+ a logfile MUST be followed by a newline.
+\end_layout
+
+\begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Security-Considerations"
@@ -724,6 +819,13 @@ reference "sec:JSON-Text-Sequence"
  and must be adhered to.
  It is best to always emit a whitespace separator after every JSON text
  emitted.
+\end_layout
+
+\begin_layout Standard
+Purposefully appending a truncated (or invalid) JSON text to a JSON text
+ sequence logfile can cause the subsequent entry to be ignored by tooling
+ that does not scan backwards from resynchronization boundaries looking
+ for otherwise missed complete JSON texts.
 \end_layout
 
 \begin_layout Section
@@ -852,6 +954,16 @@ target "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7159.xml"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Acknowledgements
+\end_layout
+
+\begin_layout Standard
+Phillip Hallam-Baker proposed the use of JSON text sequences for logfiles
+ and pointed out the need for resynchronization.
+ James Manger contributed the ABNF for resynchronization.
 \end_layout
 
 \end_body
