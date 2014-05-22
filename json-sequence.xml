@@ -8,11 +8,11 @@
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-<!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY rfc5234 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5234.xml">
-<!ENTITY rfc7159 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7159.xml">
+<!ENTITY rfc2119 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY rfc5234 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
+<!ENTITY rfc7159 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7159.xml">
 ]>
-<rfc docName="draft-ietf-json-text-sequence-01" ipr="trust200902" category="std">
+<rfc docName="draft-ietf-json-text-sequence-03" ipr="trust200902" category="std">
   <front>
     <title abbrev="JSON Text Sequences">JavaScript Object Notation (JSON) Text Sequences</title>
     <author initials="N." surname="Williams" fullname="Nicolas Williams">
@@ -35,7 +35,7 @@ This document describes the JSON text sequence format and associated media type.
     </abstract>
   </front>
   <middle>
-    <section title="Introduction and Motivation" anchor="d1e193">
+    <section title="Introduction and Motivation" anchor="d1e201">
       <t>
 The JavaScript Object Notation (JSON) <xref target="RFC7159"/> is a very handy serialization format. However, when serializing a large sequence of values as an array, or a possibly indeterminate-length or never-ending sequence of values, JSON becomes difficult to work with.</t>
       <t>
@@ -44,72 +44,67 @@ Consider a sequence of one million values, each possibly 1 kilobyte when encoded
 Ideally such datasets could be parsed and processed one element at a time. Even if each element must be parsed in a not-online manner due to local choice of parser, the result will usually be sufficiently online: limited by the size of the biggest element in the sequence rather than by the size of the sequence.</t>
       <t>
 This document describes the concept and format of “JSON text sequences”, which are specifically not JSON texts themselves but are composed of JSON texts.</t>
-      <section title="Conventions used in this document" anchor="d1e217">
+      <section title="Conventions used in this document" anchor="d1e225">
         <t>
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target="RFC2119"/>.</t>
       </section>
     </section>
     <section title="JSON Text Sequence Format" anchor="sec_JSON_Text_Sequence">
       <t>
-The ABNF <xref target="RFC5234"/> for the JSON text sequence format is as follows:</t>
+The ABNF <xref target="RFC5234"/> for the JSON text sequence format is as given in  <xref target="fig_JSON_text_sequence"/>. Note that this ABNF does not work if we assume greedy matching. Therefore, in prose, a JSON text sequence is a sequence of zero or more JSON texts, each surrounded by any number of JSON whitespace characters and always followed by a newline.</t>
       <t>
 </t>
       <t>
-        <figure anchor="magicparlabel-108" title="JSON text sequence ABNF">
-          <artwork>  JSON-sequence = *whitespace *(JSON-text 1*whitespace)
-  whitespace = %x20 / %x09 / %x0A / %x0D
+        <figure anchor="fig_JSON_text_sequence" title="JSON text sequence ABNF">
+          <artwork>  JSON-sequence = ws *(JSON-text ws LF ws)
+  LF = &lt;given by RFC5234&gt;
+  ws = &lt;given by RFC7159&gt;
   JSON-text = &lt;given by RFC7159&gt;</artwork>
         </figure>
       </t>
-      <t>
-A JSON text sequence is a sequence of zero or more JSON texts, each followed by JSON whitespace separator.</t>
-      <t>
-Requirements:</t>
-      <t>
-        <list style="symbols">
-          <t>
-JSON text sequence encoders MUST emit one or more JSON whitespace separator characters immediately after any JSON text.</t>
-          <t>
-JSON text sequence parsers MUST NOT interpret any sequence of two or more contiguous whitespace as a sequence of empty JSON texts. Two contiguous separators do not denote an empty JSON text between them as there is no such thing as an empty JSON text.</t>
-        </list>
-      </t>
-      <t>
-An input of 'truefalse' is not a valid sequence of two JSON values, true and false! Neither is 'true0' a valid sequence of true and zero. Some existing JSON parsers that might be used to construct sequence parsers might in fact accept such sequences, resulting in erroneous parsing of sequences of two or more numbers. E.g., a sequence of two numbers, 4 and 2, encoded without the required whitespace between them would parse incorrectly as the number 42. This ambiguity is resolved by requiring that encoders never omit the separator.</t>
+      <section title="Requirements:" anchor="d1e285">
+        <t>
+          <list style="symbols">
+            <t>
+JSON text sequence encoders MUST emit a newline after any JSON text.</t>
+          </list>
+        </t>
+        <t>
+An input of 'truefalse' is not a valid sequence of two JSON values, true and false! Neither is 'true0' a valid sequence of true and zero. Some existing JSON parsers that might be used to construct sequence parsers might in fact accept such sequences, resulting in erroneous parsing of sequences of two or more numbers. E.g., a sequence of two numbers, 4 and 2, encoded without the required whitespace between them would parse incorrectly as the number 42. This ambiguity is resolved by requiring that encoders emit a whitespace separator (specifically: a newline) after each text.</t>
+      </section>
     </section>
-    <section title="Use for Logfiles, or How to Resynchronize Following Truncated entries" anchor="d1e288">
+    <section title="Use for Logfiles, or How to Resynchronize Following Truncated entries" anchor="d1e298">
       <t>
-The JSON Text Sequence format is perfect for use with logfiles, as those are generally (and atomically) appended to on an ongoing basis. I.e., logfiles are of indeterminate length, at least right up until they closed.</t>
+The JSON Text Sequence format is useful for logfiles, as those are generally (and atomically) appended to on an ongoing basis. I.e., logfiles are of indeterminate length, at least right up until they closed.</t>
       <t>
-A problem comes up with this use case: it is difficult to guarantee that append writes will complete. Therefore it's possible (if unlikely) to end up with truncated log entries -which may fail to parse as JSON texts- followed by other entries. The mechanics of such failures are not explained here (consider power failures though).</t>
+A problem comes up with this use case: it is difficult to guarantee that append writes will complete. Therefore it's possible (if unlikely) to end up with truncated log entries -which may fail to parse as JSON texts- followed by other entries. The mechanics of such failures are not explained here (but consider power failures).</t>
       <t>
-Fortunately, as long as all texts in the logfile sequence are followed by a newline, it is possible to detect a subsequent entry written after an entry that fails to parse. Figure 2 shows an ABNF rule for detecting the boundary between a non-truncated [and some truncated] JSON text and the next JSON text in a sequence.</t>
+Fortunately, as long as all texts in the logfile sequence are followed by a newline, it is possible to detect a subsequent entry written after an entry that fails to parse.  <xref target="fig_ABNF_for_resynchronization"/> shows an ABNF rule for detecting the boundary between a non-truncated [and some truncated] JSON text and the next JSON text in a sequence.</t>
       <t>
 </t>
       <t>
-        <figure anchor="magicparlabel-133" title="ABNF for resynchronization">
-          <artwork> boundary = endchar *whitespace NL *whitespace startchar
- endchar = ( "}" / "]" / %x22 / "e" / "l" / DIGIT )
- startchar =  ( "{" / "[" / %x22 / "t" / "f" / "n" / "-" / DIGIT )</artwork>
+        <figure anchor="fig_ABNF_for_resynchronization" title="ABNF for resynchronization">
+          <artwork>  boundary = endchar *text-sep *ws startchar
+  text-sep = *(SP / HTAB / CR) LF ; these are from RFC5234
+  endchar = ( "}" / "]" / DQUOTE / "e" / "l" / DIGIT )
+  startchar =  ( "{" / "[" / DQUOTE / "t" / "f" / "n" / "-" / DIGIT )
+  ws = &lt;given by RFC7159&gt;</artwork>
         </figure>
       </t>
       <t>
 To resynchronize after failing to parse a JSON text, simply search for a boundary as described in figure 2. A boundary found this way might be the boundary between the truncated entry and the subsequent entry, or it might be a subsequent boundary.</t>
       <t>
-Applications SHOULD scan backwards (up to the start of the incomplete text) from such a boundary looking for a newline followed by a valid JSON text, otherwise valid entries following truncated entries can be missed by this rule.</t>
-      <t>
-Note that in order to enable resynchronization all JSON texts appended to a logfile MUST be followed by a newline.</t>
+Scanning backwards for boundaries may not work reliably unless JSON texts written to logfiles are stripped of internal newlines.</t>
     </section>
     <section title="Security Considerations" anchor="sec_Security_Considerations">
       <t>
 All the security considerations of JSON <xref target="RFC7159"/> apply.</t>
       <t>
-There is no end of sequence indicator. This means that “end of file”, “end of transmission”, and so on, can be indistinguishable form a logical end of sequence. Applications where this matters should denote end of sequence by convention (e.g., Content-Length in HTTP).</t>
+There is no end of sequence indicator. This means that “end of file”, “end of transmission”, and so on, can be indistinguishable from a logical end of sequence. Applications where this matters should denote end of sequence by convention (e.g., Content-Length in HTTP).</t>
       <t>
 JSON text sequence parsers based on non-incremental, non-online JSON text parsers will not be able to efficiently parser JSON texts in which newlines appear; attempting to parse such sequences with non-incremental, non-online JSON text parsers creates a compute resource exhaustion vulnerability.</t>
       <t>
-The first requirement given in  <xref target="sec_JSON_Text_Sequence"/> (otherwise-ambiguous JSON texts must be separated by whitespace) is critical and must be adhered to. It is best to always emit a whitespace separator after every JSON text emitted.</t>
-      <t>
-Purposefully appending a truncated (or invalid) JSON text to a JSON text sequence logfile can cause the subsequent entry to be ignored by tooling that does not scan backwards from resynchronization boundaries looking for otherwise missed complete JSON texts.</t>
+The resynchronization heuristic for logfiles is imperfect and might skip a valid entry following a truncated one. Purposefully appending a truncated (or invalid) JSON text to a JSON text sequence logfile can cause the subsequent entry to be invisible. Logfile writers SHOULD validate (parse) any untrusted JSON text inputs and SHOULD remove internal newlines from them, thus enabling reliable backwards scanning for sequence element boundaries. Alternatively, logfile writers might write texts in sequences of two texts, the first being meaningless by convention. Of course, logfile writers SHOULD also ensure that their writes are atomic, at least in so far as not interleaving with other writers' writes.</t>
     </section>
     <section title="IANA Considerations" anchor="sec_IANA_Considerations">
       <t>
@@ -131,9 +126,9 @@ Interoperability considerations: Described herein.</t>
       <t>
 Published specification: &lt;this document, once published&gt;.</t>
       <t>
-Applications that use this media type: JSON text sequences have been used in applications written with the jq programming language.</t>
+Applicat<eref target="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>ions that use this media type: JSON text sequences have been used in applications written with the jq programming language.</t>
     </section>
-    <section title="Acknowledgements" anchor="d1e448">
+    <section title="Acknowledgements" anchor="d1e456">
       <t>
 Phillip Hallam-Baker proposed the use of JSON text sequences for logfiles and pointed out the need for resynchronization. James Manger contributed the ABNF for resynchronization.</t>
     </section>
