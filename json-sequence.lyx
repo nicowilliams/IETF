@@ -282,7 +282,7 @@ JavaScript Object Notation (JSON) Text Sequences
 status open
 
 \begin_layout Plain Layout
-draft-ietf-json-text-sequence-03
+draft-ietf-json-text-sequence-04
 \end_layout
 
 \end_inset
@@ -490,18 +490,9 @@ RFC7159
 \begin_layout Standard
 Consider a sequence of one million values, each possibly 1 kilobyte when
  encoded, which would be roughly one gigabyte.
- If processing such a dataset requires first parsing it entirely, then the
- result is very inefficient and the processing will be limited by virtual
- memory.
- 
-\begin_inset Quotes eld
-\end_inset
-
-Online
-\begin_inset Quotes erd
-\end_inset
-
- (a.k.a., 
+ It is often desirable to process such a dataset in an incremental manner:
+ without having to first read all of it before beginning to produce results.
+ Traditionally the way to do this with JSON is to use a 
 \begin_inset Quotes eld
 \end_inset
 
@@ -509,16 +500,14 @@ streaming
 \begin_inset Quotes erd
 \end_inset
 
-) parsers help, but they are neither widely available or widely used, nor
- are they easy to use.
-\end_layout
+ parser (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:JSON-Parser-Types"
 
-\begin_layout Standard
-Ideally such datasets could be parsed and processed one element at a time.
- Even if each element must be parsed in a not-online manner due to local
- choice of parser, the result will usually be sufficiently online: limited
- by the size of the biggest element in the sequence rather than by the size
- of the sequence.
+\end_inset
+
+), but these are neither widely available, widely used, nor easy to use.
 \end_layout
 
 \begin_layout Standard
@@ -532,6 +521,35 @@ JSON text sequences
 
 , which are specifically not JSON texts themselves but are composed of JSON
  texts.
+ JSON text sequences can be parsed (and produced) incrementally without
+ having to have a streaming parser (nor encoder).
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:JSON-Parser-Types"
+
+\end_inset
+
+JSON Parser Types
+\end_layout
+
+\begin_layout Standard
+For the purposes of this document we shall classify JSON parsers as follows:
+\end_layout
+
+\begin_layout Description
+Streaming Consumes a text incrementally, outputs values incrementally (e.g.,
+ as (path, leaf value) pairs).
+\end_layout
+
+\begin_layout Description
+Online Consumes a text incrementally.
+\end_layout
+
+\begin_layout Description
+Off-line Consumes only complete texts.
 \end_layout
 
 \begin_layout Subsection
@@ -649,26 +667,186 @@ JSON text sequence ABNF
 \end_layout
 
 \begin_layout Standard
-Requirements:
+As long as a JSON text sequence consist of complete JSON texts, the only
+ requirement is that whitespace separate any non-object, array, string top-level
+ values from neighboring texts.
+ The simplest way to ensure this is to require such whitespace, and furthermore
+ it is convenient to use a newline, as we'll see in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Ambiguities"
+
+\end_inset
+
+.
+ Therefore we impose one requirement:
 \end_layout
 
 \begin_layout Itemize
 JSON text sequence encoders MUST emit a newline after any JSON text.
 \end_layout
 
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Ambiguities"
+
+\end_inset
+
+Ambiguities
+\end_layout
+
 \begin_layout Standard
-An input of 'truefalse' is not a valid sequence of two JSON values, true
- and false! Neither is 'true0' a valid sequence of true and zero.
+Otherwise An input of 'truefalse' is not a valid sequence of two JSON values,
+ true and false! Neither is 'true0' a valid sequence of true and zero.
  Some existing JSON parsers that might be used to construct sequence parsers
  might in fact accept such sequences, resulting in erroneous parsing of
  sequences of two or more numbers.
  E.g., a sequence of two numbers, 4 and 2, encoded without the required whitespace
  between them would parse incorrectly as the number 42.
- This ambiguity is resolved by requiring that encoders emit a whitespace
+\end_layout
+
+\begin_layout Standard
+Such ambiguities is resolved by requiring that encoders emit a whitespace
  separator (specifically: a newline) after each text.
 \end_layout
 
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Partial-write-ambiguities"
+
+\end_inset
+
+Ambiguities Resulting from Partial Texts
+\end_layout
+
+\begin_layout Standard
+Another kind of ambiguity arises when a JSON text sequence contains partial
+ texts.
+ Such a sequence can result when using 
+\begin_inset Quotes eld
+\end_inset
+
+append writes
+\begin_inset Quotes erd
+\end_inset
+
+ to write to a file.
+ For example, many systems might commit partial writes to stable storage
+ then fail to complete the remainder of a write as a result of, e.g., power
+ failures; upon recovery the file may then end with a partial JSON text.
+\end_layout
+
+\begin_layout RevisionRemark
+Perhaps we should add a note about what POSIX requires w.r.t.
+ O_APPEND, and how POSIX is agnostic as to power failures and so on.
+ The point being that even where a standard imposes strong atomicity requirement
+s as to append writes, there are good reasons why that might be difficult
+ to obtain under exceptional circumstances.
+\end_layout
+
+\begin_layout Standard
+Consider a portion of a JSON text sequence such as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ { "foo":
+\end_layout
+
+\begin_layout Plain Layout
+
+ { "bar": 42 }
+\end_layout
+
+\begin_layout Plain Layout
+
+ }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+How can we tell that the first line isn't part of an incomplete JSON text?
+ We can't, especially if the third line were missing.
+\end_layout
+
+\begin_layout Standard
+In the common case JSON text sequence parsers assume every text is complete,
+ and abort processing if any one text fails to parse.
+ However, for logfiles, there is value is being able to recover from such
+ situations.
+ Recovery is described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Use-for-Logfiles"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Rationale for Choice of LF as the Text Separator
+\end_layout
+
+\begin_layout Standard
+A variety of characters or character sequences (even non-whitespace characters)
+ could have been used as the JSON text separator in JSON text sequences.
+ The rationale for using newline (LF) as the separator is as follows:
+\end_layout
+
+\begin_layout Itemize
+it matches the 'ws' ABNF rule in 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC7159
+\end_layout
+
+\end_inset
+
+ (as do CR, HTAB, and SP);
+\end_layout
+
+\begin_layout Itemize
+it is always escaped in encoded JSON strings, therefore it is safe remove
+ LFs (or replace then with other JSON whitespace characters) from any JSON
+ text (this is also true of CR and HTAB, but not SP);
+\end_layout
+
+\begin_layout Itemize
+it is generally understood as the end-of-line marker by line-oriented tools;
+\end_layout
+
+\begin_layout Itemize
+at least one JSON text sequence implementation exists and has existed for
+ some time [XXX add external informative reference to https://stedolan.github.com/
+jq], and it uses LF as the JSON text separator.
+\end_layout
+
+\begin_layout Standard
+Note that JSON text sequence writers may (and should) use CR LF as the text
+ separator where the end-of-line marker is expected to be CR LF.
+\end_layout
+
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Use-for-Logfiles"
+
+\end_inset
+
 Use for Logfiles, or How to Resynchronize Following Truncated entries
 \end_layout
 
@@ -676,22 +854,25 @@ Use for Logfiles, or How to Resynchronize Following Truncated entries
 The JSON Text Sequence format is useful for logfiles, as those are generally
  (and atomically) appended to on an ongoing basis.
  I.e., logfiles are of indeterminate length, at least right up until they
- closed.
+ are closed.
 \end_layout
 
 \begin_layout Standard
-A problem comes up with this use case: it is difficult to guarantee that
- append writes will complete.
- Therefore it's possible (if unlikely) to end up with truncated log entries
- -which may fail to parse as JSON texts- followed by other entries.
- The mechanics of such failures are not explained here (but consider power
- failures).
+The partial-write ambiguities described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Partial-write-ambiguities"
+
+\end_inset
+
+ come up in the case of logfiles.
 \end_layout
 
 \begin_layout Standard
-Fortunately, as long as all texts in the logfile sequence are followed by
- a newline, it is possible to detect a subsequent entry written after an
- entry that fails to parse.
+As long as all texts in the logfile sequence are followed by a newline,
+ it is possible to detect a subsequent JSON text written after an entry
+ that fails to parse: either the first or the second subsequent, complete
+ JSON texts.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -701,6 +882,7 @@ reference "fig:ABNF-for-resynchronization"
 
  shows an ABNF rule for detecting the boundary between a non-truncated [and
  some truncated] JSON text and the next JSON text in a sequence.
+ This rule assumes that only valid JSON texts are written to a sequence.
 \end_layout
 
 \begin_layout Standard
@@ -775,8 +957,88 @@ To resynchronize after failing to parse a JSON text, simply search for a
 \end_layout
 
 \begin_layout Standard
-Scanning backwards for boundaries may not work reliably unless JSON texts
- written to logfiles are stripped of internal newlines.
+This method does not support scanning backwards for boundaries.
+\end_layout
+
+\begin_layout Standard
+To make resynchronization reliable, and work both forwards and backwards,
+ the writer MUST first ensure that the JSON text being written is valid,
+ and SHOULD apply either (or both) of the following:
+\end_layout
+
+\begin_layout Enumerate
+Remove internal newlines (not including escaped newlines in strings) from
+ any JSON text being written.
+\end_layout
+
+\begin_layout Enumerate
+Prefix any JSON text with a null value and a newline.
+ The append write must still be atomic (one write), and contain both texts.
+\end_layout
+
+\begin_layout Standard
+Method #1 permits scanning for newlines (in either direction) as the resynchroni
+zation method.
+\end_layout
+
+\begin_layout Standard
+Method #2 permits scanning for 
+\begin_inset Quotes eld
+\end_inset
+
+null
+\begin_inset Quotes erd
+\end_inset
+
+ LF (in either direction) as the resynchronization method.
+\end_layout
+
+\begin_layout Standard
+Consider a JSON text sequence such as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ null
+\end_layout
+
+\begin_layout Plain Layout
+
+ { "foo":"hello world" }
+\end_layout
+
+\begin_layout Plain Layout
+
+ "a broken writenull
+\end_layout
+
+\begin_layout Plain Layout
+
+ "a complete write"
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Resynchronization methods #1 and #2 will correctly detect that the third
+ line is an incomplete JSON text, and that the next complete text starts
+ at the fourth line.
+ We can't tell which of method #1 or #2 the writer was using, but either
+ method works for the parser.
+ The parser SHOULD know which method the writer was using, as to know whether
+ to discard the nulls, and whether to attempt resynchronization at all.
+\end_layout
+
+\begin_layout Standard
+Method #1 is RECOMMENDED for JSON text sequence logfile writers.
 \end_layout
 
 \begin_layout Section
@@ -827,24 +1089,27 @@ end of transmission
 \end_layout
 
 \begin_layout Standard
-JSON text sequence parsers based on non-incremental, non-online JSON text
- parsers will not be able to efficiently parser JSON texts in which newlines
- appear; attempting to parse such sequences with non-incremental, non-online
- JSON text parsers creates a compute resource exhaustion vulnerability.
+The resynchronization ABNF heuristic is imperfect and might skip a valid
+ entry following a truncated one.
+ Purposefully appending a truncated (or invalid) JSON text to a JSON text
+ sequence logfile can cause the subsequent entry to be invisible.
 \end_layout
 
 \begin_layout Standard
-The resynchronization heuristic for logfiles is imperfect and might skip
- a valid entry following a truncated one.
- Purposefully appending a truncated (or invalid) JSON text to a JSON text
- sequence logfile can cause the subsequent entry to be invisible.
- Logfile writers SHOULD validate (parse) any untrusted JSON text inputs
- and SHOULD remove internal newlines from them, thus enabling reliable backwards
- scanning for sequence element boundaries.
- Alternatively, logfile writers might write texts in sequences of two texts,
- the first being meaningless by convention.
- Of course, logfile writers SHOULD also ensure that their writes are atomic,
- at least in so far as not interleaving with other writers' writes.
+JSON text sequence writers MUST validate (parse) any JSON text inputs from
+ untrusted third parties.
+\end_layout
+
+\begin_layout Standard
+JSON text sequence logfile writers SHOULD apply one of the resynchronization
+ methods described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ABNF-for-resynchronization"
+
+\end_inset
+
+, preferably method #1.
 \end_layout
 
 \begin_layout Section

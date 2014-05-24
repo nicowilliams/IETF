@@ -114,7 +114,27 @@ margin-bottom: 0.5ex;
 text-align: left;
 
 }
+dl.description dt { font-weight: bold; }
 ul.itemize {
+margin-top: 0.7ex;
+margin-bottom: 0.7ex;
+margin-left: 3ex;
+text-align: left;
+
+}
+h4.subsubsection {
+font-weight: bold;
+font-size: medium;
+margin-top: 0.7ex;
+margin-bottom: 0.4ex;
+text-align: left;
+
+}
+div.revisionremark {
+text-align: left;
+
+}
+ol.enumerate {
 margin-top: 0.7ex;
 margin-bottom: 0.7ex;
 margin-left: 3ex;
@@ -253,7 +273,7 @@ font-size: medium;
 JavaScript Object Notation (JSON) Text Sequences</h1>
 <div class="standard"><a id='magicparlabel-2' />
 <div class="flex_docname"><div class="plain_layout"><a id='magicparlabel-6' />
-draft-ietf-json-text-sequence-03</div>
+draft-ietf-json-text-sequence-04</div>
 </div><div class="flex_ipr"><div class="plain_layout"><a id='magicparlabel-10' />
 trust200902</div>
 </div><div class="flex_intendedstatus"><div class="plain_layout"><a id='magicparlabel-14' />
@@ -316,23 +336,30 @@ This document describes the JSON text sequence format and associated media type.
 
 <div class='lyxtoc-1'><a href='#magicparlabel-72' class='tocentry'>1 Introduction and Motivation</a> <a href='#magicparlabel-72' class='tocarrow'>&gt;</a>
 
-<div class='lyxtoc-2'><a href='#magicparlabel-81' class='tocentry'>1.1 Conventions used in this document</a> <a href='#magicparlabel-81' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-2'><a href='#magicparlabel-80' class='tocentry'>1.1 JSON Parser Types</a> <a href='#magicparlabel-80' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-2'><a href='#magicparlabel-85' class='tocentry'>1.2 Conventions used in this document</a> <a href='#magicparlabel-85' class='tocarrow'>&gt;</a></div>
 </div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-87' class='tocentry'>2 JSON Text Sequence Format</a> <a href='#magicparlabel-87' class='tocarrow'>&gt;</a>
+<div class='lyxtoc-1'><a href='#magicparlabel-91' class='tocentry'>2 JSON Text Sequence Format</a> <a href='#magicparlabel-91' class='tocarrow'>&gt;</a>
 
-<div class='lyxtoc-2'><a href='#magicparlabel-110' class='tocentry'>2.1 Requirements:</a> <a href='#magicparlabel-110' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-2'><a href='#magicparlabel-116' class='tocentry'>2.1 Ambiguities</a> <a href='#magicparlabel-116' class='tocarrow'>&gt;</a>
+
+<div class='lyxtoc-3'><a href='#magicparlabel-119' class='tocentry'>2.1.1 Ambiguities Resulting from Partial Texts</a> <a href='#magicparlabel-119' class='tocarrow'>&gt;</a></div>
 </div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-113' class='tocentry'>3 Use for Logfiles, or How to Resynchronize Following Truncated entries</a> <a href='#magicparlabel-113' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-2'><a href='#magicparlabel-132' class='tocentry'>2.2 Rationale for Choice of LF as the Text Separator</a> <a href='#magicparlabel-132' class='tocarrow'>&gt;</a></div>
+</div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-137' class='tocentry'>4 Security Considerations</a> <a href='#magicparlabel-137' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-143' class='tocentry'>3 Use for Logfiles, or How to Resynchronize Following Truncated entries</a> <a href='#magicparlabel-143' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-146' class='tocentry'>5 IANA Considerations</a> <a href='#magicparlabel-146' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-183' class='tocentry'>4 Security Considerations</a> <a href='#magicparlabel-183' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-157' class='tocentry'>6 Normative References</a> <a href='#magicparlabel-157' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-193' class='tocentry'>5 IANA Considerations</a> <a href='#magicparlabel-193' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-173' class='tocentry'>7 Acknowledgements</a> <a href='#magicparlabel-173' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-204' class='tocentry'>6 Normative References</a> <a href='#magicparlabel-204' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-220' class='tocentry'>7 Acknowledgements</a> <a href='#magicparlabel-220' class='tocarrow'>&gt;</a></div>
 </div>
 
 <h2 class="section"><span class="section_label">1</span> <a id='magicparlabel-72' />
@@ -343,30 +370,43 @@ RFC7159</div>
 </div> is a very handy serialization format. However, when serializing a large sequence of values as an array, or a possibly indeterminate-length or never-ending sequence of values, JSON becomes difficult to work with.</div>
 
 <div class="standard"><a id='magicparlabel-78' />
-Consider a sequence of one million values, each possibly 1 kilobyte when encoded, which would be roughly one gigabyte. If processing such a dataset requires first parsing it entirely, then the result is very inefficient and the processing will be limited by virtual memory. &ldquo;Online&rdquo; (a.k.a., &ldquo;streaming&rdquo;) parsers help, but they are neither widely available or widely used, nor are they easy to use.</div>
+Consider a sequence of one million values, each possibly 1 kilobyte when encoded, which would be roughly one gigabyte. It is often desirable to process such a dataset in an incremental manner: without having to first read all of it before beginning to produce results. Traditionally the way to do this with JSON is to use a &ldquo;streaming&rdquo; parser (see <a href="#sub_JSON_Parser_Types">1.1</a>), but these are neither widely available, widely used, nor easy to use.</div>
 
 <div class="standard"><a id='magicparlabel-79' />
-Ideally such datasets could be parsed and processed one element at a time. Even if each element must be parsed in a not-online manner due to local choice of parser, the result will usually be sufficiently online: limited by the size of the biggest element in the sequence rather than by the size of the sequence.</div>
+This document describes the concept and format of &ldquo;JSON text sequences&rdquo;, which are specifically not JSON texts themselves but are composed of JSON texts. JSON text sequences can be parsed (and produced) incrementally without having to have a streaming parser (nor encoder).</div>
+<h3 class="subsection"><span class="subsection_label">1.1</span> <a id='magicparlabel-80' />
+<a id="sub_JSON_Parser_Types" />
+JSON Parser Types</h3>
+<div class="standard"><a id='magicparlabel-81' />
+For the purposes of this document we shall classify JSON parsers as follows:</div>
 
-<div class="standard"><a id='magicparlabel-80' />
-This document describes the concept and format of &ldquo;JSON text sequences&rdquo;, which are specifically not JSON texts themselves but are composed of JSON texts.</div>
-<h3 class="subsection"><span class="subsection_label">1.1</span> <a id='magicparlabel-81' />
+<dl class='description'><dt class="description_label">Streaming</dt>
+<dd class="description_item"><a id='magicparlabel-82' />
+ Consumes a text incrementally, outputs values incrementally (e.g., as (path, leaf value) pairs).</dd>
+<dt class="description_label">Online</dt>
+<dd class="description_item"><a id='magicparlabel-83' />
+ Consumes a text incrementally.</dd>
+<dt class="description_label">Off-line</dt>
+<dd class="description_item"><a id='magicparlabel-84' />
+ Consumes only complete texts.</dd>
+</dl>
+<h3 class="subsection"><span class="subsection_label">1.2</span> <a id='magicparlabel-85' />
 Conventions used in this document</h3>
-<div class="standard"><a id='magicparlabel-82' />
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-86' />
+<div class="standard"><a id='magicparlabel-86' />
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-90' />
 RFC2119</div>
 </div>.</div>
-<h2 class="section"><span class="section_label">2</span> <a id='magicparlabel-87' />
+<h2 class="section"><span class="section_label">2</span> <a id='magicparlabel-91' />
 <a id="sec_JSON_Text_Sequence" />
 JSON Text Sequence Format</h2>
-<div class="standard"><a id='magicparlabel-88' />
-The ABNF <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-92' />
+<div class="standard"><a id='magicparlabel-92' />
+The ABNF <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-96' />
 RFC5234</div>
 </div> for the JSON text sequence format is as given in <a href="#fig_JSON_text_sequence">1</a>. Note that this ABNF does not work if we assume greedy matching. Therefore, in prose, a JSON text sequence is a sequence of zero or more JSON texts, each surrounded by any number of JSON whitespace characters and always followed by a newline.</div>
 
-<div class="standard"><a id='magicparlabel-93' />
+<div class="standard"><a id='magicparlabel-97' />
 </div>
-<div class='float float-figure'><div class="plain_layout"><a id='magicparlabel-97' />
+<div class='float float-figure'><div class="plain_layout"><a id='magicparlabel-101' />
 </div>
 <div class='float float-listings'><pre>  JSON-sequence = ws *(JSON-text ws LF ws)
   LF = &lt;given by RFC5234&gt;
@@ -374,35 +414,85 @@ RFC5234</div>
   JSON-text = &lt;given by RFC7159&gt;</pre></div>
 
 
-<div class="plain_layout"><a id='magicparlabel-105' />
-<div class='float-caption float-caption-figure'>Figure 1:<div class="plain_layout"><a id='magicparlabel-109' />
+<div class="plain_layout"><a id='magicparlabel-109' />
+<div class='float-caption float-caption-figure'>Figure 1:<div class="plain_layout"><a id='magicparlabel-113' />
 <a id="fig_JSON_text_sequence" />
 JSON text sequence ABNF</div>
 </div></div>
 </div>
 
-<h3 class="subsection"><span class="subsection_label">2.1</span> <a id='magicparlabel-110' />
-Requirements:</h3>
 
-<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-111' />
+<div class="standard"><a id='magicparlabel-114' />
+As long as a JSON text sequence consist of complete JSON texts, the only requirement is that whitespace separate any non-object, array, string top-level values from neighboring texts. The simplest way to ensure this is to require such whitespace, and furthermore it is convenient to use a newline, as we'll see in <a href="#sub_Ambiguities">2.1</a>. Therefore we impose one requirement:</div>
+
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-115' />
 JSON text sequence encoders MUST emit a newline after any JSON text.</li>
 </ul>
-<div class="standard"><a id='magicparlabel-112' />
-An input of 'truefalse' is not a valid sequence of two JSON values, true and false! Neither is 'true0' a valid sequence of true and zero. Some existing JSON parsers that might be used to construct sequence parsers might in fact accept such sequences, resulting in erroneous parsing of sequences of two or more numbers. E.g., a sequence of two numbers, 4 and 2, encoded without the required whitespace between them would parse incorrectly as the number 42. This ambiguity is resolved by requiring that encoders emit a whitespace separator (specifically: a newline) after each text.</div>
-<h2 class="section"><span class="section_label">3</span> <a id='magicparlabel-113' />
-Use for Logfiles, or How to Resynchronize Following Truncated entries</h2>
-<div class="standard"><a id='magicparlabel-114' />
-The JSON Text Sequence format is useful for logfiles, as those are generally (and atomically) appended to on an ongoing basis. I.e., logfiles are of indeterminate length, at least right up until they closed.</div>
-
-<div class="standard"><a id='magicparlabel-115' />
-A problem comes up with this use case: it is difficult to guarantee that append writes will complete. Therefore it's possible (if unlikely) to end up with truncated log entries -which may fail to parse as JSON texts- followed by other entries. The mechanics of such failures are not explained here (but consider power failures).</div>
-
-<div class="standard"><a id='magicparlabel-116' />
-Fortunately, as long as all texts in the logfile sequence are followed by a newline, it is possible to detect a subsequent entry written after an entry that fails to parse. <a href="#fig_ABNF_for_resynchronization">2</a> shows an ABNF rule for detecting the boundary between a non-truncated [and some truncated] JSON text and the next JSON text in a sequence.</div>
-
+<h3 class="subsection"><span class="subsection_label">2.1</span> <a id='magicparlabel-116' />
+<a id="sub_Ambiguities" />
+Ambiguities</h3>
 <div class="standard"><a id='magicparlabel-117' />
+Otherwise An input of 'truefalse' is not a valid sequence of two JSON values, true and false! Neither is 'true0' a valid sequence of true and zero. Some existing JSON parsers that might be used to construct sequence parsers might in fact accept such sequences, resulting in erroneous parsing of sequences of two or more numbers. E.g., a sequence of two numbers, 4 and 2, encoded without the required whitespace between them would parse incorrectly as the number 42.</div>
+
+<div class="standard"><a id='magicparlabel-118' />
+Such ambiguities is resolved by requiring that encoders emit a whitespace separator (specifically: a newline) after each text.</div>
+<h4 class="subsubsection"><span class="subsubsection_label">2.1.1</span> <a id='magicparlabel-119' />
+<a id="sub_Partial_write_ambiguities" />
+Ambiguities Resulting from Partial Texts</h4>
+<div class="standard"><a id='magicparlabel-120' />
+Another kind of ambiguity arises when a JSON text sequence contains partial texts. Such a sequence can result when using &ldquo;append writes&rdquo; to write to a file. For example, many systems might commit partial writes to stable storage then fail to complete the remainder of a write as a result of, e.g., power failures; upon recovery the file may then end with a partial JSON text.</div>
+
+<div class="revisionremark"><a id='magicparlabel-121' />
+Perhaps we should add a note about what POSIX requires w.r.t. O_APPEND, and how POSIX is agnostic as to power failures and so on. The point being that even where a standard imposes strong atomicity requirements as to append writes, there are good reasons why that might be difficult to obtain under exceptional circumstances.</div>
+
+<div class="standard"><a id='magicparlabel-122' />
+Consider a portion of a JSON text sequence such as:</div>
+
+<div class="standard"><a id='magicparlabel-123' />
 </div>
-<div class='float float-figure'><div class="plain_layout"><a id='magicparlabel-121' />
+<div class='float float-listings'><pre> { "foo":
+ { "bar": 42 }
+ }</pre></div>
+
+
+<div class="standard"><a id='magicparlabel-130' />
+How can we tell that the first line isn't part of an incomplete JSON text? We can't, especially if the third line were missing.</div>
+
+<div class="standard"><a id='magicparlabel-131' />
+In the common case JSON text sequence parsers assume every text is complete, and abort processing if any one text fails to parse. However, for logfiles, there is value is being able to recover from such situations. Recovery is described in <a href="#sec_Use_for_Logfiles">3</a>.</div>
+<h3 class="subsection"><span class="subsection_label">2.2</span> <a id='magicparlabel-132' />
+Rationale for Choice of LF as the Text Separator</h3>
+<div class="standard"><a id='magicparlabel-133' />
+A variety of characters or character sequences (even non-whitespace characters) could have been used as the JSON text separator in JSON text sequences. The rationale for using newline (LF) as the separator is as follows:</div>
+
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-134' />
+it matches the 'ws' ABNF rule in <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-138' />
+RFC7159</div>
+</div> (as do CR, HTAB, and SP);</li>
+<li class="itemize_item"><a id='magicparlabel-139' />
+it is always escaped in encoded JSON strings, therefore it is safe remove LFs (or replace then with other JSON whitespace characters) from any JSON text (this is also true of CR and HTAB, but not SP);</li>
+<li class="itemize_item"><a id='magicparlabel-140' />
+it is generally understood as the end-of-line marker by line-oriented tools;</li>
+<li class="itemize_item"><a id='magicparlabel-141' />
+at least one JSON text sequence implementation exists and has existed for some time [XXX add external informative reference to https://stedolan.github.com/jq], and it uses LF as the JSON text separator.</li>
+</ul>
+<div class="standard"><a id='magicparlabel-142' />
+Note that JSON text sequence writers may (and should) use CR LF as the text separator where the end-of-line marker is expected to be CR LF.</div>
+<h2 class="section"><span class="section_label">3</span> <a id='magicparlabel-143' />
+<a id="sec_Use_for_Logfiles" />
+Use for Logfiles, or How to Resynchronize Following Truncated entries</h2>
+<div class="standard"><a id='magicparlabel-144' />
+The JSON Text Sequence format is useful for logfiles, as those are generally (and atomically) appended to on an ongoing basis. I.e., logfiles are of indeterminate length, at least right up until they are closed.</div>
+
+<div class="standard"><a id='magicparlabel-145' />
+The partial-write ambiguities described in <a href="#sub_Partial_write_ambiguities">2.1.1</a> come up in the case of logfiles.</div>
+
+<div class="standard"><a id='magicparlabel-146' />
+As long as all texts in the logfile sequence are followed by a newline, it is possible to detect a subsequent JSON text written after an entry that fails to parse: either the first or the second subsequent, complete JSON texts. <a href="#fig_ABNF_for_resynchronization">2</a> shows an ABNF rule for detecting the boundary between a non-truncated [and some truncated] JSON text and the next JSON text in a sequence. This rule assumes that only valid JSON texts are written to a sequence.</div>
+
+<div class="standard"><a id='magicparlabel-147' />
+</div>
+<div class='float float-figure'><div class="plain_layout"><a id='magicparlabel-151' />
 </div>
 <div class='float float-listings'><pre>  boundary = endchar *text-sep *ws startchar
   text-sep = *(SP / HTAB / CR) LF ; these are from RFC5234
@@ -411,87 +501,121 @@ Fortunately, as long as all texts in the logfile sequence are followed by a newl
   ws = &lt;given by RFC7159&gt;</pre></div>
 
 
-<div class="plain_layout"><a id='magicparlabel-130' />
-<div class='float-caption float-caption-figure'>Figure 2:<div class="plain_layout"><a id='magicparlabel-134' />
+<div class="plain_layout"><a id='magicparlabel-160' />
+<div class='float-caption float-caption-figure'>Figure 2:<div class="plain_layout"><a id='magicparlabel-164' />
 <a id="fig_ABNF_for_resynchronization" />
 ABNF for resynchronization</div>
 </div></div>
 </div>
 
 
-<div class="standard"><a id='magicparlabel-135' />
+<div class="standard"><a id='magicparlabel-165' />
 To resynchronize after failing to parse a JSON text, simply search for a boundary as described in figure 2. A boundary found this way might be the boundary between the truncated entry and the subsequent entry, or it might be a subsequent boundary.</div>
 
-<div class="standard"><a id='magicparlabel-136' />
-Scanning backwards for boundaries may not work reliably unless JSON texts written to logfiles are stripped of internal newlines.</div>
-<h2 class="section"><span class="section_label">4</span> <a id='magicparlabel-137' />
+<div class="standard"><a id='magicparlabel-166' />
+This method does not support scanning backwards for boundaries.</div>
+
+<div class="standard"><a id='magicparlabel-167' />
+To make resynchronization reliable, and work both forwards and backwards, the writer MUST first ensure that the JSON text being written is valid, and SHOULD apply either (or both) of the following:</div>
+
+<ol class="enumerate"><li class="enumerate_item"><a id='magicparlabel-168' />
+Remove internal newlines (not including escaped newlines in strings) from any JSON text being written.</li>
+<li class="enumerate_item"><a id='magicparlabel-169' />
+Prefix any JSON text with a null value and a newline. The append write must still be atomic (one write), and contain both texts.</li>
+</ol>
+<div class="standard"><a id='magicparlabel-170' />
+Method #1 permits scanning for newlines (in either direction) as the resynchronization method.</div>
+
+<div class="standard"><a id='magicparlabel-171' />
+Method #2 permits scanning for &ldquo;null&rdquo; LF (in either direction) as the resynchronization method.</div>
+
+<div class="standard"><a id='magicparlabel-172' />
+Consider a JSON text sequence such as:</div>
+
+<div class="standard"><a id='magicparlabel-173' />
+</div>
+<div class='float float-listings'><pre> null
+ { "foo":"hello world" }
+ "a broken writenull
+ "a complete write"</pre></div>
+
+
+<div class="standard"><a id='magicparlabel-181' />
+Resynchronization methods #1 and #2 will correctly detect that the third line is an incomplete JSON text, and that the next complete text starts at the fourth line. We can't tell which of method #1 or #2 the writer was using, but either method works for the parser. The parser SHOULD know which method the writer was using, as to know whether to discard the nulls, and whether to attempt resynchronization at all.</div>
+
+<div class="standard"><a id='magicparlabel-182' />
+Method #1 is RECOMMENDED for JSON text sequence logfile writers.</div>
+<h2 class="section"><span class="section_label">4</span> <a id='magicparlabel-183' />
 <a id="sec_Security_Considerations" />
 Security Considerations</h2>
-<div class="standard"><a id='magicparlabel-138' />
-All the security considerations of JSON <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-142' />
+<div class="standard"><a id='magicparlabel-184' />
+All the security considerations of JSON <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-188' />
 RFC7159</div>
 </div> apply.</div>
 
-<div class="standard"><a id='magicparlabel-143' />
+<div class="standard"><a id='magicparlabel-189' />
 There is no end of sequence indicator. This means that &ldquo;end of file&rdquo;, &ldquo;end of transmission&rdquo;, and so on, can be indistinguishable from a logical end of sequence. Applications where this matters should denote end of sequence by convention (e.g., Content-Length in HTTP).</div>
 
-<div class="standard"><a id='magicparlabel-144' />
-JSON text sequence parsers based on non-incremental, non-online JSON text parsers will not be able to efficiently parser JSON texts in which newlines appear; attempting to parse such sequences with non-incremental, non-online JSON text parsers creates a compute resource exhaustion vulnerability.</div>
+<div class="standard"><a id='magicparlabel-190' />
+The resynchronization ABNF heuristic is imperfect and might skip a valid entry following a truncated one. Purposefully appending a truncated (or invalid) JSON text to a JSON text sequence logfile can cause the subsequent entry to be invisible.</div>
 
-<div class="standard"><a id='magicparlabel-145' />
-The resynchronization heuristic for logfiles is imperfect and might skip a valid entry following a truncated one. Purposefully appending a truncated (or invalid) JSON text to a JSON text sequence logfile can cause the subsequent entry to be invisible. Logfile writers SHOULD validate (parse) any untrusted JSON text inputs and SHOULD remove internal newlines from them, thus enabling reliable backwards scanning for sequence element boundaries. Alternatively, logfile writers might write texts in sequences of two texts, the first being meaningless by convention. Of course, logfile writers SHOULD also ensure that their writes are atomic, at least in so far as not interleaving with other writers' writes.</div>
-<h2 class="section"><span class="section_label">5</span> <a id='magicparlabel-146' />
+<div class="standard"><a id='magicparlabel-191' />
+JSON text sequence writers MUST validate (parse) any JSON text inputs from untrusted third parties.</div>
+
+<div class="standard"><a id='magicparlabel-192' />
+JSON text sequence logfile writers SHOULD apply one of the resynchronization methods described in <a href="#fig_ABNF_for_resynchronization">2</a>, preferably method #1.</div>
+<h2 class="section"><span class="section_label">5</span> <a id='magicparlabel-193' />
 <a id="sec_IANA_Considerations" />
 IANA Considerations</h2>
-<div class="standard"><a id='magicparlabel-147' />
+<div class="standard"><a id='magicparlabel-194' />
 The MIME media type for JSON text sequences is application/json-seq.</div>
 
-<div class="standard"><a id='magicparlabel-148' />
+<div class="standard"><a id='magicparlabel-195' />
 Type name: application</div>
 
-<div class="standard"><a id='magicparlabel-149' />
+<div class="standard"><a id='magicparlabel-196' />
 Subtype name: json-seq</div>
 
-<div class="standard"><a id='magicparlabel-150' />
+<div class="standard"><a id='magicparlabel-197' />
 Required parameters: n/a</div>
 
-<div class="standard"><a id='magicparlabel-151' />
+<div class="standard"><a id='magicparlabel-198' />
 Optional parameters: n/a</div>
 
-<div class="standard"><a id='magicparlabel-152' />
+<div class="standard"><a id='magicparlabel-199' />
 Encoding considerations: binary</div>
 
-<div class="standard"><a id='magicparlabel-153' />
+<div class="standard"><a id='magicparlabel-200' />
 Security considerations: See &lt;this document, once published&gt;, <a href="#sec_Security_Considerations">4</a>.</div>
 
-<div class="standard"><a id='magicparlabel-154' />
+<div class="standard"><a id='magicparlabel-201' />
 Interoperability considerations: Described herein.</div>
 
-<div class="standard"><a id='magicparlabel-155' />
+<div class="standard"><a id='magicparlabel-202' />
 Published specification: &lt;this document, once published&gt;.</div>
 
-<div class="standard"><a id='magicparlabel-156' />
+<div class="standard"><a id='magicparlabel-203' />
 Applicat<a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">rfc2119</a>ions that use this media type: JSON text sequences have been used in applications written with the jq programming language.</div>
-<h2 class="section"><span class="section_label">6</span> <a id='magicparlabel-157' />
+<h2 class="section"><span class="section_label">6</span> <a id='magicparlabel-204' />
 <a id="sec_References" />
 Normative References</h2>
-<div class="standard"><a id='magicparlabel-158' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-162' />
+<div class="standard"><a id='magicparlabel-205' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-209' />
 <a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">rfc2119</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-163' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-167' />
+<div class="standard"><a id='magicparlabel-210' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-214' />
 <a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">rfc5234</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-168' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-172' />
+<div class="standard"><a id='magicparlabel-215' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-219' />
 <a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7159.xml">rfc7159</a></div>
 </div></div>
-<h2 class="section"><span class="section_label">7</span> <a id='magicparlabel-173' />
+<h2 class="section"><span class="section_label">7</span> <a id='magicparlabel-220' />
 Acknowledgements</h2>
-<div class="standard"><a id='magicparlabel-174' />
+<div class="standard"><a id='magicparlabel-221' />
 Phillip Hallam-Baker proposed the use of JSON text sequences for logfiles and pointed out the need for resynchronization. James Manger contributed the ABNF for resynchronization.</div>
 </body>
 </html>
