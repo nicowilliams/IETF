@@ -1,0 +1,377 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en"><head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/"><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>Kerberos Combined Password and One-Time Password (OTP) Pre-Authentication</title><style type="text/css" title="Xml2Rfc (sans serif)">
+a {
+  text-decoration: none;
+}
+a.smpl {
+  color: black;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:active {
+  text-decoration: underline;
+}
+address {
+  margin-top: 1em;
+  margin-left: 2em;
+  font-style: normal;
+}
+body {
+  color: black;
+  font-family: verdana, helvetica, arial, sans-serif;
+  font-size: 10pt;
+  margin-right: 2em;
+}
+cite {
+  font-style: normal;
+}
+dl {
+  margin-left: 2em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+dl p {
+  margin-left: 0em;
+}
+dt {
+  margin-top: .5em;
+}
+h1 {
+  font-size: 14pt;
+  line-height: 21pt;
+  page-break-after: avoid;
+}
+h1.np {
+  page-break-before: always;
+}
+h1 a {
+  color: #333333;
+}
+h2 {
+  font-size: 12pt;
+  line-height: 15pt;
+  page-break-after: avoid;
+}
+h3, h4, h5, h6 {
+  font-size: 10pt;
+  page-break-after: avoid;
+}
+h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: black;
+}
+img {
+  margin-left: 3em;
+}
+li {
+  margin-left: 2em;
+}
+ol {
+  margin-left: 2em;
+}
+ol.la {
+  list-style-type: lower-alpha;
+}
+ol.ua {
+  list-style-type: upper-alpha;
+}
+ol p {
+  margin-left: 0em;
+}
+p {
+  margin-left: 2em;
+}
+pre {
+  margin-left: 3em;
+  background-color: lightyellow;
+  padding: .25em;
+  page-break-inside: avoid;
+}
+pre.text2 {
+  border-style: dotted;
+  border-width: 1px;
+  background-color: #f0f0f0;
+  width: 69em;
+}
+pre.inline {
+  background-color: white;
+  padding: 0em;
+}
+pre.text {
+  border-style: dotted;
+  border-width: 1px;
+  background-color: #f8f8f8;
+  width: 69em;
+}
+pre.drawing {
+  border-style: solid;
+  border-width: 1px;
+  background-color: #f8f8f8;
+  padding: 2em;
+}
+table {
+  margin-left: 2em;
+}
+table.header {
+  border-spacing: 1px;
+  width: 95%;
+  font-size: 10pt;
+  color: white;
+}
+td.top {
+  vertical-align: top;
+}
+td.topnowrap {
+  vertical-align: top;
+  white-space: nowrap; 
+}
+table.header td {
+  background-color: gray;
+  width: 50%;
+}
+table.header a {
+  color: white;
+}
+td.reference {
+  vertical-align: top;
+  white-space: nowrap;
+  padding-right: 1em;
+}
+thead {
+  display:table-header-group;
+}
+ul.toc, ul.toc ul {
+  list-style: none;
+  margin-left: 1.5em;
+  padding-left: 0em;
+}
+ul.toc li {
+  line-height: 150%;
+  font-weight: bold;
+  font-size: 10pt;
+  margin-left: 0em;
+}
+ul.toc li li {
+  line-height: normal;
+  font-weight: normal;
+  font-size: 9pt;
+  margin-left: 0em;
+}
+li.excluded {
+  font-size: 0pt;
+}
+ul p {
+  margin-left: 0em;
+}
+
+.comment {
+  background-color: yellow;
+}
+.center {
+  text-align: center;
+}
+.error {
+  color: red;
+  font-style: italic;
+  font-weight: bold;
+}
+.figure {
+  font-weight: bold;
+  text-align: center;
+  font-size: 9pt;
+}
+.filename {
+  color: #333333;
+  font-weight: bold;
+  font-size: 12pt;
+  line-height: 21pt;
+  text-align: center;
+}
+.fn {
+  font-weight: bold;
+}
+.hidden {
+  display: none;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.title {
+  color: #990000;
+  font-size: 18pt;
+  line-height: 18pt;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 36pt;
+}
+.vcardline {
+  display: block;
+}
+.warning {
+  font-size: 14pt;
+  background-color: yellow;
+}
+
+
+@media print {
+  .noprint {
+    display: none;
+  }
+  
+  a {
+    color: black;
+    text-decoration: none;
+  }
+
+  table.header {
+    width: 90%;
+  }
+
+  td.header {
+    width: 50%;
+    color: black;
+    background-color: white;
+    vertical-align: top;
+    font-size: 12pt;
+  }
+
+  ul.toc a::after {
+    content: leader('.') target-counter(attr(href), page);
+  }
+  
+  ul.ind li li a {
+    content: target-counter(attr(href), page);
+  }
+  
+  .print2col {
+    column-count: 2;
+    -moz-column-count: 2;
+    column-fill: auto;
+  }
+}
+
+@page {
+  @top-left {
+       content: "Internet-Draft"; 
+  } 
+  @top-right {
+       content: "June 2014"; 
+  } 
+  @top-center {
+       content: "Combined Password+OTP"; 
+  } 
+  @bottom-left {
+       content: "Williams"; 
+  } 
+  @bottom-center {
+       content: "Expires December 26, 2014"; 
+  } 
+  @bottom-right {
+       content: "[Page " counter(page) "]"; 
+  } 
+}
+
+@page:first { 
+    @top-left {
+      content: normal;
+    }
+    @top-right {
+      content: normal;
+    }
+    @top-center {
+      content: normal;
+    }
+}
+</style><link rel="Contents" href="#rfc.toc"><link rel="Author" href="#rfc.authors"><link rel="Copyright" href="#rfc.copyrightnotice"><link rel="Chapter" title="1 Introduction and Motivation" href="#rfc.section.1"><link rel="Chapter" title="2 Design of the new combined password and OTP pre-authentication" href="#rfc.section.2"><link rel="Chapter" title="3 New string2key functionality" href="#rfc.section.3"><link rel="Chapter" title="4 Security Considerations" href="#rfc.section.4"><link rel="Chapter" title="5 IANA Considerations" href="#rfc.section.5"><link rel="Chapter" title="6 Acknowledgements" href="#rfc.section.6"><link rel="Chapter" href="#rfc.section.7" title="7 Normative References"><link rel="Appendix" title="A Complete ASN.1 Module" href="#rfc.section.A"><meta name="generator" content="http://greenbytes.de/tech/webdav/rfc2629.xslt, Revision 1.580, 2012-06-03 11:18:18, XSLT vendor: SAXON 9.1.0.8 from Saxonica http://www.saxonica.com/"><meta name="keywords" content="Internet-Draft"><link rel="schema.dct" href="http://purl.org/dc/terms/"><meta name="dct.creator" content="Williams, N."><meta name="dct.identifier" content="urn:ietf:id:draft-williams-kitten-password_and-otp-00"><meta name="dct.issued" scheme="ISO8601" content="2014-06-24"><meta name="dct.abstract" content="This document describes a Kerberos pre-authentication method that combines passwords and one-time passwords (OTPs). Messages are transmitted within tunnels provided by the Kerberos flexible authentication secure tunneling (FAST) pre-authentication method."><meta name="description" content="This document describes a Kerberos pre-authentication method that combines passwords and one-time passwords (OTPs). Messages are transmitted within tunnels provided by the Kerberos flexible authentication secure tunneling (FAST) pre-authentication method."></head><body><table class="header"><tbody><tr><td class="left">Network Working Group</td><td class="right">N. Williams</td></tr><tr><td class="left">Internet-Draft</td><td class="right">Cryptonector</td></tr><tr><td class="left">Intended status: Standards Track</td><td class="right">June 24, 2014</td></tr><tr><td class="left">Expires: December 26, 2014</td><td class="right"></td></tr></tbody></table><p class="title">Kerberos Combined Password and One-Time Password (OTP) Pre-Authentication<br><span class="filename">draft-williams-kitten-password_and-otp-00</span></p><h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1><p>This document describes a Kerberos pre-authentication method that combines passwords and one-time passwords (OTPs). Messages are transmitted within tunnels provided by the Kerberos flexible authentication secure tunneling (FAST) pre-authentication method.</p><h1><a id="rfc.status" href="#rfc.status">Status of this Memo</a></h1><p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p><p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF). Note that other groups may also distribute working documents as Internet-Drafts. The list of current Internet-Drafts is at <a href="http://datatracker.ietf.org/drafts/current/">http://datatracker.ietf.org/drafts/current/</a>.</p><p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time. It is inappropriate to use Internet-Drafts as reference material or to cite them other than as &#8220;work in progress&#8221;.</p><p>This Internet-Draft will expire on December 26, 2014.</p><h1><a id="rfc.copyrightnotice" href="#rfc.copyrightnotice">Copyright Notice</a></h1><p>Copyright © 2014 IETF Trust and the persons identified as the document authors. All rights reserved.</p><p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (<a href="http://trustee.ietf.org/license-info">http://trustee.ietf.org/license-info</a>) in effect on the date of publication of this document. Please review these documents carefully, as they describe your rights and restrictions with respect to this document. Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p><hr class="noprint"><h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1><ul class="toc"><li>1.&nbsp;&nbsp;&nbsp;<a href="#d1e214">Introduction and Motivation</a><ul><li>1.1&nbsp;&nbsp;&nbsp;<a href="#d1e263">Conventions used in this document</a></li></ul></li><li>2.&nbsp;&nbsp;&nbsp;<a href="#sec_Design">Design of the new combined password and OTP pre-authentication</a><ul><li>2.1&nbsp;&nbsp;&nbsp;<a href="#d1e298">Messages</a></li><li>2.2&nbsp;&nbsp;&nbsp;<a href="#d1e341">Protocol exchanges</a></li><li>2.3&nbsp;&nbsp;&nbsp;<a href="#d1e387">Reply key computation</a></li></ul></li><li>3.&nbsp;&nbsp;&nbsp;<a href="#d1e402">New string2key functionality</a></li><li>4.&nbsp;&nbsp;&nbsp;<a href="#sec_Security_Considerations">Security Considerations</a></li><li>5.&nbsp;&nbsp;&nbsp;<a href="#sec_IANA_Considerations">IANA Considerations</a></li><li>6.&nbsp;&nbsp;&nbsp;<a href="#d1e511">Acknowledgements</a></li><li>7.&nbsp;&nbsp;&nbsp;<a href="#rfc.references">Normative References</a></li><li><a href="#rfc.authors">Author's Address</a></li><li>A.&nbsp;&nbsp;&nbsp;<a href="#sec_Complete_ASN_1_Module">Complete ASN.1 Module</a></li></ul><hr class="noprint"><h1 id="rfc.section.1" class="np"><a href="#rfc.section.1">1.</a>&nbsp;<a id="d1e214" href="#d1e214">Introduction and Motivation</a></h1><p id="rfc.section.1.p.1">There exist pre-authentication methods for Kerberos <a href="#RFC4120"><cite title="The Kerberos Network Authentication Service (V5)">[RFC4120]</cite></a> for using passwords (PA-ENC-TIMESTAMP <a href="#RFC4120"><cite title="The Kerberos Network Authentication Service (V5)">[RFC4120]</cite></a>) or OTP <a href="#RFC6560"><cite title="One-Time Password (OTP) Pre-Authentication">[RFC6560]</cite></a>. However, it is currently not possible to combine these for use at the same time for a variety of reasons, including insufficiencies in the generalized pre-authentication framework (GPAF) <a href="#RFC6113"><cite title="A Generalized Framework for Kerberos Pre-Authentication">[RFC6113]</cite></a> and an inability to select from amongst multiple passwords for the same principal:</p><p id="rfc.section.1.p.2"> </p><ul><li>GPAF does not provide a way for the KDC to indicate the combination subsets of pre-authentication methods that may be used, nor even the order in which they must be attempted;</li><li>GPAF does not provide a way for multiple pre-authentication methods to be used in an optimal manner (optimal as to network round trips);</li><li>No implementations exist demonstrating that GPAF's pre-authentication method combination facility works;</li><li>A GPAF password and OTP combination (with existing pre-authentication methods) does not protect the OTP payloads with both the FAST tunnel's protection and a key derived from the password-based pre-authentication method;</li><li>The existing password-based pre-authentication method's notion of opaque string2key function parameters has not worked out well.</li></ul><h2 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1</a>&nbsp;<a id="d1e263" href="#d1e263">Conventions used in this document</a></h2><p id="rfc.section.1.1.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119"><cite title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</cite></a>.</p><hr class="noprint"><h1 id="rfc.section.2" class="np"><a href="#rfc.section.2">2.</a>&nbsp;<a id="sec_Design" href="#sec_Design">Design of the new combined password and OTP pre-authentication</a></h1><p id="rfc.section.2.p.1">This new pre-authentication method, henceforth PA-PW-OTP, is a simple iteration on the existing PA-ENC-TIMESTAMP pre-authentication method, but carrying PA-OTP-* pre-authentication messages <a href="#RFC6560"><cite title="One-Time Password (OTP) Pre-Authentication">[RFC6560]</cite></a> in an EncryptedData payload. That is, the PA-OTP-* messages are double-tunneled, with a FAST outer tunnel and a password-based inner tunnel. The new method's reply key is the result of a combination of the OTP method's reply key and the password-derived key and challenge.</p><p id="rfc.section.2.p.2">This FAST factor provides the following facilities (as defined in [RFC6113]): client-authentication, replacing-reply-key, and authentication of the KDC to the client. It does not provide the strengthening-reply-key facility.</p><h2 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1</a>&nbsp;<a id="d1e298" href="#d1e298">Messages</a></h2><p id="rfc.section.2.1.p.1">We define four pre-authentication messages (see <a href="#sec_Complete_ASN_1_Module" title="Complete ASN.1 Module">Appendix&nbsp;A</a>):</p><p id="rfc.section.2.1.p.2"> </p><dl><dt>PA-PWOTP-REQUEST-PARAMS</dt><dd>Request string2key parameters.</dd><dt>PA-PWOTP-RESPONSE-PARAMS</dt><dd>Response to PA-PWOTP-REQUEST-PARAMS.</dd><dt>PA-PWOTP-REQUEST</dt><dd>Request containing an EncryptedData tunneling the OTP PA-DATA.</dd><dt>PA-PWOTP-RESPONSE</dt><dd>Response containing an EncryptedData tunneling the OTP PA-DATA and/or error information.</dd></dl><p id="rfc.section.2.1.p.3">If state needs to be kept by the double-tunneled pre-authentication method, then it should use PA-FX-COOKIE, per the GPAF <a href="#RFC6113"><cite title="A Generalized Framework for Kerberos Pre-Authentication">[RFC6113]</cite></a>.</p><h2 id="rfc.section.2.2"><a href="#rfc.section.2.2">2.2</a>&nbsp;<a id="d1e341" href="#d1e341">Protocol exchanges</a></h2><p id="rfc.section.2.2.p.1">First, note that realms MAY (and probably will) maintain a separate password for use with this method than for use with the traditional PA-ENC-TIMESTAMP method (where it remains available).</p><p id="rfc.section.2.2.p.2"> <span class="comment" id="rfc.comment.1">[<a href="#rfc.comment.1" class="smpl">rfc.comment.1</a>: We may need to revise RFC3244 to permit changing of this password in that case! -Nico]</span> </p><p id="rfc.section.2.2.p.3">An AS client first decides to use this pre-authentication methods. This choice might be a result of local configuration), or the client might learn from attempting an AS exchange which the AS then rejects with PA data indicating that this method is available.</p><p id="rfc.section.2.2.p.4">An AS indicates availability of this pre-authentication method by including a PA-DATA of type PA-PWOTP-RESPONSE-PARAMS.</p><p id="rfc.section.2.2.p.5">An AS client wishing to use this pre-authentication method but lacking knowledge of available string-to-key parameters MUST send an AS-REQ with PA-PWOTP-REQUEST-PARAMS; the AS will respond with PA-PWOTP-RESPONSE-PARAMS, if this method is available.</p><p id="rfc.section.2.2.p.6">Note that a PA-PWOTP-RESPONSE-PARAMS PADATA MAY include a challenge, which the client then MUST include in the subsequent request.</p><p id="rfc.section.2.2.p.7">Once a client has the string-to-key parameters, the client computes a key derived from the principal's password as follows:</p><p id="rfc.section.2.2.p.9"> </p><div id="rfc.figure.u.1"></div><pre> if (s2kparams.salt)
+    salt = s2kparams.salt
+ else
+    salt = ""
+ if (s2kparams.salt_cname)
+    salt = salt || "/" || cname
+ if (s2kparams.salt_crealm)
+    salt = salt || "@" || crealm
+ precursor_key = string2key(s2kparams, pw, salt)
+ pwotp-pwkey = pseudo-random(precursor_key, cnonce)</pre><p id="rfc.section.2.2.p.10">The client then produces the RFC6560 OTP PADATA, wraps it in a PWOTP-REQ-PAYLOAD, encrypts that in a key derived from the pwotp-pwkey with key usage [TBD], and produces the PA-PWOTP-REQUEST for use in the AS-REQ. The client sends the AS-REQ.</p><p id="rfc.section.2.2.p.11">The AS processes the request, notes the use of this method, and if it is acceptable, computes the pwotp-pwkey as described above and attempts to decrypt the payload. If the decryption fails, the AS responds with a KRB-ERROR PDU, otherwise it validates the challenge (if present, or rejects if absent but should have been present) and the timestamps (also if present, which then must be within the skew window). Either a challenge, timestamps, or both, must be present.</p><p id="rfc.section.2.2.p.12">The AS responds with a KRB-ERROR and PADATA for this pre-authentication method when the method can be continued.</p><p id="rfc.section.2.2.p.13">On success the AS responds with an AS-REP with a Ticket and an optional PADATA for this method.</p><h2 id="rfc.section.2.3"><a href="#rfc.section.2.3">2.3</a>&nbsp;<a id="d1e387" href="#d1e387">Reply key computation</a></h2><p id="rfc.section.2.3.p.1">The reply key is produce by applying the GPAF KRB-FX-CF2() to the reply key output by the tunneled pre-authentication method, and the key derived from the principal's password, as follows:</p><p id="rfc.section.2.3.p.3"> </p><div id="rfc.figure.u.2"></div><pre> padata_number = &lt;number of _this_ pre-authentication method
+                  as used in the bearing PDU&gt;
+ pwkey = &lt;see above&gt;
+ pwpepper = "pwotp-pwkey" || tostring(padata_number)
+ inner_reply_key = &lt;from inner pre-authentication method&gt;
+ inner_pepper = "pwotp-inner" || tostring(padata_number)
+ key = KRB-FX-CF2(pwkey, pwpepper, inner_reply_key, inner_pepper)</pre><hr class="noprint"><h1 id="rfc.section.3" class="np"><a href="#rfc.section.3">3.</a>&nbsp;<a id="d1e402" href="#d1e402">New string2key functionality</a></h1><p id="rfc.section.3.p.1">This preauthentication method supports more than one string-to-key function per-enctype, and even goes so far as to permit separation of string-to-key functions from enctypes. It does this by using a number to identify a string-to-key function in the method's messages.</p><p id="rfc.section.3.p.2">Additionally, in order to correct a flaw in the Kerberos cryptosystem <a href="#RFC3961"><cite title="Encryption and Checksum Specifications for Kerberos 5">[RFC3961]</cite></a>, we no longer treat string-to-key parameters as opaque. Making string-to-key function parameters opaque complicated the administration of those parameters: indeed, no protocol has been deployed by which the opaque string-to-key parameters could be set, thus leaving them effectively run-time constants. The likely cause of this failure is the string-to-key parameters' opacity: each enctype would have to define a sub-protocol for administration! Instead we provide for up to four non-opaque parameters: three numbers and a salt. The three numeric string-to-key parameters are expected to have function-specific meanings and valid ranges, but otherwise they should be sufficient for expressing at least three dimensions of computational expense (e.g., memory and time complexity).</p><p id="rfc.section.3.p.3">Initially only one string-to-key function is defined, with number 0: the one defined by the enctype indicated in the message. In the future we may define additional string-to-key functions that will not be associated with any one enctype; those functions will output an octet string from which a protocol key will be derived by use of an enctype's random-to-key() function.</p><p id="rfc.section.3.p.4">The choice of string-to-key parameter set is left to the client, which must choose from those offerings that the client supports.</p><hr class="noprint"><h1 id="rfc.section.4" class="np"><a href="#rfc.section.4">4.</a>&nbsp;<a id="sec_Security_Considerations" href="#sec_Security_Considerations">Security Considerations</a></h1><p id="rfc.section.4.p.1">Knowledge of an OTP by an attacker does not allow the attacker to compromise the protocol. Knowledge of the password does not permit an attacker to compromise the protocol either: because we use a FAST tunnel. It is important that clients use strong FAST armor tickets.</p><p id="rfc.section.4.p.2">The authentication service (AS) of the KDC gets to see the OTP payloads.</p><hr class="noprint"><h1 id="rfc.section.5" class="np"><a href="#rfc.section.5">5.</a>&nbsp;<a id="sec_IANA_Considerations" href="#sec_IANA_Considerations">IANA Considerations</a></h1><p id="rfc.section.5.p.1"> <span class="comment" id="rfc.comment.2">[<a href="#rfc.comment.2" class="smpl">rfc.comment.2</a>: TBD. Obviously the various PA-DATAs will need numeric assigments.]</span> </p><hr class="noprint"><h1 id="rfc.section.6" class="np"><a href="#rfc.section.6">6.</a>&nbsp;<a id="d1e511" href="#d1e511">Acknowledgements</a></h1><p id="rfc.section.6.p.1">Requirements have been identified by Jeff Altman.</p><h1 class="np" id="rfc.references"><a href="#rfc.section.7" id="rfc.section.7">7.</a> Normative References</h1><table><tr><td class="reference"><b id="RFC2119">[RFC2119]</b></td><td class="top"><a href="mailto:sob@harvard.edu" title="Harvard University">Bradner, S.</a>, &#8220;<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>&#8221;, BCP&nbsp;14, RFC&nbsp;2119, March&nbsp;1997.</td></tr><tr><td class="reference"><b id="RFC3961">[RFC3961]</b></td><td class="top">Raeburn, K., &#8220;<a href="http://tools.ietf.org/html/rfc3961">Encryption and Checksum Specifications for Kerberos 5</a>&#8221;, RFC&nbsp;3961, February&nbsp;2005.</td></tr><tr><td class="reference"><b id="RFC4120">[RFC4120]</b></td><td class="top">Neuman, C., Yu, T., Hartman, S., and K. Raeburn, &#8220;<a href="http://tools.ietf.org/html/rfc4120">The Kerberos Network Authentication Service (V5)</a>&#8221;, RFC&nbsp;4120, July&nbsp;2005.</td></tr><tr><td class="reference"><b id="RFC6113">[RFC6113]</b></td><td class="top">Hartman, S. and L. Zhu, &#8220;<a href="http://tools.ietf.org/html/rfc6113">A Generalized Framework for Kerberos Pre-Authentication</a>&#8221;, RFC&nbsp;6113, April&nbsp;2011.</td></tr><tr><td class="reference"><b id="RFC6560">[RFC6560]</b></td><td class="top">Richards, G., &#8220;<a href="http://tools.ietf.org/html/rfc6560">One-Time Password (OTP) Pre-Authentication</a>&#8221;, RFC&nbsp;6560, April&nbsp;2012.</td></tr></table><hr class="noprint"><div class="avoidbreak"><h1 id="rfc.authors" class="np"><a href="#rfc.authors">Author's Address</a></h1><address class="vcard"><span class="vcardline"><span class="fn">Nicolas Williams</span><span class="n hidden"><span class="family-name">Williams</span><span class="given-name">Nicolas</span></span></span><span class="org vcardline">Cryptonector, LLC</span><span class="vcardline">EMail: <a href="mailto:nico@cryptonector.com"><span class="email">nico@cryptonector.com</span></a></span></address></div><hr class="noprint"><h1 id="rfc.section.A" class="np"><a href="#rfc.section.A">A.</a>&nbsp;<a id="sec_Complete_ASN_1_Module" href="#sec_Complete_ASN_1_Module">Complete ASN.1 Module</a></h1><p id="rfc.section.A.p.2"> </p><div id="rfc.figure.u.3"></div><pre> DEFINITIONS EXPLICIT TAGS ::=
+ BEGIN
+ IMPORTS
+        KerberosTime, KerberosFlags, EncryptionKey, Int32,
+        EncryptedData, LastReq, KerberosString, Microseconds
+        FROM KerberosV5Spec2 {iso(1) identified-organization(3)
+                              dod(6) internet(1) security(5)
+                              kerberosV5(2) modules(4)
+                              krb5spec2(2)}
+                              -- as defined in RFC 4120.
+      S2K-ID ::= Int32
+
+      S2K-PARAMS ::= SEQUENCE {
+        s2k-function [0] S2K-ID,
+        s2k-p0       [1] UInt32 OPTIONAL,
+        s2k-p1       [2] UInt32 OPTIONAL,
+        s2k-p2       [3] UInt32 OPTIONAL,
+        salt         [4] OCTET STRING OPTIONAL,
+        salt-cname   [5] BOOLEAN DEFAULT FALSE,
+        salt-crealm  [6] BOOLEAN DEFAULT FALSE,
+        enctype      [7] Int32 OPTIONAL,
+        ...
+      }
+
+      PA-PWOTP-REQUEST-PARAMS ::= SEQUENCE {
+        i-support [0] SEQUENCE (1..MAX) OF S2K-ID OPTIONAL,
+        ...
+      }
+
+      PA-PWOTP-RESPONSE-PARAMS ::= SEQUENCE {
+        s2kparams [0] SEQUENCE (1..MAX) OF S2K-PARAMS,
+        kdc_time  [1] KerberosTime,
+        kdc_usec  [2] Microseconds,
+        challenge [3] OCTET STRING OPTIONAL,
+        ...
+      }
+
+      PA-PWOTP-REQUEST ::= SEQUENCE {
+        s2k-used  [0] S2K-ID,
+        cnonce    [1] UInt32,
+        payload   [2] EncryptedData,
+                      -- containing PWOTP-REQ-PAYLOAD
+        ...
+      }
+
+      PWOTP-REQ-PAYLOAD ::= SEQUENCE {
+        time      [0] KerberosTime,
+        usec      [1] Microseconds,
+        challenge [2] OCTET STRING OPTIONAL,
+        otp-pa    [3] SEQUENCE OF PA-DATA,
+        ...
+      }
+
+      PA-PWOTP-RESPONSE ::= SEQUENCE {
+        time      [0] KerberosTime,
+        usec      [1] Microseconds,
+        challenge [2] OCTET STRING OPTIONAL,
+        otp-pa    [3] EncryptedData,
+                      -- Containing PWOTP-RESP-PAYLOAD
+        error     [4] KRB-ERROR OPTIONAL,
+        ...
+      }
+ 
+      PWOTP-RESP-PAYLOAD ::= SEQUENCE {
+        padata   [0] SEQUENCE OF PA-DATA,
+        kdc_time [1] KerberosTime,
+        kdc_usec [2] Microseconds,
+        ...
+      }
+ END</pre></body></html>

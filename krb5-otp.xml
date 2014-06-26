@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc tocindent="no"?>
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc tocindent="no"?>
+<?rfc comments="yes"?>
+<?rfc inline="yes"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!ENTITY rfc2119 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY rfc3961 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3961.xml">
+<!ENTITY rfc4120 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4120.xml">
+<!ENTITY rfc6113 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6113.xml">
+<!ENTITY rfc6560 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6560.xml">
+]>
+<rfc docName="draft-williams-kitten-password_and-otp-00" ipr="trust200902" category="std">
+  <front>
+    <title abbrev="Combined Password+OTP">Kerberos Combined Password and One-Time Password (OTP) Pre-Authentication</title>
+    <author initials="N." surname="Williams" fullname="Nicolas Williams">
+      <organization abbrev="Cryptonector">Cryptonector, LLC</organization>
+      <address>
+        <email>nico@cryptonector.com</email>
+      </address>
+    </author>
+    <date month="June" year="2014"/>
+    <area>
+Security Area
+</area>
+    <keyword>Internet-Draft</keyword>
+    <abstract>
+      <t>
+This document describes a Kerberos pre-authentication method that combines passwords and one-time passwords (OTPs). Messages are transmitted within tunnels provided by the Kerberos flexible authentication secure tunneling (FAST) pre-authentication method.</t>
+    </abstract>
+  </front>
+  <middle>
+    <section title="Introduction and Motivation" anchor="d1e214">
+      <t>
+There exist pre-authentication methods for Kerberos <xref target="RFC4120"/> for using passwords (PA-ENC-TIMESTAMP <xref target="RFC4120"/>) or OTP <xref target="RFC6560"/>. However, it is currently not possible to combine these for use at the same time for a variety of reasons, including insufficiencies in the generalized pre-authentication framework (GPAF) <xref target="RFC6113"/> and an inability to select from amongst multiple passwords for the same principal:</t>
+      <t>
+        <list style="symbols">
+          <t>
+GPAF does not provide a way for the KDC to indicate the combination subsets of pre-authentication methods that may be used, nor even the order in which they must be attempted;</t>
+          <t>
+GPAF does not provide a way for multiple pre-authentication methods to be used in an optimal manner (optimal as to network round trips);</t>
+          <t>
+No implementations exist demonstrating that GPAF's pre-authentication method combination facility works;</t>
+          <t>
+A GPAF password and OTP combination (with existing pre-authentication methods) does not protect the OTP payloads with both the FAST tunnel's protection and a key derived from the password-based pre-authentication method;</t>
+          <t>
+The existing password-based pre-authentication method's notion of opaque string2key function parameters has not worked out well.</t>
+        </list>
+      </t>
+      <section title="Conventions used in this document" anchor="d1e263">
+        <t>
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target="RFC2119"/>.</t>
+      </section>
+    </section>
+    <section title="Design of the new combined password and OTP pre-authentication" anchor="sec_Design">
+      <t>
+This new pre-authentication method, henceforth PA-PW-OTP, is a simple iteration on the existing PA-ENC-TIMESTAMP pre-authentication method, but carrying PA-OTP-* pre-authentication messages <xref target="RFC6560"/> in an EncryptedData payload. That is, the PA-OTP-* messages are double-tunneled, with a FAST outer tunnel and a password-based inner tunnel. The new method's reply key is the result of a combination of the OTP method's reply key and the password-derived key and challenge.</t>
+      <t>
+This FAST factor provides the following facilities (as defined in [RFC6113]): client-authentication, replacing-reply-key, and authentication of the KDC to the client. It does not provide the strengthening-reply-key facility. </t>
+      <section title="Messages" anchor="d1e298">
+        <t>
+We define four pre-authentication messages (see  <xref target="sec_Complete_ASN_1_Module"/>):</t>
+        <t>
+          <list style="hanging">
+            <t hangText="PA-PWOTP-REQUEST-PARAMS">
+ Request string2key parameters.</t>
+            <t hangText="PA-PWOTP-RESPONSE-PARAMS">
+ Response to PA-PWOTP-REQUEST-PARAMS.</t>
+            <t hangText="PA-PWOTP-REQUEST">
+ Request containing an EncryptedData tunneling the OTP PA-DATA.</t>
+            <t hangText="PA-PWOTP-RESPONSE">
+ Response containing an EncryptedData tunneling the OTP PA-DATA and/or error information.</t>
+          </list>
+        </t>
+        <t>
+If state needs to be kept by the double-tunneled pre-authentication method, then it should use PA-FX-COOKIE, per the GPAF <xref target="RFC6113"/>.</t>
+      </section>
+      <section title="Protocol exchanges" anchor="d1e341">
+        <t>
+First, note that realms MAY (and probably will) maintain a separate password for use with this method than for use with the traditional PA-ENC-TIMESTAMP method (where it remains available).</t>
+        <t>
+          <cref>
+We may need to revise RFC3244 to permit changing of this password in that case! -Nico</cref>
+        </t>
+        <t>
+An AS client first decides to use this pre-authentication methods. This choice might be a result of local configuration), or the client might learn from attempting an AS exchange which the AS then rejects with PA data indicating that this method is available.</t>
+        <t>
+An AS indicates availability of this pre-authentication method by including a PA-DATA of type PA-PWOTP-RESPONSE-PARAMS.</t>
+        <t>
+An AS client wishing to use this pre-authentication method but lacking knowledge of available string-to-key parameters MUST send an AS-REQ with PA-PWOTP-REQUEST-PARAMS; the AS will respond with PA-PWOTP-RESPONSE-PARAMS, if this method is available.</t>
+        <t>
+Note that a PA-PWOTP-RESPONSE-PARAMS PADATA MAY include a challenge, which the client then MUST include in the subsequent request.</t>
+        <t>
+Once a client has the string-to-key parameters, the client computes a key derived from the principal's password as follows:</t>
+        <t>
+</t>
+        <t>
+          <figure suppress-title="true" align="center">
+            <artwork> if (s2kparams.salt)
+    salt = s2kparams.salt
+ else
+    salt = ""
+ if (s2kparams.salt_cname)
+    salt = salt || "/" || cname
+ if (s2kparams.salt_crealm)
+    salt = salt || "@" || crealm
+ precursor_key = string2key(s2kparams, pw, salt)
+ pwotp-pwkey = pseudo-random(precursor_key, cnonce)</artwork>
+          </figure>
+        </t>
+        <t>
+The client then produces the RFC6560 OTP PADATA, wraps it in a PWOTP-REQ-PAYLOAD, encrypts that in a key derived from the pwotp-pwkey with key usage [TBD], and produces the PA-PWOTP-REQUEST for use in the AS-REQ. The client sends the AS-REQ.</t>
+        <t>
+The AS processes the request, notes the use of this method, and if it is acceptable, computes the pwotp-pwkey as described above and attempts to decrypt the payload. If the decryption fails, the AS responds with a KRB-ERROR PDU, otherwise it validates the challenge (if present, or rejects if absent but should have been present) and the timestamps (also if present, which then must be within the skew window). Either a challenge, timestamps, or both, must be present.</t>
+        <t>
+The AS responds with a KRB-ERROR and PADATA for this pre-authentication method when the method can be continued.</t>
+        <t>
+On success the AS responds with an AS-REP with a Ticket and an optional PADATA for this method.</t>
+      </section>
+      <section title="Reply key computation" anchor="d1e387">
+        <t>
+The reply key is produce by applying the GPAF KRB-FX-CF2() to the reply key output by the tunneled pre-authentication method, and the key derived from the principal's password, as follows:</t>
+        <t>
+</t>
+        <t>
+          <figure suppress-title="true" align="center">
+            <artwork> padata_number = &lt;number of _this_ pre-authentication method
+                  as used in the bearing PDU&gt;
+ pwkey = &lt;see above&gt;
+ pwpepper = "pwotp-pwkey" || tostring(padata_number)
+ inner_reply_key = &lt;from inner pre-authentication method&gt;
+ inner_pepper = "pwotp-inner" || tostring(padata_number)
+ key = KRB-FX-CF2(pwkey, pwpepper, inner_reply_key, inner_pepper)</artwork>
+          </figure>
+        </t>
+      </section>
+    </section>
+    <section title="New string2key functionality" anchor="d1e402">
+      <t>
+This preauthentication method supports more than one string-to-key function per-enctype, and even goes so far as to permit separation of string-to-key functions from enctypes. It does this by using a number to identify a string-to-key function in the method's messages.</t>
+      <t>
+Additionally, in order to correct a flaw in the Kerberos cryptosystem <xref target="RFC3961"/>, we no longer treat string-to-key parameters as opaque. Making string-to-key function parameters opaque complicated the administration of those parameters: indeed, no protocol has been deployed by which the opaque string-to-key parameters could be set, thus leaving them effectively run-time constants. The likely cause of this failure is the string-to-key parameters' opacity: each enctype would have to define a sub-protocol for administration! Instead we provide for up to four non-opaque parameters: three numbers and a salt. The three numeric string-to-key parameters are expected to have function-specific meanings and valid ranges, but otherwise they should be sufficient for expressing at least three dimensions of computational expense (e.g., memory and time complexity).</t>
+      <t>
+Initially only one string-to-key function is defined, with number 0: the one defined by the enctype indicated in the message. In the future we may define additional string-to-key functions that will not be associated with any one enctype; those functions will output an octet string from which a protocol key will be derived by use of an enctype's random-to-key() function.</t>
+      <t>
+The choice of string-to-key parameter set is left to the client, which must choose from those offerings that the client supports.</t>
+    </section>
+    <section title="Security Considerations" anchor="sec_Security_Considerations">
+      <t>
+Knowledge of an OTP by an attacker does not allow the attacker to compromise the protocol. Knowledge of the password does not permit an attacker to compromise the protocol either: because we use a FAST tunnel. It is important that clients use strong FAST armor tickets. </t>
+      <t>
+The authentication service (AS) of the KDC gets to see the OTP payloads.</t>
+    </section>
+    <section title="IANA Considerations" anchor="sec_IANA_Considerations">
+      <t>
+        <cref>
+TBD. Obviously the various PA-DATAs will need numeric assigments.</cref>
+      </t>
+    </section>
+    <section title="Acknowledgements" anchor="d1e511">
+      <t>
+Requirements have been identified by Jeff Altman.</t>
+    </section>
+  </middle>
+  <back>
+    <references title="Normative References">&rfc2119;
+&rfc3961;
+&rfc4120;
+&rfc6113;
+&rfc6560;
+</references>
+    <section title="Complete ASN.1 Module" anchor="sec_Complete_ASN_1_Module">
+      <t>
+</t>
+      <t>
+        <figure suppress-title="true" align="center">
+          <artwork> DEFINITIONS EXPLICIT TAGS ::=
+ BEGIN
+ IMPORTS
+        KerberosTime, KerberosFlags, EncryptionKey, Int32,
+        EncryptedData, LastReq, KerberosString, Microseconds
+        FROM KerberosV5Spec2 {iso(1) identified-organization(3)
+                              dod(6) internet(1) security(5)
+                              kerberosV5(2) modules(4)
+                              krb5spec2(2)}
+                              -- as defined in RFC 4120.
+      S2K-ID ::= Int32
+
+      S2K-PARAMS ::= SEQUENCE {
+        s2k-function [0] S2K-ID,
+        s2k-p0       [1] UInt32 OPTIONAL,
+        s2k-p1       [2] UInt32 OPTIONAL,
+        s2k-p2       [3] UInt32 OPTIONAL,
+        salt         [4] OCTET STRING OPTIONAL,
+        salt-cname   [5] BOOLEAN DEFAULT FALSE,
+        salt-crealm  [6] BOOLEAN DEFAULT FALSE,
+        enctype      [7] Int32 OPTIONAL,
+        ...
+      }
+
+      PA-PWOTP-REQUEST-PARAMS ::= SEQUENCE {
+        i-support [0] SEQUENCE (1..MAX) OF S2K-ID OPTIONAL,
+        ...
+      }
+
+      PA-PWOTP-RESPONSE-PARAMS ::= SEQUENCE {
+        s2kparams [0] SEQUENCE (1..MAX) OF S2K-PARAMS,
+        kdc_time  [1] KerberosTime,
+        kdc_usec  [2] Microseconds,
+        challenge [3] OCTET STRING OPTIONAL,
+        ...
+      }
+
+      PA-PWOTP-REQUEST ::= SEQUENCE {
+        s2k-used  [0] S2K-ID,
+        cnonce    [1] UInt32,
+        payload   [2] EncryptedData,
+                      -- containing PWOTP-REQ-PAYLOAD
+        ...
+      }
+
+      PWOTP-REQ-PAYLOAD ::= SEQUENCE {
+        time      [0] KerberosTime,
+        usec      [1] Microseconds,
+        challenge [2] OCTET STRING OPTIONAL,
+        otp-pa    [3] SEQUENCE OF PA-DATA,
+        ...
+      }
+
+      PA-PWOTP-RESPONSE ::= SEQUENCE {
+        time      [0] KerberosTime,
+        usec      [1] Microseconds,
+        challenge [2] OCTET STRING OPTIONAL,
+        otp-pa    [3] EncryptedData,
+                      -- Containing PWOTP-RESP-PAYLOAD
+        error     [4] KRB-ERROR OPTIONAL,
+        ...
+      }
+ 
+      PWOTP-RESP-PAYLOAD ::= SEQUENCE {
+        padata   [0] SEQUENCE OF PA-DATA,
+        kdc_time [1] KerberosTime,
+        kdc_usec [2] Microseconds,
+        ...
+      }
+ END</artwork>
+        </figure>
+      </t>
+    </section>
+  </back>
+</rfc>

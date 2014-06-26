@@ -1,0 +1,1402 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass docbook
+\use_default_options true
+\maintain_unincluded_children false
+\begin_local_layout
+Format 31
+
+InsetLayout Flex:PI_Strict
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_Strict
+End
+
+InsetLayout Flex:PI
+    LyXType Custom
+    HTMLTag div
+    LabelString PI
+End
+
+InsetLayout Flex:PI_SymRefs
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_SymRefs
+End
+
+InsetLayout Flex:PI_SortRefs
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_SortRefs
+End
+
+InsetLayout Flex:PI_TOC
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOC
+End
+
+InsetLayout Flex:PI_TOCIndent
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOCIndent
+End
+
+InsetLayout Flex:PI_TOCDepth
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOCDepth
+End
+
+InsetLayout Flex:PI_TOCNarrow
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOCNarrow
+End
+
+InsetLayout Flex:PI_TOCCompact
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOCCompact
+End
+
+InsetLayout Flex:PI_TOCAppendix
+    LyXType Custom
+    HTMLTag div
+    LabelString PI_TOCAppendix
+End
+
+InsetLayout Flex:DocName
+    LyXType Custom
+    HTMLTag div
+    LabelString DocName
+End
+
+InsetLayout Flex:IntendedStatus
+    LyXType Custom
+    HTMLTag div
+    LabelString IntendedStatus
+End
+
+InsetLayout Flex:Updates
+    LyXType Custom
+    HTMLTag div
+    LabelString Updates
+End
+
+InsetLayout Flex:Obsoletes
+    LyXType Custom
+    HTMLTag div
+    LabelString Obsoletes
+End
+
+InsetLayout Flex:SeriesNo
+    LyXType Custom
+    HTMLTag div
+    LabelString SeriesNo
+End
+
+InsetLayout Flex:RFCNumber
+    LyXType Custom
+    HTMLTag div
+    LabelString RFCNumber
+End
+
+InsetLayout Flex:IPR
+    LyXType Custom
+    HTMLTag div
+    LabelString IPR
+End
+
+InsetLayout Flex:IETFArea
+    LyXType Custom
+    HTMLTag div
+    LabelString IETFArea
+End
+
+InsetLayout Flex:IETFWorkingGroup
+    LyXType Custom
+    HTMLTag div
+    LabelString IETFWorkingGroup
+End
+
+InsetLayout Flex:XML2RFCKeyword
+    LyXType Custom
+    HTMLTag div
+    LabelString XML2RFCKeyword
+End
+
+InsetLayout Flex:TitleAbbrev
+    LyXType Custom
+    HTMLTag div
+    LabelString TitleAbbrev
+End
+
+InsetLayout Flex:AuthorRole
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthRole
+End
+
+InsetLayout Flex:AuthorInitials
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthInitials
+End
+
+InsetLayout Flex:AuthorSurname
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthSurname
+End
+
+InsetLayout Flex:AuthorOrg
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthOrg
+End
+
+InsetLayout Flex:AuthorOrgAbbrev
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthOrgAbbrev
+End
+
+InsetLayout Flex:AuthorEmailAddr
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthEmailAddr
+End
+
+InsetLayout Flex:AuthorAddrStreet
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthAddrStreet
+End
+
+InsetLayout Flex:AuthorAddrCity
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthAddrCity
+End
+
+InsetLayout Flex:AuthorAddrRegion
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthAddrRegion
+End
+
+InsetLayout Flex:AuthorAddrCode
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthAddrCode
+End
+
+InsetLayout Flex:AuthorAddrCountry
+    LyXType Custom
+    HTMLTag div
+    LabelString AuthAddrCountry
+End
+
+InsetLayout Flex:EntityXRef
+    LyXType Custom
+    HTMLTag div
+    LabelString EntityXRef
+End
+
+InsetLayout Flex:BibXML
+    LyXType Custom
+    HTMLTag div
+    LabelString BibXML
+End
+
+InsetLayout Flex:EmbeddedBibXML
+    LyXType Custom
+    HTMLTag div
+    LabelString EmbeddedBibXML
+End
+\end_local_layout
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman cmr
+\font_sans cmss
+\font_typewriter cmtt
+\font_default_family ttdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Kerberos Combined Password and One-Time Password (OTP) Pre-Authentication
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex DocName
+status open
+
+\begin_layout Plain Layout
+draft-williams-kitten-password_and-otp-00
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex IPR
+status open
+
+\begin_layout Plain Layout
+trust200902
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex IntendedStatus
+status open
+
+\begin_layout Plain Layout
+std
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex TitleAbbrev
+status open
+
+\begin_layout Plain Layout
+Combined Password+OTP
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex IETFArea
+status open
+
+\begin_layout Plain Layout
+Security Area
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex XML2RFCKeyword
+status open
+
+\begin_layout Plain Layout
+Internet-Draft
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex PI TOC
+status open
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex PI SymRefs
+status open
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex PI TOCIndent
+status open
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex PI
+status open
+
+\begin_layout Plain Layout
+comments="yes"
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex PI
+status open
+
+\begin_layout Plain Layout
+inline="yes"
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+Nicolas Williams
+\begin_inset Flex AuthorOrg
+status open
+
+\begin_layout Plain Layout
+Cryptonector, LLC
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex AuthorOrgAbbrev
+status open
+
+\begin_layout Plain Layout
+Cryptonector
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex AuthorEmailAddr
+status open
+
+\begin_layout Plain Layout
+nico@cryptonector.com
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+This document describes a Kerberos pre-authentication method that combines
+ passwords and one-time passwords (OTPs).
+ Messages are transmitted within tunnels provided by the Kerberos flexible
+ authentication secure tunneling (FAST) pre-authentication method.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction and Motivation
+\end_layout
+
+\begin_layout Standard
+There exist pre-authentication methods for Kerberos 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC4120
+\end_layout
+
+\end_inset
+
+ for using passwords (PA-ENC-TIMESTAMP 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC4120
+\end_layout
+
+\end_inset
+
+) or OTP 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC6560
+\end_layout
+
+\end_inset
+
+.
+ However, it is currently not possible to combine these for use at the same
+ time for a variety of reasons, including insufficiencies in the generalized
+ pre-authentication framework (GPAF) 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC6113
+\end_layout
+
+\end_inset
+
+ and an inability to select from amongst multiple passwords for the same
+ principal:
+\end_layout
+
+\begin_layout Itemize
+GPAF does not provide a way for the KDC to indicate the combination subsets
+ of pre-authentication methods that may be used, nor even the order in which
+ they must be attempted;
+\end_layout
+
+\begin_layout Itemize
+GPAF does not provide a way for multiple pre-authentication methods to be
+ used in an optimal manner (optimal as to network round trips);
+\end_layout
+
+\begin_layout Itemize
+No implementations exist demonstrating that GPAF's pre-authentication method
+ combination facility works;
+\end_layout
+
+\begin_layout Itemize
+A GPAF password and OTP combination (with existing pre-authentication methods)
+ does not protect the OTP payloads with both the FAST tunnel's protection
+ and a key derived from the password-based pre-authentication method;
+\end_layout
+
+\begin_layout Itemize
+The existing password-based pre-authentication method's notion of opaque
+ string2key function parameters has not worked out well.
+\end_layout
+
+\begin_layout Subsection
+Conventions used in this document
+\end_layout
+
+\begin_layout Standard
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+ "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are
+ to be interpreted as described in 
+\begin_inset Flex EntityXRef
+status open
+
+\begin_layout Plain Layout
+RFC2119
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Design"
+
+\end_inset
+
+Design of the new combined password and OTP pre-authentication
+\end_layout
+
+\begin_layout Standard
+This new pre-authentication method, henceforth PA-PW-OTP, is a simple iteration
+ on the existing PA-ENC-TIMESTAMP pre-authentication method, but carrying
+ PA-OTP-* pre-authentication messages 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC6560
+\end_layout
+
+\end_inset
+
+ in an EncryptedData payload.
+ That is, the PA-OTP-* messages are double-tunneled, with a FAST outer tunnel
+ and a password-based inner tunnel.
+ The new method's reply key is the result of a combination of the OTP method's
+ reply key and the password-derived key and challenge.
+\end_layout
+
+\begin_layout Standard
+This FAST factor provides the following facilities (as defined in [RFC6113]):
+ client-authentication, replacing-reply-key, and authentication of the KDC
+ to the client.
+ It does not provide the strengthening-reply-key facility.
+ 
+\end_layout
+
+\begin_layout Subsection
+Messages
+\end_layout
+
+\begin_layout Standard
+We define four pre-authentication messages (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Complete-ASN.1-Module"
+
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Description
+PA-PWOTP-REQUEST-PARAMS Request string2key parameters.
+\end_layout
+
+\begin_layout Description
+PA-PWOTP-RESPONSE-PARAMS Response to PA-PWOTP-REQUEST-PARAMS.
+\end_layout
+
+\begin_layout Description
+PA-PWOTP-REQUEST Request containing an EncryptedData tunneling the OTP PA-DATA.
+\end_layout
+
+\begin_layout Description
+PA-PWOTP-RESPONSE Response containing an EncryptedData tunneling the OTP
+ PA-DATA and/or error information.
+\end_layout
+
+\begin_layout Standard
+If state needs to be kept by the double-tunneled pre-authentication method,
+ then it should use PA-FX-COOKIE, per the GPAF 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC6113
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Protocol exchanges
+\end_layout
+
+\begin_layout Standard
+First, note that realms MAY (and probably will) maintain a separate password
+ for use with this method than for use with the traditional PA-ENC-TIMESTAMP
+ method (where it remains available).
+\end_layout
+
+\begin_layout RevisionRemark
+We may need to revise RFC3244 to permit changing of this password in that
+ case! -Nico
+\end_layout
+
+\begin_layout Standard
+An AS client first decides to use this pre-authentication methods.
+ This choice might be a result of local configuration), or the client might
+ learn from attempting an AS exchange which the AS then rejects with PA
+ data indicating that this method is available.
+\end_layout
+
+\begin_layout Standard
+An AS indicates availability of this pre-authentication method by including
+ a PA-DATA of type PA-PWOTP-RESPONSE-PARAMS.
+\end_layout
+
+\begin_layout Standard
+An AS client wishing to use this pre-authentication method but lacking knowledge
+ of available string-to-key parameters MUST send an AS-REQ with PA-PWOTP-REQUEST
+-PARAMS; the AS will respond with PA-PWOTP-RESPONSE-PARAMS, if this method
+ is available.
+\end_layout
+
+\begin_layout Standard
+Note that a PA-PWOTP-RESPONSE-PARAMS PADATA MAY include a challenge, which
+ the client then MUST include in the subsequent request.
+\end_layout
+
+\begin_layout Standard
+Once a client has the string-to-key parameters, the client computes a key
+ derived from the principal's password as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ if (s2kparams.salt)
+\end_layout
+
+\begin_layout Plain Layout
+
+    salt = s2kparams.salt
+\end_layout
+
+\begin_layout Plain Layout
+
+ else
+\end_layout
+
+\begin_layout Plain Layout
+
+    salt = ""
+\end_layout
+
+\begin_layout Plain Layout
+
+ if (s2kparams.salt_cname)
+\end_layout
+
+\begin_layout Plain Layout
+
+    salt = salt || "/" || cname
+\end_layout
+
+\begin_layout Plain Layout
+
+ if (s2kparams.salt_crealm)
+\end_layout
+
+\begin_layout Plain Layout
+
+    salt = salt || "@" || crealm
+\end_layout
+
+\begin_layout Plain Layout
+
+ precursor_key = string2key(s2kparams, pw, salt)
+\end_layout
+
+\begin_layout Plain Layout
+
+ pwotp-pwkey = pseudo-random(precursor_key, cnonce)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The client then produces the RFC6560 OTP PADATA, wraps it in a PWOTP-REQ-PAYLOAD
+, encrypts that in a key derived from the pwotp-pwkey with key usage [TBD],
+ and produces the PA-PWOTP-REQUEST for use in the AS-REQ.
+ The client sends the AS-REQ.
+\end_layout
+
+\begin_layout Standard
+The AS processes the request, notes the use of this method, and if it is
+ acceptable, computes the pwotp-pwkey as described above and attempts to
+ decrypt the payload.
+ If the decryption fails, the AS responds with a KRB-ERROR PDU, otherwise
+ it validates the challenge (if present, or rejects if absent but should
+ have been present) and the timestamps (also if present, which then must
+ be within the skew window).
+ Either a challenge, timestamps, or both, must be present.
+\end_layout
+
+\begin_layout Standard
+The AS responds with a KRB-ERROR and PADATA for this pre-authentication
+ method when the method can be continued.
+\end_layout
+
+\begin_layout Standard
+On success the AS responds with an AS-REP with a Ticket and an optional
+ PADATA for this method.
+\end_layout
+
+\begin_layout Subsection
+Reply key computation
+\end_layout
+
+\begin_layout Standard
+The reply key is produce by applying the GPAF KRB-FX-CF2() to the reply
+ key output by the tunneled pre-authentication method, and the key derived
+ from the principal's password, as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ padata_number = <number of _this_ pre-authentication method
+\end_layout
+
+\begin_layout Plain Layout
+
+                  as used in the bearing PDU>
+\end_layout
+
+\begin_layout Plain Layout
+
+ pwkey = <see above>
+\end_layout
+
+\begin_layout Plain Layout
+
+ pwpepper = "pwotp-pwkey" || tostring(padata_number)
+\end_layout
+
+\begin_layout Plain Layout
+
+ inner_reply_key = <from inner pre-authentication method>
+\end_layout
+
+\begin_layout Plain Layout
+
+ inner_pepper = "pwotp-inner" || tostring(padata_number)
+\end_layout
+
+\begin_layout Plain Layout
+
+ key = KRB-FX-CF2(pwkey, pwpepper, inner_reply_key, inner_pepper)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+New string2key functionality
+\end_layout
+
+\begin_layout Standard
+This preauthentication method supports more than one string-to-key function
+ per-enctype, and even goes so far as to permit separation of string-to-key
+ functions from enctypes.
+ It does this by using a number to identify a string-to-key function in
+ the method's messages.
+\end_layout
+
+\begin_layout Standard
+Additionally, in order to correct a flaw in the Kerberos cryptosystem 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC3961
+\end_layout
+
+\end_inset
+
+, we no longer treat string-to-key parameters as opaque.
+ Making string-to-key function parameters opaque complicated the administration
+ of those parameters: indeed, no protocol has been deployed by which the
+ opaque string-to-key parameters could be set, thus leaving them effectively
+ run-time constants.
+ The likely cause of this failure is the string-to-key parameters' opacity:
+ each enctype would have to define a sub-protocol for administration! Instead
+ we provide for up to four non-opaque parameters: three numbers and a salt.
+ The three numeric string-to-key parameters are expected to have function-specif
+ic meanings and valid ranges, but otherwise they should be sufficient for
+ expressing at least three dimensions of computational expense (e.g., memory
+ and time complexity).
+\end_layout
+
+\begin_layout Standard
+Initially only one string-to-key function is defined, with number 0: the
+ one defined by the enctype indicated in the message.
+ In the future we may define additional string-to-key functions that will
+ not be associated with any one enctype; those functions will output an
+ octet string from which a protocol key will be derived by use of an enctype's
+ random-to-key() function.
+\end_layout
+
+\begin_layout Standard
+The choice of string-to-key parameter set is left to the client, which must
+ choose from those offerings that the client supports.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Security-Considerations"
+
+\end_inset
+
+Security Considerations
+\end_layout
+
+\begin_layout Standard
+Knowledge of an OTP by an attacker does not allow the attacker to compromise
+ the protocol.
+ Knowledge of the password does not permit an attacker to compromise the
+ protocol either: because we use a FAST tunnel.
+ It is important that clients use strong FAST armor tickets.
+ 
+\end_layout
+
+\begin_layout Standard
+The authentication service (AS) of the KDC gets to see the OTP payloads.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:IANA-Considerations"
+
+\end_inset
+
+IANA Considerations
+\end_layout
+
+\begin_layout RevisionRemark
+TBD.
+ Obviously the various PA-DATAs will need numeric assigments.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:References"
+
+\end_inset
+
+Normative References
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc2119"
+target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc3961"
+target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3961.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc4120"
+target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4120.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc6113"
+target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6113.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc6560"
+target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6560.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Acknowledgements
+\end_layout
+
+\begin_layout Standard
+Requirements have been identified by Jeff Altman.
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Complete-ASN.1-Module"
+
+\end_inset
+
+Complete ASN.1 Module
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ DEFINITIONS EXPLICIT TAGS ::=
+\end_layout
+
+\begin_layout Plain Layout
+
+ BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+ IMPORTS
+\end_layout
+
+\begin_layout Plain Layout
+
+        KerberosTime, KerberosFlags, EncryptionKey, Int32,
+\end_layout
+
+\begin_layout Plain Layout
+
+        EncryptedData, LastReq, KerberosString, Microseconds
+\end_layout
+
+\begin_layout Plain Layout
+
+        FROM KerberosV5Spec2 {iso(1) identified-organization(3)
+\end_layout
+
+\begin_layout Plain Layout
+
+                              dod(6) internet(1) security(5)
+\end_layout
+
+\begin_layout Plain Layout
+
+                              kerberosV5(2) modules(4)
+\end_layout
+
+\begin_layout Plain Layout
+
+                              krb5spec2(2)}
+\end_layout
+
+\begin_layout Plain Layout
+
+                              -- as defined in RFC 4120.
+\end_layout
+
+\begin_layout Plain Layout
+
+      S2K-ID ::= Int32
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      S2K-PARAMS ::= SEQUENCE {
+\end_layout
+
+\begin_layout Plain Layout
+
+        s2k-function [0] S2K-ID,
+\end_layout
+
+\begin_layout Plain Layout
+
+        s2k-p0       [1] UInt32 OPTIONAL,
+\end_layout
+
+\begin_layout Plain Layout
+
+        s2k-p1       [2] UInt32 OPTIONAL,
+\end_layout
+
+\begin_layout Plain Layout
+
+        s2k-p2       [3] UInt32 OPTIONAL,
+\end_layout
+
+\begin_layout Plain Layout
+
+        salt         [4] OCTET STRING OPTIONAL,
+\end_layout
+
+\begin_layout Plain Layout
+
+        salt-cname   [5] BOOLEAN DEFAULT FALSE,
+\end_layout
+
+\begin_layout Plain Layout
+
+        salt-crealm  [6] BOOLEAN DEFAULT FALSE,
+\end_layout
+
+\begin_layout Plain Layout
+
+        enctype      [7] Int32 OPTIONAL,
+\end_layout
+
+\begin_layout Plain Layout
+
+        ...
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      PA-PWOTP-REQUEST-PARAMS ::= SEQUENCE {
+\end_layout
+
+\begin_layout Plain Layout
+
+        i-support [0] SEQUENCE (1..MAX) OF S2K-ID OPTIONAL,
+\end_layout
+
+\begin_layout Plain Layout
+
+        ...
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      PA-PWOTP-RESPONSE-PARAMS ::= SEQUENCE {
+\end_layout
+
+\begin_layout Plain Layout
+
+        s2kparams [0] SEQUENCE (1..MAX) OF S2K-PARAMS,
+\end_layout
+
+\begin_layout Plain Layout
+
+        kdc_time  [1] KerberosTime,
+\end_layout
+
+\begin_layout Plain Layout
+
+        kdc_usec  [2] Microseconds,
+\end_layout
+
+\begin_layout Plain Layout
+
+        challenge [3] OCTET STRING OPTIONAL,
+\end_layout
+
+\begin_layout Plain Layout
+
+        ...
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      PA-PWOTP-REQUEST ::= SEQUENCE {
+\end_layout
+
+\begin_layout Plain Layout
+
+        s2k-used  [0] S2K-ID,
+\end_layout
+
+\begin_layout Plain Layout
+
+        cnonce    [1] UInt32,
+\end_layout
+
+\begin_layout Plain Layout
+
+        payload   [2] EncryptedData,
+\end_layout
+
+\begin_layout Plain Layout
+
+                      -- containing PWOTP-REQ-PAYLOAD
+\end_layout
+
+\begin_layout Plain Layout
+
+        ...
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      PWOTP-REQ-PAYLOAD ::= SEQUENCE {
+\end_layout
+
+\begin_layout Plain Layout
+
+        time      [0] KerberosTime,
+\end_layout
+
+\begin_layout Plain Layout
+
+        usec      [1] Microseconds,
+\end_layout
+
+\begin_layout Plain Layout
+
+        challenge [2] OCTET STRING OPTIONAL,
+\end_layout
+
+\begin_layout Plain Layout
+
+        otp-pa    [3] SEQUENCE OF PA-DATA,
+\end_layout
+
+\begin_layout Plain Layout
+
+        ...
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      PA-PWOTP-RESPONSE ::= SEQUENCE {
+\end_layout
+
+\begin_layout Plain Layout
+
+        time      [0] KerberosTime,
+\end_layout
+
+\begin_layout Plain Layout
+
+        usec      [1] Microseconds,
+\end_layout
+
+\begin_layout Plain Layout
+
+        challenge [2] OCTET STRING OPTIONAL,
+\end_layout
+
+\begin_layout Plain Layout
+
+        otp-pa    [3] EncryptedData,
+\end_layout
+
+\begin_layout Plain Layout
+
+                      -- Containing PWOTP-RESP-PAYLOAD
+\end_layout
+
+\begin_layout Plain Layout
+
+        error     [4] KRB-ERROR OPTIONAL,
+\end_layout
+
+\begin_layout Plain Layout
+
+        ...
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+      PWOTP-RESP-PAYLOAD ::= SEQUENCE {
+\end_layout
+
+\begin_layout Plain Layout
+
+        padata   [0] SEQUENCE OF PA-DATA,
+\end_layout
+
+\begin_layout Plain Layout
+
+        kdc_time [1] KerberosTime,
+\end_layout
+
+\begin_layout Plain Layout
+
+        kdc_usec [2] Microseconds,
+\end_layout
+
+\begin_layout Plain Layout
+
+        ...
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+ END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

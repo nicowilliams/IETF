@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/TR/2001/REC-MathML2-20010221/dtd/xhtml-math11-f.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="GENERATOR" content="LyX 2.0.6" />
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<title>Kerberos Combined Password and One-Time Password (OTP) Pre-Authentication</title>
+
+<!-- Text Class Preamble -->
+<style type="text/css">
+div.toc {
+margin: 2em 0em;
+border-style: solid;
+border-width: 2px 0px;
+padding: 1em 0em;
+}
+div.tochead { font-size: x-large; font-weight: bold; }
+div.lyxtoc-0 {
+margin: 2em 0em 0em 0em;
+font-size: xx-large;
+font-weight: bold;
+}
+div.lyxtoc-1 {
+margin: 1em 0em 0em 0em;
+font-size: x-large;
+font-weight: bold;
+}
+div.lyxtoc-2 {
+margin: 0em 0em 0em 1em;
+font-size: large;
+font-weight: normal;
+}
+div.lyxtoc-3 { margin: 0em 0em 0em 0.5em; font-size: medium; }
+div.lyxtoc-4 { margin: 0em 0em 0em 0.5em; }
+div.lyxtoc-5 { margin: 0em 0em 0em 0.5em; }
+div.lyxtoc-6 { margin: 0em 0em 0em 0.5em; }
+a.tocentry {
+text-decoration: none;
+color: black;
+}
+a.tocentry:visited { color: black; }
+a.tocarrow {
+font-weight: bold;
+text-decoration: none;
+color: #909090;
+}
+a.tocarrow:visited { color: #C0C0C0; }
+</style>
+
+<!-- Preamble Snippets -->
+
+<!-- Layout-provided Styles -->
+<style type='text/css'>
+h1.title {
+font-size: x-large;
+margin-bottom: 1ex;
+text-align: center;
+
+}
+div.standard {
+text-align: left;
+
+}
+div.plain_layout {
+text-align: left;
+
+}
+div.author {
+font-size: large;
+margin-top: 1.3ex;
+margin-bottom: 0.7ex;
+text-align: center;
+
+}
+div.abstract {
+font-size: small;
+margin-top: 0.7ex;
+margin-bottom: 0.7ex;
+margin-left: 3ex;
+margin-right: 3ex;
+text-align: left;
+
+}
+div.abstract_label {
+font-weight: bold;
+font-size: large;
+text-align: center;
+
+}
+
+div.abstract {
+margin: 4ex;
+}
+div.abstract_item {
+font-size: small;
+padding-top: 1ex;
+}
+div.abstract_label {
+font-weight: bold;
+}
+h2.section {
+font-weight: bold;
+font-size: x-large;
+margin-top: 1.3ex;
+margin-bottom: 0.7ex;
+text-align: left;
+
+}
+ul.itemize {
+margin-top: 0.7ex;
+margin-bottom: 0.7ex;
+margin-left: 3ex;
+text-align: left;
+
+}
+h3.subsection {
+font-weight: bold;
+font-size: large;
+margin-top: 0.9ex;
+margin-bottom: 0.5ex;
+text-align: left;
+
+}
+dl.description dt { font-weight: bold; }
+div.revisionremark {
+text-align: left;
+
+}
+div.flex_docname {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_ipr {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_intendedstatus {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_titleabbrev {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_ietfarea {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_xml_rfckeyword {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_pi_toc {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_pi_symrefs {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_pi_tocindent {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_pi {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_authororg {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_authororgabbrev {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_authoremailaddr {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.flex_entityxref {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+div.listings {
+font-family: monospace;
+}
+div.flex_bibxml {
+font-family: serif;
+font-weight: normal;
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+}
+</style>
+</head>
+<body>
+<h1 class="title"><a id='magicparlabel-1' />
+Kerberos Combined Password and One-Time Password (OTP) Pre-Authentication</h1>
+<div class="standard"><a id='magicparlabel-2' />
+<div class="flex_docname"><div class="plain_layout"><a id='magicparlabel-6' />
+draft-williams-kitten-password_and-otp-00</div>
+</div><div class="flex_ipr"><div class="plain_layout"><a id='magicparlabel-10' />
+trust200902</div>
+</div><div class="flex_intendedstatus"><div class="plain_layout"><a id='magicparlabel-14' />
+std</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-15' />
+<div class="flex_titleabbrev"><div class="plain_layout"><a id='magicparlabel-19' />
+Combined Password+OTP</div>
+</div><div class="flex_ietfarea"><div class="plain_layout"><a id='magicparlabel-23' />
+Security Area</div>
+</div><div class="flex_xml_rfckeyword"><div class="plain_layout"><a id='magicparlabel-27' />
+Internet-Draft</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-28' />
+<div class="flex_pi_toc"><div class="plain_layout"><a id='magicparlabel-32' />
+yes</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-33' />
+<div class="flex_pi_symrefs"><div class="plain_layout"><a id='magicparlabel-37' />
+yes</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-38' />
+<div class="flex_pi_tocindent"><div class="plain_layout"><a id='magicparlabel-42' />
+no</div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-43' />
+<div class="flex_pi"><div class="plain_layout"><a id='magicparlabel-47' />
+comments="yes"</div>
+</div><div class="flex_pi"><div class="plain_layout"><a id='magicparlabel-51' />
+inline="yes"</div>
+</div></div>
+
+<div class="author"><div class="author_item"><a id='magicparlabel-52' />
+Nicolas Williams<div class="flex_authororg"><div class="plain_layout"><a id='magicparlabel-56' />
+Cryptonector, LLC</div>
+</div><div class="flex_authororgabbrev"><div class="plain_layout"><a id='magicparlabel-60' />
+Cryptonector</div>
+</div><div class="flex_authoremailaddr"><div class="plain_layout"><a id='magicparlabel-64' />
+nico@cryptonector.com</div>
+</div></div>
+</div>
+
+<div class="abstract"><div class="abstract_label">Abstract</div>
+<div class="abstract_item"><a id='magicparlabel-65' />
+This document describes a Kerberos pre-authentication method that combines passwords and one-time passwords (OTPs). Messages are transmitted within tunnels provided by the Kerberos flexible authentication secure tunneling (FAST) pre-authentication method.</div>
+</div>
+<div class="standard"><a id='magicparlabel-66' />
+</div>
+<div class='toc'><div class='tochead part_'>Table of Contents</div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-67' class='tocentry'>1 Introduction and Motivation</a> <a href='#magicparlabel-67' class='tocarrow'>&gt;</a>
+
+<div class='lyxtoc-2'><a href='#magicparlabel-90' class='tocentry'>1.1 Conventions used in this document</a> <a href='#magicparlabel-90' class='tocarrow'>&gt;</a></div>
+</div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-96' class='tocentry'>2 Design of the new combined password and OTP pre-authentication</a> <a href='#magicparlabel-96' class='tocarrow'>&gt;</a>
+
+<div class='lyxtoc-2'><a href='#magicparlabel-103' class='tocentry'>2.1 Messages</a> <a href='#magicparlabel-103' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-2'><a href='#magicparlabel-114' class='tocentry'>2.2 Protocol exchanges</a> <a href='#magicparlabel-114' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-2'><a href='#magicparlabel-140' class='tocentry'>2.3 Reply key computation</a> <a href='#magicparlabel-140' class='tocarrow'>&gt;</a></div>
+</div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-153' class='tocentry'>3 New string2key functionality</a> <a href='#magicparlabel-153' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-162' class='tocentry'>4 Security Considerations</a> <a href='#magicparlabel-162' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-165' class='tocentry'>5 IANA Considerations</a> <a href='#magicparlabel-165' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-167' class='tocentry'>6 Normative References</a> <a href='#magicparlabel-167' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-193' class='tocentry'>7 Acknowledgements</a> <a href='#magicparlabel-193' class='tocarrow'>&gt;</a></div>
+
+<div class='lyxtoc-1'><a href='#magicparlabel-195' class='tocentry'>H Complete ASN.1 Module</a> <a href='#magicparlabel-195' class='tocarrow'>&gt;</a></div>
+</div>
+
+<h2 class="section"><span class="section_label">1</span> <a id='magicparlabel-67' />
+Introduction and Motivation</h2>
+<div class="standard"><a id='magicparlabel-68' />
+There exist pre-authentication methods for Kerberos <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-72' />
+RFC4120</div>
+</div> for using passwords (PA-ENC-TIMESTAMP <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-76' />
+RFC4120</div>
+</div>) or OTP <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-80' />
+RFC6560</div>
+</div>. However, it is currently not possible to combine these for use at the same time for a variety of reasons, including insufficiencies in the generalized pre-authentication framework (GPAF) <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-84' />
+RFC6113</div>
+</div> and an inability to select from amongst multiple passwords for the same principal:</div>
+
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-85' />
+GPAF does not provide a way for the KDC to indicate the combination subsets of pre-authentication methods that may be used, nor even the order in which they must be attempted;</li>
+<li class="itemize_item"><a id='magicparlabel-86' />
+GPAF does not provide a way for multiple pre-authentication methods to be used in an optimal manner (optimal as to network round trips);</li>
+<li class="itemize_item"><a id='magicparlabel-87' />
+No implementations exist demonstrating that GPAF's pre-authentication method combination facility works;</li>
+<li class="itemize_item"><a id='magicparlabel-88' />
+A GPAF password and OTP combination (with existing pre-authentication methods) does not protect the OTP payloads with both the FAST tunnel's protection and a key derived from the password-based pre-authentication method;</li>
+<li class="itemize_item"><a id='magicparlabel-89' />
+The existing password-based pre-authentication method's notion of opaque string2key function parameters has not worked out well.</li>
+</ul>
+<h3 class="subsection"><span class="subsection_label">1.1</span> <a id='magicparlabel-90' />
+Conventions used in this document</h3>
+<div class="standard"><a id='magicparlabel-91' />
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-95' />
+RFC2119</div>
+</div>.</div>
+<h2 class="section"><span class="section_label">2</span> <a id='magicparlabel-96' />
+<a id="sec_Design" />
+Design of the new combined password and OTP pre-authentication</h2>
+<div class="standard"><a id='magicparlabel-97' />
+This new pre-authentication method, henceforth PA-PW-OTP, is a simple iteration on the existing PA-ENC-TIMESTAMP pre-authentication method, but carrying PA-OTP-* pre-authentication messages <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-101' />
+RFC6560</div>
+</div> in an EncryptedData payload. That is, the PA-OTP-* messages are double-tunneled, with a FAST outer tunnel and a password-based inner tunnel. The new method's reply key is the result of a combination of the OTP method's reply key and the password-derived key and challenge.</div>
+
+<div class="standard"><a id='magicparlabel-102' />
+This FAST factor provides the following facilities (as defined in [RFC6113]): client-authentication, replacing-reply-key, and authentication of the KDC to the client. It does not provide the strengthening-reply-key facility. </div>
+<h3 class="subsection"><span class="subsection_label">2.1</span> <a id='magicparlabel-103' />
+Messages</h3>
+<div class="standard"><a id='magicparlabel-104' />
+We define four pre-authentication messages (see <a href="#sec_Complete_ASN_1_Module">H</a>):</div>
+
+<dl class='description'><dt class="description_label">PA-PWOTP-REQUEST-PARAMS</dt>
+<dd class="description_item"><a id='magicparlabel-105' />
+ Request string2key parameters.</dd>
+<dt class="description_label">PA-PWOTP-RESPONSE-PARAMS</dt>
+<dd class="description_item"><a id='magicparlabel-106' />
+ Response to PA-PWOTP-REQUEST-PARAMS.</dd>
+<dt class="description_label">PA-PWOTP-REQUEST</dt>
+<dd class="description_item"><a id='magicparlabel-107' />
+ Request containing an EncryptedData tunneling the OTP PA-DATA.</dd>
+<dt class="description_label">PA-PWOTP-RESPONSE</dt>
+<dd class="description_item"><a id='magicparlabel-108' />
+ Response containing an EncryptedData tunneling the OTP PA-DATA and/or error information.</dd>
+</dl>
+<div class="standard"><a id='magicparlabel-109' />
+If state needs to be kept by the double-tunneled pre-authentication method, then it should use PA-FX-COOKIE, per the GPAF <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-113' />
+RFC6113</div>
+</div>.</div>
+<h3 class="subsection"><span class="subsection_label">2.2</span> <a id='magicparlabel-114' />
+Protocol exchanges</h3>
+<div class="standard"><a id='magicparlabel-115' />
+First, note that realms MAY (and probably will) maintain a separate password for use with this method than for use with the traditional PA-ENC-TIMESTAMP method (where it remains available).</div>
+
+<div class="revisionremark"><a id='magicparlabel-116' />
+We may need to revise RFC3244 to permit changing of this password in that case! -Nico</div>
+
+<div class="standard"><a id='magicparlabel-117' />
+An AS client first decides to use this pre-authentication methods. This choice might be a result of local configuration), or the client might learn from attempting an AS exchange which the AS then rejects with PA data indicating that this method is available.</div>
+
+<div class="standard"><a id='magicparlabel-118' />
+An AS indicates availability of this pre-authentication method by including a PA-DATA of type PA-PWOTP-RESPONSE-PARAMS.</div>
+
+<div class="standard"><a id='magicparlabel-119' />
+An AS client wishing to use this pre-authentication method but lacking knowledge of available string-to-key parameters MUST send an AS-REQ with PA-PWOTP-REQUEST-PARAMS; the AS will respond with PA-PWOTP-RESPONSE-PARAMS, if this method is available.</div>
+
+<div class="standard"><a id='magicparlabel-120' />
+Note that a PA-PWOTP-RESPONSE-PARAMS PADATA MAY include a challenge, which the client then MUST include in the subsequent request.</div>
+
+<div class="standard"><a id='magicparlabel-121' />
+Once a client has the string-to-key parameters, the client computes a key derived from the principal's password as follows:</div>
+
+<div class="standard"><a id='magicparlabel-122' />
+</div>
+<div class='float float-listings'><pre> if (s2kparams.salt)
+    salt = s2kparams.salt
+ else
+    salt = ""
+ if (s2kparams.salt_cname)
+    salt = salt || "/" || cname
+ if (s2kparams.salt_crealm)
+    salt = salt || "@" || crealm
+ precursor_key = string2key(s2kparams, pw, salt)
+ pwotp-pwkey = pseudo-random(precursor_key, cnonce)</pre></div>
+
+
+<div class="standard"><a id='magicparlabel-136' />
+The client then produces the RFC6560 OTP PADATA, wraps it in a PWOTP-REQ-PAYLOAD, encrypts that in a key derived from the pwotp-pwkey with key usage [TBD], and produces the PA-PWOTP-REQUEST for use in the AS-REQ. The client sends the AS-REQ.</div>
+
+<div class="standard"><a id='magicparlabel-137' />
+The AS processes the request, notes the use of this method, and if it is acceptable, computes the pwotp-pwkey as described above and attempts to decrypt the payload. If the decryption fails, the AS responds with a KRB-ERROR PDU, otherwise it validates the challenge (if present, or rejects if absent but should have been present) and the timestamps (also if present, which then must be within the skew window). Either a challenge, timestamps, or both, must be present.</div>
+
+<div class="standard"><a id='magicparlabel-138' />
+The AS responds with a KRB-ERROR and PADATA for this pre-authentication method when the method can be continued.</div>
+
+<div class="standard"><a id='magicparlabel-139' />
+On success the AS responds with an AS-REP with a Ticket and an optional PADATA for this method.</div>
+<h3 class="subsection"><span class="subsection_label">2.3</span> <a id='magicparlabel-140' />
+Reply key computation</h3>
+<div class="standard"><a id='magicparlabel-141' />
+The reply key is produce by applying the GPAF KRB-FX-CF2() to the reply key output by the tunneled pre-authentication method, and the key derived from the principal's password, as follows:</div>
+
+<div class="standard"><a id='magicparlabel-142' />
+</div>
+<div class='float float-listings'><pre> padata_number = &lt;number of _this_ pre-authentication method
+                  as used in the bearing PDU&gt;
+ pwkey = &lt;see above&gt;
+ pwpepper = "pwotp-pwkey" || tostring(padata_number)
+ inner_reply_key = &lt;from inner pre-authentication method&gt;
+ inner_pepper = "pwotp-inner" || tostring(padata_number)
+ key = KRB-FX-CF2(pwkey, pwpepper, inner_reply_key, inner_pepper)</pre></div>
+
+<h2 class="section"><span class="section_label">3</span> <a id='magicparlabel-153' />
+New string2key functionality</h2>
+<div class="standard"><a id='magicparlabel-154' />
+This preauthentication method supports more than one string-to-key function per-enctype, and even goes so far as to permit separation of string-to-key functions from enctypes. It does this by using a number to identify a string-to-key function in the method's messages.</div>
+
+<div class="standard"><a id='magicparlabel-155' />
+Additionally, in order to correct a flaw in the Kerberos cryptosystem <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-159' />
+RFC3961</div>
+</div>, we no longer treat string-to-key parameters as opaque. Making string-to-key function parameters opaque complicated the administration of those parameters: indeed, no protocol has been deployed by which the opaque string-to-key parameters could be set, thus leaving them effectively run-time constants. The likely cause of this failure is the string-to-key parameters' opacity: each enctype would have to define a sub-protocol for administration! Instead we provide for up to four non-opaque parameters: three numbers and a salt. The three numeric string-to-key parameters are expected to have function-specific meanings and valid ranges, but otherwise they should be sufficient for expressing at least three dimensions of computational expense (e.g., memory and time complexity).</div>
+
+<div class="standard"><a id='magicparlabel-160' />
+Initially only one string-to-key function is defined, with number 0: the one defined by the enctype indicated in the message. In the future we may define additional string-to-key functions that will not be associated with any one enctype; those functions will output an octet string from which a protocol key will be derived by use of an enctype's random-to-key() function.</div>
+
+<div class="standard"><a id='magicparlabel-161' />
+The choice of string-to-key parameter set is left to the client, which must choose from those offerings that the client supports.</div>
+<h2 class="section"><span class="section_label">4</span> <a id='magicparlabel-162' />
+<a id="sec_Security_Considerations" />
+Security Considerations</h2>
+<div class="standard"><a id='magicparlabel-163' />
+Knowledge of an OTP by an attacker does not allow the attacker to compromise the protocol. Knowledge of the password does not permit an attacker to compromise the protocol either: because we use a FAST tunnel. It is important that clients use strong FAST armor tickets. </div>
+
+<div class="standard"><a id='magicparlabel-164' />
+The authentication service (AS) of the KDC gets to see the OTP payloads.</div>
+<h2 class="section"><span class="section_label">5</span> <a id='magicparlabel-165' />
+<a id="sec_IANA_Considerations" />
+IANA Considerations</h2>
+<div class="revisionremark"><a id='magicparlabel-166' />
+TBD. Obviously the various PA-DATAs will need numeric assigments.</div>
+<h2 class="section"><span class="section_label">6</span> <a id='magicparlabel-167' />
+<a id="sec_References" />
+Normative References</h2>
+<div class="standard"><a id='magicparlabel-168' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-172' />
+<a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">rfc2119</a></div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-173' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-177' />
+<a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3961.xml">rfc3961</a></div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-178' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-182' />
+<a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4120.xml">rfc4120</a></div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-183' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-187' />
+<a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6113.xml">rfc6113</a></div>
+</div></div>
+
+<div class="standard"><a id='magicparlabel-188' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-192' />
+<a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6560.xml">rfc6560</a></div>
+</div></div>
+<h2 class="section"><span class="section_label">7</span> <a id='magicparlabel-193' />
+Acknowledgements</h2>
+<div class="standard"><a id='magicparlabel-194' />
+Requirements have been identified by Jeff Altman.</div>
+<h2 class="section"><span class="section_label">H</span> <a id='magicparlabel-195' />
+<a id="sec_Complete_ASN_1_Module" />
+Complete ASN.1 Module</h2>
+<div class="standard"><a id='magicparlabel-196' />
+</div>
+<div class='float float-listings'><pre> DEFINITIONS EXPLICIT TAGS ::=
+ BEGIN
+ IMPORTS
+        KerberosTime, KerberosFlags, EncryptionKey, Int32,
+        EncryptedData, LastReq, KerberosString, Microseconds
+        FROM KerberosV5Spec2 {iso(1) identified-organization(3)
+                              dod(6) internet(1) security(5)
+                              kerberosV5(2) modules(4)
+                              krb5spec2(2)}
+                              -- as defined in RFC 4120.
+      S2K-ID ::= Int32
+
+      S2K-PARAMS ::= SEQUENCE {
+        s2k-function [0] S2K-ID,
+        s2k-p0       [1] UInt32 OPTIONAL,
+        s2k-p1       [2] UInt32 OPTIONAL,
+        s2k-p2       [3] UInt32 OPTIONAL,
+        salt         [4] OCTET STRING OPTIONAL,
+        salt-cname   [5] BOOLEAN DEFAULT FALSE,
+        salt-crealm  [6] BOOLEAN DEFAULT FALSE,
+        enctype      [7] Int32 OPTIONAL,
+        ...
+      }
+
+      PA-PWOTP-REQUEST-PARAMS ::= SEQUENCE {
+        i-support [0] SEQUENCE (1..MAX) OF S2K-ID OPTIONAL,
+        ...
+      }
+
+      PA-PWOTP-RESPONSE-PARAMS ::= SEQUENCE {
+        s2kparams [0] SEQUENCE (1..MAX) OF S2K-PARAMS,
+        kdc_time  [1] KerberosTime,
+        kdc_usec  [2] Microseconds,
+        challenge [3] OCTET STRING OPTIONAL,
+        ...
+      }
+
+      PA-PWOTP-REQUEST ::= SEQUENCE {
+        s2k-used  [0] S2K-ID,
+        cnonce    [1] UInt32,
+        payload   [2] EncryptedData,
+                      -- containing PWOTP-REQ-PAYLOAD
+        ...
+      }
+
+      PWOTP-REQ-PAYLOAD ::= SEQUENCE {
+        time      [0] KerberosTime,
+        usec      [1] Microseconds,
+        challenge [2] OCTET STRING OPTIONAL,
+        otp-pa    [3] SEQUENCE OF PA-DATA,
+        ...
+      }
+
+      PA-PWOTP-RESPONSE ::= SEQUENCE {
+        time      [0] KerberosTime,
+        usec      [1] Microseconds,
+        challenge [2] OCTET STRING OPTIONAL,
+        otp-pa    [3] EncryptedData,
+                      -- Containing PWOTP-RESP-PAYLOAD
+        error     [4] KRB-ERROR OPTIONAL,
+        ...
+      }
+ 
+      PWOTP-RESP-PAYLOAD ::= SEQUENCE {
+        padata   [0] SEQUENCE OF PA-DATA,
+        kdc_time [1] KerberosTime,
+        kdc_usec [2] Microseconds,
+        ...
+      }
+ END</pre></div>
+
+</body>
+</html>
