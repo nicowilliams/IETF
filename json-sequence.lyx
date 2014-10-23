@@ -282,7 +282,7 @@ JavaScript Object Notation (JSON) Text Sequences
 status open
 
 \begin_layout Plain Layout
-draft-ietf-json-text-sequence-07
+draft-ietf-json-text-sequence-08
 \end_layout
 
 \end_inset
@@ -463,6 +463,9 @@ application/json-seq
 \end_inset
 
 .
+ A JSON text sequence consists of any number of JSON tests, each prefix
+ by an Record Separator (U+001E), and each ending with a newline character
+ (U+000A).
 \end_layout
 
 \begin_layout Standard
@@ -533,8 +536,16 @@ Conventions used in this document
 
 \begin_layout Standard
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
- "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are
- to be interpreted as described in 
+ "SHOULD NOT", "RECOMMENDED", 
+\begin_inset Quotes eld
+\end_inset
+
+NOT RECOMMENDED
+\begin_inset Quotes erd
+\end_inset
+
+, "MAY", and "OPTIONAL" in this document are to be interpreted as described
+ in 
 \begin_inset Flex EntityXRef
 status open
 
@@ -558,14 +569,15 @@ JSON Text Sequence Format
 \end_layout
 
 \begin_layout Standard
-Two ABNF rules are used in the definition of JSON text sequences: one for
- parsers, and one for encoders.
- Two rules are provided to permit recovery by parsers from sequences where
- some the elements are truncated for whatever reason.
- The rule for parsers is specified in terms of octet strings which are then
- interpreted as JSON-texts if possible.
- The rule for encoders, on the other hand, assumes that sequence elements
+Two different sets of ABNF rules are provided for the definition of JSON
+ text sequences: one for parsers, and one for encoders.
+ Having two different sets of rules permits recovery by parsers from sequences
+ where some the elements are truncated for whatever reason.
+ The syntax for parsers is specified in terms of octet strings which are
+ then interpreted as JSON texts if possible.
+ The syntax for encoders, on the other hand, assumes that sequence elements
  are not truncated.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -617,7 +629,7 @@ status open
 
 \begin_layout Plain Layout
 
-  RS = %x1E; "record separator" (RS), see ISO 646-1991
+  RS = %x1E; "record separator" (RS), see RFC20
 \end_layout
 
 \begin_layout Plain Layout
@@ -627,7 +639,7 @@ status open
 
 \begin_layout Plain Layout
 
-                            ; JSON-text (see RFC7159)
+                            ; JSON text (see RFC7159)
 \end_layout
 
 \begin_layout Plain Layout
@@ -670,23 +682,26 @@ In prose: a series of octet strings, each containing any octet other than
 status collapsed
 
 \begin_layout Plain Layout
-ISO.646.1991
+RFC0020
 \end_layout
 
 \end_inset
 
 , all octet strings separated from each other by RS octets.
- Each octet string in the sequence is to be parsed as a JSON-text.
+ Each octet string in the sequence is to be parsed as a JSON text.
 \end_layout
 
 \begin_layout Standard
-If parsing of such an octet string as a JSON-text fails, the parser should
- nonetheless continue parsing the remainder of the sequence; the parser
- SHOULD report such failures so that applications may terminate processing
- if desired.
+If parsing of such an octet string as a JSON text fails, the parser SHOULD
+ nonetheless continue parsing the remainder of the sequence.
+ The parser should report such failures to applications (which might choose
+ to terminate parsing of a sequence).
  Multiple consecutive RS octets do not denote empty sequence elements between
- them.
- Parsers MAY report about empty sequence elements.
+ them, and can be ignored.
+\end_layout
+
+\begin_layout Standard
+There is no end of sequence indicator.
 \end_layout
 
 \begin_layout Subsection
@@ -728,12 +743,12 @@ status open
 
 \begin_layout Plain Layout
 
-  RS = %x1E; see ISO 646-1991
+  RS = %x1E; see RFC20
 \end_layout
 
 \begin_layout Plain Layout
 
-  LF = %x0A; "line feed" (LF), see ISO 646-1991
+  LF = %x0A; "line feed" (LF), see RFC20
 \end_layout
 
 \begin_layout Plain Layout
@@ -770,9 +785,9 @@ JSON text sequence ABNF
 \end_layout
 
 \begin_layout Standard
-In prose: any number of JSON texts, each preceded and followed by one or
- more ASCII RS characters and each followed by a line feed (LF).
- Since ASCII RS is a control character it may only appear in JSON strings
+In prose: any number of JSON texts, each preceded and followed by one ASCII
+ RS character and each followed by a line feed (LF).
+ Since RS is an ASCII control character it may only appear in JSON strings
  in escaped form (see 
 \begin_inset Flex EntityXRef
 status collapsed
@@ -787,8 +802,32 @@ RFC7159
  delimits the start of any element in the sequence.
  RS is sufficient to unambiguously delimit all top-level JSON value types
  other than numbers.
- Following each JSON-text in the sequence with an LF serves to disambiguate
- JSON-texts consisting of numbers at the top-level.
+ Following each JSON text in the sequence with an LF allows detection of
+ truncated JSON texts consisting of a number at the top-level.
+\end_layout
+
+\begin_layout Standard
+Note that on some systems it's possible to input RS by typing 'ctrl-^'.
+ This is helpful when constructing a sequence manually with a text editor.
+\end_layout
+
+\begin_layout Subsection
+Incomplete JSON texts are not fatal
+\end_layout
+
+\begin_layout Standard
+Per-
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:ParsingRules"
+
+\end_inset
+
+, JSON text sequence parsers SHOULD NOT abort when an octet string contains
+ a malformed JSON text.
+ Such a situation may arise in contexts where, for example, append-writes
+ to log files are truncated by the filesystem (e.g., due to a crash, or administra
+tive process termination).
 \end_layout
 
 \begin_layout Subsection
@@ -796,7 +835,7 @@ Top-level numeric values
 \end_layout
 
 \begin_layout Standard
-Parsers MUST check that any JSON-texts that are a top-level number include
+Parsers MUST check that any JSON texts that are a top-level number include
  JSON whitespace (
 \begin_inset Quotes eld
 \end_inset
@@ -816,47 +855,11 @@ RFC7159
 \end_inset
 
 ) after the number, otherwise the JSON-text may have been truncated.
- Parsers MUST drop JSON-text sequence elements that may have been truncated
- (see previous sentence), but MAY report such texts (including, optionally,
- the parsed text and/or the original octet string).
-\end_layout
-
-\begin_layout Subsection
-Incomplete JSON texts are not be fatal
-\end_layout
-
-\begin_layout Standard
-Per-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:ParsingRules"
-
-\end_inset
-
-, JSON text sequence parsers SHOULD NOT abort when RS terminates an incomplete
- JSON text.
- Such a situation may arise in contexts where append-writes to log files
- are truncated by the filesystem (e.g., due to a crash, or administrative
- process termination).
-\end_layout
-
-\begin_layout Subsection
-Interoperability note
-\end_layout
-
-\begin_layout Standard
-There exist applications which use a format not unlike this one, but using
- LF instead of RS as the separator, some even using no separator between
- JSON texts.
- JSON text sequence parsers MAY parse such sequences, but JSON text sequence
- encoders MUST adhere to the rules in 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:EncodingRules"
-
-\end_inset
-
-.
+ Parsers MUST NOT report JSON-text sequence elements consisting of top-level
+ numbers that may have been truncated in the same way they would a complete
+ JSON-text.
+ Parsers MAY report such texts as errors (including, optionally, the parsed
+ text and/or the original octet string).
 \end_layout
 
 \begin_layout Section
@@ -882,50 +885,6 @@ RFC7159
 
  apply.
  This format provides no cryptographic integrity protection of any kind.
-\end_layout
-
-\begin_layout Standard
-There is no end of sequence indicator.
- This means that 
-\begin_inset Quotes eld
-\end_inset
-
-end of file
-\begin_inset Quotes erd
-\end_inset
-
-, 
-\begin_inset Quotes eld
-\end_inset
-
-end of transmission
-\begin_inset Quotes erd
-\end_inset
-
-, and so on, can be indistinguishable from truncation and/or arbitrary additions.
- Applications where this matters should denote end of sequence by convention
- (e.g., Content-Length in the Hypertext Transfer Protocol (HTTP) 
-\begin_inset Flex EntityXRef
-status collapsed
-
-\begin_layout Plain Layout
-RFC7230
-\end_layout
-
-\end_inset
-
-), and anyways they should use protocols that provide at least integrity
- protection of application data (e.g., Transport Layer Security (TLS) 
-\begin_inset Flex EntityXRef
-status collapsed
-
-\begin_layout Plain Layout
-RFC5246
-\end_layout
-
-\end_inset
-
-).
 \end_layout
 
 \begin_layout Section
@@ -1030,6 +989,26 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset CommandInset href
 LatexCommand href
+name "rfc0020"
+target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.0020.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
 name "rfc5234"
 target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml"
 
@@ -1063,74 +1042,6 @@ target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7159.xml"
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Flex EmbeddedBibXML
-status collapsed
-
-\begin_layout Plain Layout
-<reference anchor="ISO.646.1991"> <front> <title>Information technology -
- ISO 7-bit coded character set for information interchange</title> <author>
- <organization>International Organization for Standardization</organization>
- </author> <date month="" year="1991" /> </front>
-\end_layout
-
-\begin_layout Plain Layout
-<seriesInfo name="ISO" value="Standard 646" />
-\end_layout
-
-\begin_layout Plain Layout
-</reference>
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Informative References
-\end_layout
-
-\begin_layout Standard
-\begin_inset Flex BibXML
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset CommandInset href
-LatexCommand href
-name "rfc5246"
-target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5246.xml"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Flex BibXML
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset CommandInset href
-LatexCommand href
-name "rfc7230"
-target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7230.xml"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Acknowledgements
 \end_layout
@@ -1138,7 +1049,6 @@ Acknowledgements
 \begin_layout Standard
 Phillip Hallam-Baker proposed the use of JSON text sequences for logfiles
  and pointed out the need for resynchronization.
- James Manger contributed the ABNF for resynchronization.
  Stephen Dolan created 
 \begin_inset CommandInset href
 LatexCommand href
@@ -1152,7 +1062,7 @@ target "https://github.com/stedolan/jq"
  disambiguate on input).
  Carsten Bormann suggested the use of ASCII RS, and Joe Hildebrand suggested
  the use of LF in addition to RS for disambiguating top-level number values.
- Paul Hoffman shephered the Internet-Draft.
+ Paul Hoffman shepherded the Internet-Draft.
  Many others contributed reviews and comments on the JSON Working Group
  mailing list.
 \end_layout
