@@ -3,18 +3,18 @@
 
 json                                                         N. Williams
 Internet-Draft                                              Cryptonector
-Intended status: Standards Track                        October 23, 2014
-Expires: April 26, 2015
+Intended status: Standards Track                        December 8, 2014
+Expires: June 11, 2015
 
 
             JavaScript Object Notation (JSON) Text Sequences
-                    draft-ietf-json-text-sequence-08
+                    draft-ietf-json-text-sequence-10
 
 Abstract
 
    This document describes the JSON text sequence format and associated
    media type, "application/json-seq".  A JSON text sequence consists of
-   any number of JSON tests, each prefix by an Record Separator
+   any number of JSON texts, each prefix by an Record Separator
    (U+001E), and each ending with a newline character (U+000A).
 
 Status of this Memo
@@ -32,7 +32,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 26, 2015.
+   This Internet-Draft will expire on June 11, 2015.
 
 Copyright Notice
 
@@ -122,7 +122,8 @@ Table of Contents
    In prose: a series of octet strings, each containing any octet other
    than a record separator (RS) (0x1E) [RFC0020], all octet strings
    separated from each other by RS octets.  Each octet string in the
-   sequence is to be parsed as a JSON text.
+   sequence is to be parsed as a JSON text in the UTF-8 encoding
+   [RFC3629].
 
    If parsing of such an octet string as a JSON text fails, the parser
    SHOULD nonetheless continue parsing the remainder of the sequence.
@@ -139,20 +140,23 @@ Table of Contents
 
      JSON-sequence = *(RS JSON-text LF)
      RS = %x1E; see RFC20
+              ; Also known as: Unicode Character 'INFORMATION SEPARATOR
+              ;                TWO' (U+001E)
      LF = %x0A; "line feed" (LF), see RFC20
-     JSON-text = <given by RFC7159>
+     JSON-text = <given by RFC7159, using UTF-8 encoding>
 
                      Figure 2: JSON text sequence ABNF
 
-   In prose: any number of JSON texts, each preceded and followed by one
-   ASCII RS character and each followed by a line feed (LF).  Since RS
-   is an ASCII control character it may only appear in JSON strings in
-   escaped form (see [RFC7159]), and since RS may not appear in JSON
-   texts in any other form, RS unambiguously delimits the start of any
-   element in the sequence.  RS is sufficient to unambiguously delimit
-   all top-level JSON value types other than numbers.  Following each
-   JSON text in the sequence with an LF allows detection of truncated
-   JSON texts consisting of a number at the top-level.
+   In prose: any number of JSON texts, each encoded in UTF-8 [RFC3629],
+   each preceded by one ASCII RS character, and each followed by a line
+   feed (LF).  Since RS is an ASCII control character it may only appear
+   in JSON strings in escaped form (see [RFC7159]), and since RS may not
+   appear in JSON texts in any other form, RS unambiguously delimits the
+   start of any element in the sequence.  RS is sufficient to
+   unambiguously delimit all top-level JSON value types other than
+   numbers.  Following each JSON text in the sequence with an LF allows
+   detection of truncated JSON texts consisting of a number at the top-
+   level.
 
    Note that on some systems it's possible to input RS by typing
    'ctrl-^'.  This is helpful when constructing a sequence manually with
@@ -166,22 +170,35 @@ Table of Contents
    truncated by the filesystem (e.g., due to a crash, or administrative
    process termination).
 
+   Incremental JSON text parsers may be used, though of course failure
+   to parse a given text may result after first producing some
+   incremental parse results.
+
+   Sequence parsers SHOULD have an option to warn about truncated JSON
+   texts.
+
 2.4.  Top-level numeric values
 
    Parsers MUST check that any JSON texts that are a top-level number
    include JSON whitespace ("ws" ABNF rule from [RFC7159]) after the
    number, otherwise the JSON-text may have been truncated.  Parsers
-   MUST NOT report JSON-text sequence elements consisting of top-level
-   numbers that may have been truncated in the same way they would a
-   complete JSON-text.  Parsers MAY report such texts as errors
-   (including, optionally, the parsed text and/or the original octet
-   string).
+   MUST drop JSON-text sequence elements consisting of top-level numbers
+   that may have been truncated in the same way they would a complete
+   JSON-text.  Parsers can report such texts as errors (including,
+   optionally, the parsed text and/or the original octet string).
 
 
 3.  Security Considerations
 
    All the security considerations of JSON [RFC7159] apply.  This format
    provides no cryptographic integrity protection of any kind.
+
+   As usual, parsers must operate on as-good-as untrusted input.  This
+   means that parsers must fail gracefully in the face of malicious
+   inputs.  Note that incremental parsers can produce partial results
+   and later indicate failure to parse the remainder of a text.  Note
+   that texts that fail to parse and are ignored can be used to smuggle
+   data past sequence parsers that don't warn about JSON text failures.
 
 
 4.  IANA Considerations
@@ -208,6 +225,28 @@ Table of Contents
    Applications that use this media type: <by publication time
    <https://stedolan.github.io/jq> is likely to support this format>.
 
+   Fragment identifier considerations: N/A.
+
+   Additional information:
+
+   o  Deprecated alias names for this type: N/A.
+
+   o  Magic number(s): N/A
+
+   o  File extension(s): N/A.
+
+   o  Macintosh file type code(s): N/A.
+
+   o  Person & email address to contact for further information:
+
+      *  json@ietf.org
+
+   o  Intended usage: COMMON
+
+   o  Author: See the "Authors' Addresses" section of this document.
+
+   o  Change controller: IETF
+
 
 5.  Acknowledgements
 
@@ -230,6 +269,9 @@ Table of Contents
 
    [RFC0020]  Cerf, V., "ASCII format for network interchange", RFC 20,
               October 1969.
+
+   [RFC3629]  Yergeau, F., "UTF-8, a transformation format of ISO
+              10646", STD 63, RFC 3629, November 2003.
 
    [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234, January 2008.

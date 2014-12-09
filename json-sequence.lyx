@@ -282,7 +282,7 @@ JavaScript Object Notation (JSON) Text Sequences
 status open
 
 \begin_layout Plain Layout
-draft-ietf-json-text-sequence-08
+draft-ietf-json-text-sequence-10
 \end_layout
 
 \end_inset
@@ -463,7 +463,7 @@ application/json-seq
 \end_inset
 
 .
- A JSON text sequence consists of any number of JSON tests, each prefix
+ A JSON text sequence consists of any number of JSON texts, each prefix
  by an Record Separator (U+001E), and each ending with a newline character
  (U+000A).
 \end_layout
@@ -688,7 +688,18 @@ RFC0020
 \end_inset
 
 , all octet strings separated from each other by RS octets.
- Each octet string in the sequence is to be parsed as a JSON text.
+ Each octet string in the sequence is to be parsed as a JSON text in the
+ UTF-8 encoding 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC3629
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -748,12 +759,22 @@ status open
 
 \begin_layout Plain Layout
 
+           ; Also known as: Unicode Character 'INFORMATION SEPARATOR
+\end_layout
+
+\begin_layout Plain Layout
+
+           ;                TWO' (U+001E)
+\end_layout
+
+\begin_layout Plain Layout
+
   LF = %x0A; "line feed" (LF), see RFC20
 \end_layout
 
 \begin_layout Plain Layout
 
-  JSON-text = <given by RFC7159>
+  JSON-text = <given by RFC7159, using UTF-8 encoding>
 \end_layout
 
 \end_inset
@@ -785,8 +806,18 @@ JSON text sequence ABNF
 \end_layout
 
 \begin_layout Standard
-In prose: any number of JSON texts, each preceded and followed by one ASCII
- RS character and each followed by a line feed (LF).
+In prose: any number of JSON texts, each encoded in UTF-8 
+\begin_inset Flex EntityXRef
+status collapsed
+
+\begin_layout Plain Layout
+RFC3629
+\end_layout
+
+\end_inset
+
+, each preceded by one ASCII RS character, and each followed by a line feed
+ (LF).
  Since RS is an ASCII control character it may only appear in JSON strings
  in escaped form (see 
 \begin_inset Flex EntityXRef
@@ -830,6 +861,15 @@ reference "sub:ParsingRules"
 tive process termination).
 \end_layout
 
+\begin_layout Standard
+Incremental JSON text parsers may be used, though of course failure to parse
+ a given text may result after first producing some incremental parse results.
+\end_layout
+
+\begin_layout Standard
+Sequence parsers SHOULD have an option to warn about truncated JSON texts.
+\end_layout
+
 \begin_layout Subsection
 Top-level numeric values
 \end_layout
@@ -855,10 +895,9 @@ RFC7159
 \end_inset
 
 ) after the number, otherwise the JSON-text may have been truncated.
- Parsers MUST NOT report JSON-text sequence elements consisting of top-level
- numbers that may have been truncated in the same way they would a complete
- JSON-text.
- Parsers MAY report such texts as errors (including, optionally, the parsed
+ Parsers MUST drop JSON-text sequence elements consisting of top-level numbers
+ that may have been truncated in the same way they would a complete JSON-text.
+ Parsers can report such texts as errors (including, optionally, the parsed
  text and/or the original octet string).
 \end_layout
 
@@ -885,6 +924,15 @@ RFC7159
 
  apply.
  This format provides no cryptographic integrity protection of any kind.
+\end_layout
+
+\begin_layout Standard
+As usual, parsers must operate on as-good-as untrusted input.
+ This means that parsers must fail gracefully in the face of malicious inputs.
+ Note that incremental parsers can produce partial results and later indicate
+ failure to parse the remainder of a text.
+ Note that texts that fail to parse and are ignored can be used to smuggle
+ data past sequence parsers that don't warn about JSON text failures.
 \end_layout
 
 \begin_layout Section
@@ -952,6 +1000,52 @@ target "https://stedolan.github.io/jq"
  is likely to support this format>.
 \end_layout
 
+\begin_layout Standard
+Fragment identifier considerations: N/A.
+\end_layout
+
+\begin_layout Standard
+Additional information:
+\end_layout
+
+\begin_layout Itemize
+Deprecated alias names for this type: N/A.
+\end_layout
+
+\begin_layout Itemize
+Magic number(s): N/A
+\end_layout
+
+\begin_layout Itemize
+File extension(s): N/A.
+\end_layout
+
+\begin_layout Itemize
+Macintosh file type code(s): N/A.
+\end_layout
+
+\begin_layout Itemize
+Person & email address to contact for further information:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+json@ietf.org
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Intended usage: COMMON
+\end_layout
+
+\begin_layout Itemize
+Author: See the "Authors' Addresses" section of this document.
+\end_layout
+
+\begin_layout Itemize
+Change controller: IETF
+\end_layout
+
 \begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
@@ -991,6 +1085,26 @@ status collapsed
 LatexCommand href
 name "rfc0020"
 target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.0020.xml"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex BibXML
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "rfc3629"
+target "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3629.xml"
 
 \end_inset
 
