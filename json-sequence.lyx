@@ -703,9 +703,9 @@ RFC3629
 \end_layout
 
 \begin_layout Standard
-If parsing of such an octet string as a JSON text fails, the parser SHOULD
- nonetheless continue parsing the remainder of the sequence.
- The parser should report such failures to applications (which might choose
+If parsing of such an octet string as a UTF-8-encoded JSON text fails, the
+ parser SHOULD nonetheless continue parsing the remainder of the sequence.
+ The parser can report such failures to applications (which might then choose
  to terminate parsing of a sequence).
  Multiple consecutive RS octets do not denote empty sequence elements between
  them, and can be ignored.
@@ -834,7 +834,14 @@ RFC7159
  RS is sufficient to unambiguously delimit all top-level JSON value types
  other than numbers.
  Following each JSON text in the sequence with an LF allows detection of
- truncated JSON texts consisting of a number at the top-level.
+ truncated JSON texts consisting of a number at the top-level; see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Top-level"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -855,7 +862,8 @@ reference "sub:ParsingRules"
 \end_inset
 
 , JSON text sequence parsers SHOULD NOT abort when an octet string contains
- a malformed JSON text.
+ a malformed JSON textm instead the JSON text sequence parser should skip
+ to the next RS.
  Such a situation may arise in contexts where, for example, append-writes
  to log files are truncated by the filesystem (e.g., due to a crash, or administra
 tive process termination).
@@ -871,12 +879,25 @@ Sequence parsers SHOULD have an option to warn about truncated JSON texts.
 \end_layout
 
 \begin_layout Subsection
-Top-level numeric values
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Top-level"
+
+\end_inset
+
+Top-level numeric, 'true', 'false', and 'null' values
 \end_layout
 
 \begin_layout Standard
-Parsers MUST check that any JSON texts that are a top-level number include
- JSON whitespace (
+While objects, arrays, and strings are self-delimited in JSON texts, numbers,
+ and the values 'true', 'false', and 'null' are not.
+ Only whitespace can delimit the latter four kinds of values.
+\end_layout
+
+\begin_layout Standard
+Parsers MUST check that any JSON texts that are a top-level number, or which
+ might be 'true', 'false', or 'null' include JSON whitespace (at least one
+ byte matching the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -894,11 +915,49 @@ RFC7159
 
 \end_inset
 
-) after the number, otherwise the JSON-text may have been truncated.
- Parsers MUST drop JSON-text sequence elements consisting of top-level numbers
- that may have been truncated in the same way they would a complete JSON-text.
- Parsers can report such texts as errors (including, optionally, the parsed
+) after that value, otherwise the JSON-text may have been truncated.
+ Note that the LF following each JSON text matches the 
+\begin_inset Quotes eld
+\end_inset
+
+ws
+\begin_inset Quotes erd
+\end_inset
+
+ ABNF rule.
+\end_layout
+
+\begin_layout Standard
+Parsers MUST drop JSON-text sequence elements consisting of non-self-delimited
+ top-level values that may have been truncated (that are not delimited by
+ whitespace).
+ Parsers can report such texts as warnings (including, optionally, the parsed
  text and/or the original octet string).
+\end_layout
+
+\begin_layout Standard
+For example, '<RS>123<RS>' might have been intended to carry the top-level
+ number 123.4, but must have been truncated.
+ Similarly, '<RS>true<RS>' might have been intended to carry the invalid
+ text 'trueish'.
+ '<RS>truefalse<RS>' is not two top-level values, 'true', and 'false'; it
+ is simply not a valid JSON text.
+\end_layout
+
+\begin_layout Standard
+Implementations may produce a value when parsing '<RS>
+\begin_inset Quotes erd
+\end_inset
+
+foo
+\begin_inset Quotes erd
+\end_inset
+
+<RS>' because their JSON text parser might be able to consume bytes incrementall
+y, and since the JSON text in this case is a self-delimiting top-level value,
+ the parser can produce the result without consuming an additional byte.
+ Such implementations ought to skip to the next RS byte, possibly reporting
+ any intervening non-whitespace bytes.
 \end_layout
 
 \begin_layout Section

@@ -3,8 +3,8 @@
 
 json                                                         N. Williams
 Internet-Draft                                              Cryptonector
-Intended status: Standards Track                        December 8, 2014
-Expires: June 11, 2015
+Intended status: Standards Track                        December 9, 2014
+Expires: June 12, 2015
 
 
             JavaScript Object Notation (JSON) Text Sequences
@@ -32,7 +32,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 11, 2015.
+   This Internet-Draft will expire on June 12, 2015.
 
 Copyright Notice
 
@@ -58,7 +58,7 @@ Table of Contents
    2.1.  JSON text sequence parsing
    2.2.  JSON text sequence encoding
    2.3.  Incomplete JSON texts are not fatal
-   2.4.  Top-level numeric values
+   2.4.  Top-level numeric, 'true', 'false', and 'null' values
    3.    Security Considerations
    4.    IANA Considerations
    5.    Acknowledgements
@@ -125,12 +125,12 @@ Table of Contents
    sequence is to be parsed as a JSON text in the UTF-8 encoding
    [RFC3629].
 
-   If parsing of such an octet string as a JSON text fails, the parser
-   SHOULD nonetheless continue parsing the remainder of the sequence.
-   The parser should report such failures to applications (which might
-   choose to terminate parsing of a sequence).  Multiple consecutive RS
-   octets do not denote empty sequence elements between them, and can be
-   ignored.
+   If parsing of such an octet string as a UTF-8-encoded JSON text
+   fails, the parser SHOULD nonetheless continue parsing the remainder
+   of the sequence.  The parser can report such failures to applications
+   (which might then choose to terminate parsing of a sequence).
+   Multiple consecutive RS octets do not denote empty sequence elements
+   between them, and can be ignored.
 
    There is no end of sequence indicator.
 
@@ -156,7 +156,7 @@ Table of Contents
    unambiguously delimit all top-level JSON value types other than
    numbers.  Following each JSON text in the sequence with an LF allows
    detection of truncated JSON texts consisting of a number at the top-
-   level.
+   level; see Section 2.4.
 
    Note that on some systems it's possible to input RS by typing
    'ctrl-^'.  This is helpful when constructing a sequence manually with
@@ -165,7 +165,8 @@ Table of Contents
 2.3.  Incomplete JSON texts are not fatal
 
    Per- Section 2.1, JSON text sequence parsers SHOULD NOT abort when an
-   octet string contains a malformed JSON text.  Such a situation may
+   octet string contains a malformed JSON textm instead the JSON text
+   sequence parser should skip to the next RS.  Such a situation may
    arise in contexts where, for example, append-writes to log files are
    truncated by the filesystem (e.g., due to a crash, or administrative
    process termination).
@@ -177,15 +178,37 @@ Table of Contents
    Sequence parsers SHOULD have an option to warn about truncated JSON
    texts.
 
-2.4.  Top-level numeric values
+2.4.  Top-level numeric, 'true', 'false', and 'null' values
 
-   Parsers MUST check that any JSON texts that are a top-level number
-   include JSON whitespace ("ws" ABNF rule from [RFC7159]) after the
-   number, otherwise the JSON-text may have been truncated.  Parsers
-   MUST drop JSON-text sequence elements consisting of top-level numbers
-   that may have been truncated in the same way they would a complete
-   JSON-text.  Parsers can report such texts as errors (including,
-   optionally, the parsed text and/or the original octet string).
+   While objects, arrays, and strings are self-delimited in JSON texts,
+   numbers, and the values 'true', 'false', and 'null' are not.  Only
+   whitespace can delimit the latter four kinds of values.
+
+   Parsers MUST check that any JSON texts that are a top-level number,
+   or which might be 'true', 'false', or 'null' include JSON whitespace
+   (at least one byte matching the "ws" ABNF rule from [RFC7159]) after
+   that value, otherwise the JSON-text may have been truncated.  Note
+   that the LF following each JSON text matches the "ws" ABNF rule.
+
+   Parsers MUST drop JSON-text sequence elements consisting of non-self-
+   delimited top-level values that may have been truncated (that are not
+   delimited by whitespace).  Parsers can report such texts as warnings
+   (including, optionally, the parsed text and/or the original octet
+   string).
+
+   For example, '<RS>123<RS>' might have been intended to carry the top-
+   level number 123.4, but must have been truncated.  Similarly,
+   '<RS>true<RS>' might have been intended to carry the invalid text
+   'trueish'. '<RS>truefalse<RS>' is not two top-level values, 'true',
+   and 'false'; it is simply not a valid JSON text.
+
+   Implementations may produce a value when parsing '<RS>"foo"<RS>'
+   because their JSON text parser might be able to consume bytes
+   incrementally, and since the JSON text in this case is a self-
+   delimiting top-level value, the parser can produce the result without
+   consuming an additional byte.  Such implementations ought to skip to
+   the next RS byte, possibly reporting any intervening non-whitespace
+   bytes.
 
 
 3.  Security Considerations

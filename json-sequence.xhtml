@@ -327,16 +327,16 @@ This document describes the JSON text sequence format and associated media type,
 
 <div class='lyxtoc-2'><a href='#magicparlabel-154' class='tocentry'>2.3 Incomplete JSON texts are not fatal</a> <a href='#magicparlabel-154' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-2'><a href='#magicparlabel-158' class='tocentry'>2.4 Top-level numeric values</a> <a href='#magicparlabel-158' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-2'><a href='#magicparlabel-158' class='tocentry'>2.4 Top-level numeric, 'true', 'false', and 'null' values</a> <a href='#magicparlabel-158' class='tocarrow'>&gt;</a></div>
 </div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-164' class='tocentry'>3 Security Considerations</a> <a href='#magicparlabel-164' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-168' class='tocentry'>3 Security Considerations</a> <a href='#magicparlabel-168' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-171' class='tocentry'>4 IANA Considerations</a> <a href='#magicparlabel-171' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-175' class='tocentry'>4 IANA Considerations</a> <a href='#magicparlabel-175' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-193' class='tocentry'>5 Normative References</a> <a href='#magicparlabel-193' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-197' class='tocentry'>5 Normative References</a> <a href='#magicparlabel-197' class='tocarrow'>&gt;</a></div>
 
-<div class='lyxtoc-1'><a href='#magicparlabel-219' class='tocentry'>6 Acknowledgements</a> <a href='#magicparlabel-219' class='tocarrow'>&gt;</a></div>
+<div class='lyxtoc-1'><a href='#magicparlabel-223' class='tocentry'>6 Acknowledgements</a> <a href='#magicparlabel-223' class='tocarrow'>&gt;</a></div>
 </div>
 
 <h2 class="section"><span class="section_label">1</span> <a id='magicparlabel-72' />
@@ -397,7 +397,7 @@ RFC3629</div>
 </div>.</div>
 
 <div class="standard"><a id='magicparlabel-121' />
-If parsing of such an octet string as a JSON text fails, the parser SHOULD nonetheless continue parsing the remainder of the sequence. The parser should report such failures to applications (which might choose to terminate parsing of a sequence). Multiple consecutive RS octets do not denote empty sequence elements between them, and can be ignored.</div>
+If parsing of such an octet string as a UTF-8-encoded JSON text fails, the parser SHOULD nonetheless continue parsing the remainder of the sequence. The parser can report such failures to applications (which might then choose to terminate parsing of a sequence). Multiple consecutive RS octets do not denote empty sequence elements between them, and can be ignored.</div>
 
 <div class="standard"><a id='magicparlabel-122' />
 There is no end of sequence indicator.</div>
@@ -432,14 +432,14 @@ In prose: any number of JSON texts, each encoded in UTF-8 <div class="flex_entit
 RFC3629</div>
 </div>, each preceded by one ASCII RS character, and each followed by a line feed (LF). Since RS is an ASCII control character it may only appear in JSON strings in escaped form (see <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-152' />
 RFC7159</div>
-</div>), and since RS may not appear in JSON texts in any other form, RS unambiguously delimits the start of any element in the sequence. RS is sufficient to unambiguously delimit all top-level JSON value types other than numbers. Following each JSON text in the sequence with an LF allows detection of truncated JSON texts consisting of a number at the top-level.</div>
+</div>), and since RS may not appear in JSON texts in any other form, RS unambiguously delimits the start of any element in the sequence. RS is sufficient to unambiguously delimit all top-level JSON value types other than numbers. Following each JSON text in the sequence with an LF allows detection of truncated JSON texts consisting of a number at the top-level; see <a href="#sub_Top_level">2.4</a>.</div>
 
 <div class="standard"><a id='magicparlabel-153' />
 Note that on some systems it's possible to input RS by typing 'ctrl-^'. This is helpful when constructing a sequence manually with a text editor.</div>
 <h3 class="subsection"><span class="subsection_label">2.3</span> <a id='magicparlabel-154' />
 Incomplete JSON texts are not fatal</h3>
 <div class="standard"><a id='magicparlabel-155' />
-Per-<a href="#sub_ParsingRules">2.1</a>, JSON text sequence parsers SHOULD NOT abort when an octet string contains a malformed JSON text. Such a situation may arise in contexts where, for example, append-writes to log files are truncated by the filesystem (e.g., due to a crash, or administrative process termination).</div>
+Per-<a href="#sub_ParsingRules">2.1</a>, JSON text sequence parsers SHOULD NOT abort when an octet string contains a malformed JSON textm instead the JSON text sequence parser should skip to the next RS. Such a situation may arise in contexts where, for example, append-writes to log files are truncated by the filesystem (e.g., due to a crash, or administrative process termination).</div>
 
 <div class="standard"><a id='magicparlabel-156' />
 Incremental JSON text parsers may be used, though of course failure to parse a given text may result after first producing some incremental parse results.</div>
@@ -447,111 +447,124 @@ Incremental JSON text parsers may be used, though of course failure to parse a g
 <div class="standard"><a id='magicparlabel-157' />
 Sequence parsers SHOULD have an option to warn about truncated JSON texts.</div>
 <h3 class="subsection"><span class="subsection_label">2.4</span> <a id='magicparlabel-158' />
-Top-level numeric values</h3>
+<a id="sub_Top_level" />
+Top-level numeric, 'true', 'false', and 'null' values</h3>
 <div class="standard"><a id='magicparlabel-159' />
-Parsers MUST check that any JSON texts that are a top-level number include JSON whitespace (&ldquo;ws&rdquo; ABNF rule from <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-163' />
+While objects, arrays, and strings are self-delimited in JSON texts, numbers, and the values 'true', 'false', and 'null' are not. Only whitespace can delimit the latter four kinds of values.</div>
+
+<div class="standard"><a id='magicparlabel-160' />
+Parsers MUST check that any JSON texts that are a top-level number, or which might be 'true', 'false', or 'null' include JSON whitespace (at least one byte matching the &ldquo;ws&rdquo; ABNF rule from <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-164' />
 RFC7159</div>
-</div>) after the number, otherwise the JSON-text may have been truncated. Parsers MUST drop JSON-text sequence elements consisting of top-level numbers that may have been truncated in the same way they would a complete JSON-text. Parsers can report such texts as errors (including, optionally, the parsed text and/or the original octet string).</div>
-<h2 class="section"><span class="section_label">3</span> <a id='magicparlabel-164' />
+</div>) after that value, otherwise the JSON-text may have been truncated. Note that the LF following each JSON text matches the &ldquo;ws&rdquo; ABNF rule.</div>
+
+<div class="standard"><a id='magicparlabel-165' />
+Parsers MUST drop JSON-text sequence elements consisting of non-self-delimited top-level values that may have been truncated (that are not delimited by whitespace). Parsers can report such texts as warnings (including, optionally, the parsed text and/or the original octet string).</div>
+
+<div class="standard"><a id='magicparlabel-166' />
+For example, '&lt;RS&gt;123&lt;RS&gt;' might have been intended to carry the top-level number 123.4, but must have been truncated. Similarly, '&lt;RS&gt;true&lt;RS&gt;' might have been intended to carry the invalid text 'trueish'. '&lt;RS&gt;truefalse&lt;RS&gt;' is not two top-level values, 'true', and 'false'; it is simply not a valid JSON text.</div>
+
+<div class="standard"><a id='magicparlabel-167' />
+Implementations may produce a value when parsing '&lt;RS&gt;&rdquo;foo&rdquo;&lt;RS&gt;' because their JSON text parser might be able to consume bytes incrementally, and since the JSON text in this case is a self-delimiting top-level value, the parser can produce the result without consuming an additional byte. Such implementations ought to skip to the next RS byte, possibly reporting any intervening non-whitespace bytes.</div>
+<h2 class="section"><span class="section_label">3</span> <a id='magicparlabel-168' />
 <a id="sec_Security_Considerations" />
 Security Considerations</h2>
-<div class="standard"><a id='magicparlabel-165' />
-All the security considerations of JSON <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-169' />
+<div class="standard"><a id='magicparlabel-169' />
+All the security considerations of JSON <div class="flex_entityxref"><div class="plain_layout"><a id='magicparlabel-173' />
 RFC7159</div>
 </div> apply. This format provides no cryptographic integrity protection of any kind.</div>
 
-<div class="standard"><a id='magicparlabel-170' />
+<div class="standard"><a id='magicparlabel-174' />
 As usual, parsers must operate on as-good-as untrusted input. This means that parsers must fail gracefully in the face of malicious inputs. Note that incremental parsers can produce partial results and later indicate failure to parse the remainder of a text. Note that texts that fail to parse and are ignored can be used to smuggle data past sequence parsers that don't warn about JSON text failures.</div>
-<h2 class="section"><span class="section_label">4</span> <a id='magicparlabel-171' />
+<h2 class="section"><span class="section_label">4</span> <a id='magicparlabel-175' />
 <a id="sec_IANA_Considerations" />
 IANA Considerations</h2>
-<div class="standard"><a id='magicparlabel-172' />
+<div class="standard"><a id='magicparlabel-176' />
 The MIME media type for JSON text sequences is application/json-seq.</div>
 
-<div class="standard"><a id='magicparlabel-173' />
+<div class="standard"><a id='magicparlabel-177' />
 Type name: application</div>
 
-<div class="standard"><a id='magicparlabel-174' />
+<div class="standard"><a id='magicparlabel-178' />
 Subtype name: json-seq</div>
 
-<div class="standard"><a id='magicparlabel-175' />
+<div class="standard"><a id='magicparlabel-179' />
 Required parameters: n/a</div>
 
-<div class="standard"><a id='magicparlabel-176' />
+<div class="standard"><a id='magicparlabel-180' />
 Optional parameters: n/a</div>
 
-<div class="standard"><a id='magicparlabel-177' />
+<div class="standard"><a id='magicparlabel-181' />
 Encoding considerations: binary</div>
 
-<div class="standard"><a id='magicparlabel-178' />
+<div class="standard"><a id='magicparlabel-182' />
 Security considerations: See &lt;this document, once published&gt;, <a href="#sec_Security_Considerations">3</a>.</div>
 
-<div class="standard"><a id='magicparlabel-179' />
+<div class="standard"><a id='magicparlabel-183' />
 Interoperability considerations: Described herein.</div>
 
-<div class="standard"><a id='magicparlabel-180' />
+<div class="standard"><a id='magicparlabel-184' />
 Published specification: &lt;this document, once published&gt;.</div>
 
-<div class="standard"><a id='magicparlabel-181' />
+<div class="standard"><a id='magicparlabel-185' />
 Applications that use this media type: &lt;by publication time <a href="https://stedolan.github.io/jq">jq</a> is likely to support this format&gt;.</div>
 
-<div class="standard"><a id='magicparlabel-182' />
+<div class="standard"><a id='magicparlabel-186' />
 Fragment identifier considerations: N/A.</div>
 
-<div class="standard"><a id='magicparlabel-183' />
+<div class="standard"><a id='magicparlabel-187' />
 Additional information:</div>
 
-<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-184' />
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-188' />
 Deprecated alias names for this type: N/A.</li>
-<li class="itemize_item"><a id='magicparlabel-185' />
+<li class="itemize_item"><a id='magicparlabel-189' />
 Magic number(s): N/A</li>
-<li class="itemize_item"><a id='magicparlabel-186' />
+<li class="itemize_item"><a id='magicparlabel-190' />
 File extension(s): N/A.</li>
-<li class="itemize_item"><a id='magicparlabel-187' />
+<li class="itemize_item"><a id='magicparlabel-191' />
 Macintosh file type code(s): N/A.</li>
-<li class="itemize_item"><a id='magicparlabel-188' />
+<li class="itemize_item"><a id='magicparlabel-192' />
 Person &amp; email address to contact for further information:
 
-<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-189' />
+<ul class="itemize"><li class="itemize_item"><a id='magicparlabel-193' />
 json@ietf.org</li>
 </ul>
-</li><li class="itemize_item"><a id='magicparlabel-190' />
+</li><li class="itemize_item"><a id='magicparlabel-194' />
 Intended usage: COMMON</li>
-<li class="itemize_item"><a id='magicparlabel-191' />
+<li class="itemize_item"><a id='magicparlabel-195' />
 Author: See the "Authors' Addresses" section of this document.</li>
-<li class="itemize_item"><a id='magicparlabel-192' />
+<li class="itemize_item"><a id='magicparlabel-196' />
 Change controller: IETF</li>
 </ul>
-<h2 class="section"><span class="section_label">5</span> <a id='magicparlabel-193' />
+<h2 class="section"><span class="section_label">5</span> <a id='magicparlabel-197' />
 <a id="sec_References" />
 Normative References</h2>
-<div class="standard"><a id='magicparlabel-194' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-198' />
+<div class="standard"><a id='magicparlabel-198' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-202' />
 <a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">rfc2119</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-199' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-203' />
+<div class="standard"><a id='magicparlabel-203' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-207' />
 <a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.0020.xml">rfc0020</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-204' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-208' />
+<div class="standard"><a id='magicparlabel-208' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-212' />
 <a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3629.xml">rfc3629</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-209' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-213' />
+<div class="standard"><a id='magicparlabel-213' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-217' />
 <a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">rfc5234</a></div>
 </div></div>
 
-<div class="standard"><a id='magicparlabel-214' />
-<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-218' />
+<div class="standard"><a id='magicparlabel-218' />
+<div class="flex_bibxml"><div class="plain_layout"><a id='magicparlabel-222' />
 <a href="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7159.xml">rfc7159</a></div>
 </div></div>
-<h2 class="section"><span class="section_label">6</span> <a id='magicparlabel-219' />
+<h2 class="section"><span class="section_label">6</span> <a id='magicparlabel-223' />
 Acknowledgements</h2>
-<div class="standard"><a id='magicparlabel-220' />
+<div class="standard"><a id='magicparlabel-224' />
 Phillip Hallam-Baker proposed the use of JSON text sequences for logfiles and pointed out the need for resynchronization. Stephen Dolan created <a href="https://github.com/stedolan/jq">jq</a>, which uses something like JSON text sequences (with LF as the separator between texts on output, and requiring only such whitespace as needed to disambiguate on input). Carsten Bormann suggested the use of ASCII RS, and Joe Hildebrand suggested the use of LF in addition to RS for disambiguating top-level number values. Paul Hoffman shepherded the Internet-Draft. Many others contributed reviews and comments on the JSON Working Group mailing list.</div>
 </body>
 </html>
