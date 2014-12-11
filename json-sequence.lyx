@@ -282,7 +282,7 @@ JavaScript Object Notation (JSON) Text Sequences
 status open
 
 \begin_layout Plain Layout
-draft-ietf-json-text-sequence-10
+draft-ietf-json-text-sequence-11
 \end_layout
 
 \end_inset
@@ -463,9 +463,9 @@ application/json-seq
 \end_inset
 
 .
- A JSON text sequence consists of any number of JSON texts, each prefix
- by an Record Separator (U+001E), and each ending with a newline character
- (U+000A).
+ A JSON text sequence consists of any number of JSON texts, all encoded
+ in UTF-8, each prefixed by an ASCII Record Separator (0x1E), and each ending
+ with an ASCII Line Feed character (0x1E).
 \end_layout
 
 \begin_layout Standard
@@ -577,7 +577,11 @@ Two different sets of ABNF rules are provided for the definition of JSON
  then interpreted as JSON texts if possible.
  The syntax for encoders, on the other hand, assumes that sequence elements
  are not truncated.
- 
+\end_layout
+
+\begin_layout Standard
+JSON text sequences MUST use UTF-8 encoding; other encodings of JSON (i.e.,
+ UTF-16 and UTF-32) MUST NOT be used.
 \end_layout
 
 \begin_layout Subsection
@@ -630,6 +634,16 @@ status open
 \begin_layout Plain Layout
 
   RS = %x1E; "record separator" (RS), see RFC20
+\end_layout
+
+\begin_layout Plain Layout
+
+           ; Also known as: Unicode Character 'INFORMATION SEPARATOR
+\end_layout
+
+\begin_layout Plain Layout
+
+           ;                TWO' (U+001E)
 \end_layout
 
 \begin_layout Plain Layout
@@ -1017,11 +1031,11 @@ Subtype name: json-seq
 \end_layout
 
 \begin_layout Standard
-Required parameters: n/a
+Required parameters: N/A
 \end_layout
 
 \begin_layout Standard
-Optional parameters: n/a
+Optional parameters: N/A
 \end_layout
 
 \begin_layout Standard

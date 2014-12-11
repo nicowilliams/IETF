@@ -3,19 +3,20 @@
 
 json                                                         N. Williams
 Internet-Draft                                              Cryptonector
-Intended status: Standards Track                        December 9, 2014
-Expires: June 12, 2015
+Intended status: Standards Track                       December 11, 2014
+Expires: June 14, 2015
 
 
             JavaScript Object Notation (JSON) Text Sequences
-                    draft-ietf-json-text-sequence-10
+                    draft-ietf-json-text-sequence-11
 
 Abstract
 
    This document describes the JSON text sequence format and associated
    media type, "application/json-seq".  A JSON text sequence consists of
-   any number of JSON texts, each prefix by an Record Separator
-   (U+001E), and each ending with a newline character (U+000A).
+   any number of JSON texts, all encoded in UTF-8, each prefixed by an
+   ASCII Record Separator (0x1E), and each ending with an ASCII Line
+   Feed character (0x1E).
 
 Status of this Memo
 
@@ -32,7 +33,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 12, 2015.
+   This Internet-Draft will expire on June 14, 2015.
 
 Copyright Notice
 
@@ -106,6 +107,9 @@ Table of Contents
    encoders, on the other hand, assumes that sequence elements are not
    truncated.
 
+   JSON text sequences MUST use UTF-8 encoding; other encodings of JSON
+   (i.e., UTF-16 and UTF-32) MUST NOT be used.
+
 2.1.  JSON text sequence parsing
 
    The ABNF [RFC5234] for the JSON text sequence parser is as given in
@@ -113,6 +117,8 @@ Table of Contents
 
      JSON-sequence = *(1*RS possible-JSON)
      RS = %x1E; "record separator" (RS), see RFC20
+              ; Also known as: Unicode Character 'INFORMATION SEPARATOR
+              ;                TWO' (U+001E)
      possible-JSON = 1*(not-RS); attempt to parse as UTF-8-encoded
                                ; JSON text (see RFC7159)
      not-RS = %x00-1d / %x1f-ff; any octets other than RS
@@ -232,9 +238,9 @@ Table of Contents
 
    Subtype name: json-seq
 
-   Required parameters: n/a
+   Required parameters: N/A
 
-   Optional parameters: n/a
+   Optional parameters: N/A
 
    Encoding considerations: binary
 
