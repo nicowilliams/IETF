@@ -14,7 +14,7 @@
 <!ENTITY rfc5234 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
 <!ENTITY rfc7159 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7159.xml">
 ]>
-<rfc docName="draft-ietf-json-text-sequence-11" ipr="trust200902" category="std">
+<rfc docName="draft-ietf-json-text-sequence-12" ipr="trust200902" category="std">
   <front>
     <title abbrev="JSON Text Sequences">JavaScript Object Notation (JSON) Text Sequences</title>
     <author initials="N." surname="Williams" fullname="Nicolas Williams">
@@ -33,7 +33,7 @@ json
     <keyword>Internet-Draft</keyword>
     <abstract>
       <t>
-This document describes the JSON text sequence format and associated media type, “application/json-seq”. A JSON text sequence consists of any number of JSON texts, all encoded in UTF-8, each prefixed by an ASCII Record Separator (0x1E), and each ending with an ASCII Line Feed character (0x1E).</t>
+This document describes the JSON text sequence format and associated media type, “application/json-seq”. A JSON text sequence consists of any number of JSON texts, all encoded in UTF-8, each prefixed by an ASCII Record Separator (0x1E), and each ending with an ASCII Line Feed character (0x1A).</t>
     </abstract>
   </front>
   <middle>
@@ -71,9 +71,11 @@ The ABNF <xref target="RFC5234"/> for the JSON text sequence parser is as given 
           </figure>
         </t>
         <t>
-In prose: a series of octet strings, each containing any octet other than a record separator (RS) (0x1E) <xref target="RFC0020"/>, all octet strings separated from each other by RS octets. Each octet string in the sequence is to be parsed as a JSON text in the UTF-8 encoding <xref target="RFC3629"/>.</t>
+In prose: a series of octet strings, each containing any octet other than a record separator (RS) (0x1E) [RFC0020], all octet strings separated from each other by RS octets.  Each octet string in the sequence is to be parsed as a JSON text in the UTF-8 encoding [RFC3629]. </t>
         <t>
 If parsing of such an octet string as a UTF-8-encoded JSON text fails, the parser SHOULD nonetheless continue parsing the remainder of the sequence. The parser can report such failures to applications (which might then choose to terminate parsing of a sequence). Multiple consecutive RS octets do not denote empty sequence elements between them, and can be ignored.</t>
+        <t>
+This document does not define a mechanism for reliably identifying text sequence by position (for example, when sending individual elements of an array as unique text sequences). For applications where truncation is a possibility, this means that intended sequence elements can be truncated, and can even be missing entirely, therefore a reference to an nth element would be unreliable.</t>
         <t>
 There is no end of sequence indicator.</t>
       </section>
@@ -95,25 +97,29 @@ The ABNF for the JSON text sequence encoder is given in  <xref target="fig_ABNF_
         <t>
 In prose: any number of JSON texts, each encoded in UTF-8 <xref target="RFC3629"/>, each preceded by one ASCII RS character, and each followed by a line feed (LF). Since RS is an ASCII control character it may only appear in JSON strings in escaped form (see <xref target="RFC7159"/>), and since RS may not appear in JSON texts in any other form, RS unambiguously delimits the start of any element in the sequence. RS is sufficient to unambiguously delimit all top-level JSON value types other than numbers. Following each JSON text in the sequence with an LF allows detection of truncated JSON texts consisting of a number at the top-level; see  <xref target="sub_Top_level"/>.</t>
         <t>
-Note that on some systems it's possible to input RS by typing 'ctrl-^'. This is helpful when constructing a sequence manually with a text editor.</t>
-      </section>
-      <section title="Incomplete JSON texts are not fatal" anchor="d1e391">
+JSON text sequence encoders are expected to ensure that the sequence elements are properly formed. When the JSON text sequence encoder does the JSON text encoding, the sequence elements will naturally be properly formed. When the JSON text sequence encoder accepts already-encoded JSON texts, the JSON text sequence encoder ought to to parse them before adding them to a sequence.</t>
         <t>
-Per- <xref target="sub_ParsingRules"/>, JSON text sequence parsers SHOULD NOT abort when an octet string contains a malformed JSON textm instead the JSON text sequence parser should skip to the next RS. Such a situation may arise in contexts where, for example, append-writes to log files are truncated by the filesystem (e.g., due to a crash, or administrative process termination).</t>
+Note that on some systems it's possible to input RS by typing 'ctrl-^'; on some system or applications the correct sequence may be 'ctrl-v crtl-^'. This is helpful when constructing a sequence manually with a text editor.</t>
+      </section>
+      <section title="Incomplete/invalid JSON texts need not be fatal" anchor="d1e385">
+        <t>
+Per- <xref target="sub_ParsingRules"/>, JSON text sequence parsers should not abort when an octet string contains a malformed JSON text, instead the JSON text sequence parser should skip to the next RS. Such a situation may arise in contexts where, for example, append-writes to log files are truncated by the filesystem (e.g., due to a crash, or administrative process termination).</t>
         <t>
 Incremental JSON text parsers may be used, though of course failure to parse a given text may result after first producing some incremental parse results.</t>
         <t>
-Sequence parsers SHOULD have an option to warn about truncated JSON texts.</t>
+Sequence parsers should have an option to warn about truncated JSON texts.</t>
       </section>
       <section title="Top-level numeric, 'true', 'false', and 'null' values" anchor="sub_Top_level">
         <t>
 While objects, arrays, and strings are self-delimited in JSON texts, numbers, and the values 'true', 'false', and 'null' are not. Only whitespace can delimit the latter four kinds of values.</t>
         <t>
+JSON text sequences use 0x0A as a "canary" octet to detect truncation.</t>
+        <t>
 Parsers MUST check that any JSON texts that are a top-level number, or which might be 'true', 'false', or 'null' include JSON whitespace (at least one byte matching the “ws” ABNF rule from <xref target="RFC7159"/>) after that value, otherwise the JSON-text may have been truncated. Note that the LF following each JSON text matches the “ws” ABNF rule.</t>
         <t>
 Parsers MUST drop JSON-text sequence elements consisting of non-self-delimited top-level values that may have been truncated (that are not delimited by whitespace). Parsers can report such texts as warnings (including, optionally, the parsed text and/or the original octet string).</t>
         <t>
-For example, '&lt;RS&gt;123&lt;RS&gt;' might have been intended to carry the top-level number 123.4, but must have been truncated. Similarly, '&lt;RS&gt;true&lt;RS&gt;' might have been intended to carry the invalid text 'trueish'. '&lt;RS&gt;truefalse&lt;RS&gt;' is not two top-level values, 'true', and 'false'; it is simply not a valid JSON text.</t>
+For example, '&lt;RS&gt;123&lt;RS&gt;' might have been intended to carry the top-level number 1234, but must have been truncated. Similarly, '&lt;RS&gt;true&lt;RS&gt;' might have been intended to carry the invalid text 'trueish'. '&lt;RS&gt;truefalse&lt;RS&gt;' is not two top-level values, 'true', and 'false'; it is simply not a valid JSON text.</t>
         <t>
 Implementations may produce a value when parsing '&lt;RS&gt;”foo”&lt;RS&gt;' because their JSON text parser might be able to consume bytes incrementally, and since the JSON text in this case is a self-delimiting top-level value, the parser can produce the result without consuming an additional byte. Such implementations ought to skip to the next RS byte, possibly reporting any intervening non-whitespace bytes.</t>
       </section>
@@ -122,7 +128,11 @@ Implementations may produce a value when parsing '&lt;RS&gt;”foo”&lt;RS&gt;'
       <t>
 All the security considerations of JSON <xref target="RFC7159"/> apply. This format provides no cryptographic integrity protection of any kind.</t>
       <t>
-As usual, parsers must operate on as-good-as untrusted input. This means that parsers must fail gracefully in the face of malicious inputs. Note that incremental parsers can produce partial results and later indicate failure to parse the remainder of a text. Note that texts that fail to parse and are ignored can be used to smuggle data past sequence parsers that don't warn about JSON text failures.</t>
+As usual, parsers must operate on as-good-as untrusted input. This means that parsers must fail gracefully in the face of malicious inputs.</t>
+      <t>
+Note that incremental JSON text parsers can produce partial results and later indicate failure to parse the remainder of a text. A sequence parser that uses an incremental JSON text parser might treat a sequence like '&lt;RS&gt;”foo”&lt;LF&gt;456&lt;LF&gt;&lt;RS&gt;' as a sequence of one element (“foo”), while a sequence parser that uses a non-incremental JSON text parser might treat the same sequence as being empty. This effect, and texts that fail to parse and are ignored can be used to smuggle data past sequence parsers that don't warn about JSON text failures.</t>
+      <t>
+Repeated parsing and re-encoding of a JSON text sequence can result in the addition (or stripping) of trailing LF bytes from (to) individual sequence element JSON texts. This can break signature validation. JSON has no canonical form for JSON texts, therefore neither does the JSON text sequence format.</t>
     </section>
     <section title="IANA Considerations" anchor="sec_IANA_Considerations">
       <t>
@@ -174,7 +184,7 @@ Change controller: IETF</t>
         </list>
       </t>
     </section>
-    <section title="Acknowledgements" anchor="d1e599">
+    <section title="Acknowledgements" anchor="d1e602">
       <t>
 Phillip Hallam-Baker proposed the use of JSON text sequences for logfiles and pointed out the need for resynchronization. Stephen Dolan created <eref target="https://github.com/stedolan/jq"/>, which uses something like JSON text sequences (with LF as the separator between texts on output, and requiring only such whitespace as needed to disambiguate on input). Carsten Bormann suggested the use of ASCII RS, and Joe Hildebrand suggested the use of LF in addition to RS for disambiguating top-level number values. Paul Hoffman shepherded the Internet-Draft. Many others contributed reviews and comments on the JSON Working Group mailing list.</t>
     </section>

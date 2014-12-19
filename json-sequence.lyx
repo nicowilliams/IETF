@@ -282,7 +282,7 @@ JavaScript Object Notation (JSON) Text Sequences
 status open
 
 \begin_layout Plain Layout
-draft-ietf-json-text-sequence-11
+draft-ietf-json-text-sequence-12
 \end_layout
 
 \end_inset
@@ -465,7 +465,7 @@ application/json-seq
 .
  A JSON text sequence consists of any number of JSON texts, all encoded
  in UTF-8, each prefixed by an ASCII Record Separator (0x1E), and each ending
- with an ASCII Line Feed character (0x1E).
+ with an ASCII Line Feed character (0x1A).
 \end_layout
 
 \begin_layout Standard
@@ -691,29 +691,11 @@ JSON text sequence ABNF
 
 \begin_layout Standard
 In prose: a series of octet strings, each containing any octet other than
- a record separator (RS) (0x1E) 
-\begin_inset Flex EntityXRef
-status collapsed
-
-\begin_layout Plain Layout
-RFC0020
-\end_layout
-
-\end_inset
-
-, all octet strings separated from each other by RS octets.
- Each octet string in the sequence is to be parsed as a JSON text in the
- UTF-8 encoding 
-\begin_inset Flex EntityXRef
-status collapsed
-
-\begin_layout Plain Layout
-RFC3629
-\end_layout
-
-\end_inset
-
-.
+ a record separator (RS) (0x1E) [RFC0020], all octet strings separated from
+ each other by RS octets.
+  Each octet string in the sequence is to be parsed as a JSON text in the
+ UTF-8 encoding [RFC3629].
+ 
 \end_layout
 
 \begin_layout Standard
@@ -723,6 +705,15 @@ If parsing of such an octet string as a UTF-8-encoded JSON text fails, the
  to terminate parsing of a sequence).
  Multiple consecutive RS octets do not denote empty sequence elements between
  them, and can be ignored.
+\end_layout
+
+\begin_layout Standard
+This document does not define a mechanism for reliably identifying text
+ sequence by position (for example, when sending individual elements of
+ an array as unique text sequences).
+ For applications where truncation is a possibility, this means that intended
+ sequence elements can be truncated, and can even be missing entirely, therefore
+ a reference to an nth element would be unreliable.
 \end_layout
 
 \begin_layout Standard
@@ -859,12 +850,23 @@ reference "sub:Top-level"
 \end_layout
 
 \begin_layout Standard
-Note that on some systems it's possible to input RS by typing 'ctrl-^'.
+JSON text sequence encoders are expected to ensure that the sequence elements
+ are properly formed.
+ When the JSON text sequence encoder does the JSON text encoding, the sequence
+ elements will naturally be properly formed.
+ When the JSON text sequence encoder accepts already-encoded JSON texts,
+ the JSON text sequence encoder ought to to parse them before adding them
+ to a sequence.
+\end_layout
+
+\begin_layout Standard
+Note that on some systems it's possible to input RS by typing 'ctrl-^';
+ on some system or applications the correct sequence may be 'ctrl-v crtl-^'.
  This is helpful when constructing a sequence manually with a text editor.
 \end_layout
 
 \begin_layout Subsection
-Incomplete JSON texts are not fatal
+Incomplete/invalid JSON texts need not be fatal
 \end_layout
 
 \begin_layout Standard
@@ -875,8 +877,8 @@ reference "sub:ParsingRules"
 
 \end_inset
 
-, JSON text sequence parsers SHOULD NOT abort when an octet string contains
- a malformed JSON textm instead the JSON text sequence parser should skip
+, JSON text sequence parsers should not abort when an octet string contains
+ a malformed JSON text, instead the JSON text sequence parser should skip
  to the next RS.
  Such a situation may arise in contexts where, for example, append-writes
  to log files are truncated by the filesystem (e.g., due to a crash, or administra
@@ -889,7 +891,7 @@ Incremental JSON text parsers may be used, though of course failure to parse
 \end_layout
 
 \begin_layout Standard
-Sequence parsers SHOULD have an option to warn about truncated JSON texts.
+Sequence parsers should have an option to warn about truncated JSON texts.
 \end_layout
 
 \begin_layout Subsection
@@ -906,6 +908,10 @@ Top-level numeric, 'true', 'false', and 'null' values
 While objects, arrays, and strings are self-delimited in JSON texts, numbers,
  and the values 'true', 'false', and 'null' are not.
  Only whitespace can delimit the latter four kinds of values.
+\end_layout
+
+\begin_layout Standard
+JSON text sequences use 0x0A as a "canary" octet to detect truncation.
 \end_layout
 
 \begin_layout Standard
@@ -951,7 +957,7 @@ Parsers MUST drop JSON-text sequence elements consisting of non-self-delimited
 
 \begin_layout Standard
 For example, '<RS>123<RS>' might have been intended to carry the top-level
- number 123.4, but must have been truncated.
+ number 1234, but must have been truncated.
  Similarly, '<RS>true<RS>' might have been intended to carry the invalid
  text 'trueish'.
  '<RS>truefalse<RS>' is not two top-level values, 'true', and 'false'; it
@@ -1002,10 +1008,41 @@ RFC7159
 \begin_layout Standard
 As usual, parsers must operate on as-good-as untrusted input.
  This means that parsers must fail gracefully in the face of malicious inputs.
- Note that incremental parsers can produce partial results and later indicate
- failure to parse the remainder of a text.
- Note that texts that fail to parse and are ignored can be used to smuggle
- data past sequence parsers that don't warn about JSON text failures.
+\end_layout
+
+\begin_layout Standard
+Note that incremental JSON text parsers can produce partial results and
+ later indicate failure to parse the remainder of a text.
+ A sequence parser that uses an incremental JSON text parser might treat
+ a sequence like '<RS>
+\begin_inset Quotes erd
+\end_inset
+
+foo
+\begin_inset Quotes erd
+\end_inset
+
+<LF>456<LF><RS>' as a sequence of one element (
+\begin_inset Quotes eld
+\end_inset
+
+foo
+\begin_inset Quotes erd
+\end_inset
+
+), while a sequence parser that uses a non-incremental JSON text parser
+ might treat the same sequence as being empty.
+ This effect, and texts that fail to parse and are ignored can be used to
+ smuggle data past sequence parsers that don't warn about JSON text failures.
+\end_layout
+
+\begin_layout Standard
+Repeated parsing and re-encoding of a JSON text sequence can result in the
+ addition (or stripping) of trailing LF bytes from (to) individual sequence
+ element JSON texts.
+ This can break signature validation.
+ JSON has no canonical form for JSON texts, therefore neither does the JSON
+ text sequence format.
 \end_layout
 
 \begin_layout Section

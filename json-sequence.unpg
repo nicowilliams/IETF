@@ -3,12 +3,12 @@
 
 json                                                         N. Williams
 Internet-Draft                                              Cryptonector
-Intended status: Standards Track                       December 11, 2014
-Expires: June 14, 2015
+Intended status: Standards Track                       December 18, 2014
+Expires: June 21, 2015
 
 
             JavaScript Object Notation (JSON) Text Sequences
-                    draft-ietf-json-text-sequence-11
+                    draft-ietf-json-text-sequence-12
 
 Abstract
 
@@ -16,7 +16,7 @@ Abstract
    media type, "application/json-seq".  A JSON text sequence consists of
    any number of JSON texts, all encoded in UTF-8, each prefixed by an
    ASCII Record Separator (0x1E), and each ending with an ASCII Line
-   Feed character (0x1E).
+   Feed character (0x1A).
 
 Status of this Memo
 
@@ -33,7 +33,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 14, 2015.
+   This Internet-Draft will expire on June 21, 2015.
 
 Copyright Notice
 
@@ -58,7 +58,7 @@ Table of Contents
    2.    JSON Text Sequence Format
    2.1.  JSON text sequence parsing
    2.2.  JSON text sequence encoding
-   2.3.  Incomplete JSON texts are not fatal
+   2.3.  Incomplete/invalid JSON texts need not be fatal
    2.4.  Top-level numeric, 'true', 'false', and 'null' values
    3.    Security Considerations
    4.    IANA Considerations
@@ -138,6 +138,13 @@ Table of Contents
    Multiple consecutive RS octets do not denote empty sequence elements
    between them, and can be ignored.
 
+   This document does not define a mechanism for reliably identifying
+   text sequence by position (for example, when sending individual
+   elements of an array as unique text sequences).  For applications
+   where truncation is a possibility, this means that intended sequence
+   elements can be truncated, and can even be missing entirely,
+   therefore a reference to an nth element would be unreliable.
+
    There is no end of sequence indicator.
 
 2.2.  JSON text sequence encoding
@@ -164,14 +171,22 @@ Table of Contents
    detection of truncated JSON texts consisting of a number at the top-
    level; see Section 2.4.
 
+   JSON text sequence encoders are expected to ensure that the sequence
+   elements are properly formed.  When the JSON text sequence encoder
+   does the JSON text encoding, the sequence elements will naturally be
+   properly formed.  When the JSON text sequence encoder accepts
+   already-encoded JSON texts, the JSON text sequence encoder ought to
+   to parse them before adding them to a sequence.
+
    Note that on some systems it's possible to input RS by typing
-   'ctrl-^'.  This is helpful when constructing a sequence manually with
-   a text editor.
+   'ctrl-^'; on some system or applications the correct sequence may be
+   'ctrl-v crtl-^'.  This is helpful when constructing a sequence
+   manually with a text editor.
 
-2.3.  Incomplete JSON texts are not fatal
+2.3.  Incomplete/invalid JSON texts need not be fatal
 
-   Per- Section 2.1, JSON text sequence parsers SHOULD NOT abort when an
-   octet string contains a malformed JSON textm instead the JSON text
+   Per- Section 2.1, JSON text sequence parsers should not abort when an
+   octet string contains a malformed JSON text, instead the JSON text
    sequence parser should skip to the next RS.  Such a situation may
    arise in contexts where, for example, append-writes to log files are
    truncated by the filesystem (e.g., due to a crash, or administrative
@@ -181,7 +196,7 @@ Table of Contents
    to parse a given text may result after first producing some
    incremental parse results.
 
-   Sequence parsers SHOULD have an option to warn about truncated JSON
+   Sequence parsers should have an option to warn about truncated JSON
    texts.
 
 2.4.  Top-level numeric, 'true', 'false', and 'null' values
@@ -189,6 +204,9 @@ Table of Contents
    While objects, arrays, and strings are self-delimited in JSON texts,
    numbers, and the values 'true', 'false', and 'null' are not.  Only
    whitespace can delimit the latter four kinds of values.
+
+   JSON text sequences use 0x0A as a "canary" octet to detect
+   truncation.
 
    Parsers MUST check that any JSON texts that are a top-level number,
    or which might be 'true', 'false', or 'null' include JSON whitespace
@@ -203,7 +221,7 @@ Table of Contents
    string).
 
    For example, '<RS>123<RS>' might have been intended to carry the top-
-   level number 123.4, but must have been truncated.  Similarly,
+   level number 1234, but must have been truncated.  Similarly,
    '<RS>true<RS>' might have been intended to carry the invalid text
    'trueish'. '<RS>truefalse<RS>' is not two top-level values, 'true',
    and 'false'; it is simply not a valid JSON text.
@@ -224,10 +242,23 @@ Table of Contents
 
    As usual, parsers must operate on as-good-as untrusted input.  This
    means that parsers must fail gracefully in the face of malicious
-   inputs.  Note that incremental parsers can produce partial results
-   and later indicate failure to parse the remainder of a text.  Note
-   that texts that fail to parse and are ignored can be used to smuggle
-   data past sequence parsers that don't warn about JSON text failures.
+   inputs.
+
+   Note that incremental JSON text parsers can produce partial results
+   and later indicate failure to parse the remainder of a text.  A
+   sequence parser that uses an incremental JSON text parser might treat
+   a sequence like '<RS>"foo"<LF>456<LF><RS>' as a sequence of one
+   element ("foo"), while a sequence parser that uses a non-incremental
+   JSON text parser might treat the same sequence as being empty.  This
+   effect, and texts that fail to parse and are ignored can be used to
+   smuggle data past sequence parsers that don't warn about JSON text
+   failures.
+
+   Repeated parsing and re-encoding of a JSON text sequence can result
+   in the addition (or stripping) of trailing LF bytes from (to)
+   individual sequence element JSON texts.  This can break signature
+   validation.  JSON has no canonical form for JSON texts, therefore
+   neither does the JSON text sequence format.
 
 
 4.  IANA Considerations
